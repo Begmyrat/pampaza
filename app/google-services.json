@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "2328026138",
+    "project_id": "pampaza-4100f",
+    "storage_bucket": "pampaza-4100f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2328026138:android:2d5cd06003db2ba09d85a3",
+        "android_client_info": {
+          "package_name": "com.fabrika.pampaza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2328026138-hv9ve2g1a1ro8dh0lbdq4ebc9juh3t6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0hHYEBAtFThK0AlPvU_guIo0KdvuI3tU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2328026138-hv9ve2g1a1ro8dh0lbdq4ebc9juh3t6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
