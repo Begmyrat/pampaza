@@ -2,6 +2,7 @@ package com.fabrika.pampaza.firebase
 
 import com.fabrika.pampaza.common.model.UserModel
 import com.fabrika.pampaza.common.utils.BaseResult
+import com.fabrika.pampaza.home.model.PostEntity
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -21,11 +22,15 @@ class FirebaseRepository {
 
             val userObj = value?.toObject(UserModel::class.java)
 
-            BaseResult.Success(userObj)
-                .let { trySend(it).isSuccess }
+//            BaseResult.Success(userObj)
+//                .let { trySend(it).isSuccess }
         }
 
         awaitClose { subscription.remove() }
+    }
+
+    fun getAllPosts(): Flow<BaseResult.Success<PostEntity>>{
+
     }
 
 }
