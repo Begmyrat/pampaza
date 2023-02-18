@@ -1,15 +1,16 @@
 package com.fabrika.pampaza.home.model
 
 data class PostEntity(
-    val id: String?,
-    val authorAvatarUrl: String?,
-    val authorId: String?,
-    val authorName: String?,
-    val commentCount : Long?,
-    val complaintCount : Long?,
-    val date : Long?,
-    val imageUrl : String?,
-    val likeCount : Long?,
-    val originalPostId : String?,
-    val rePostCount : Long?
+    val id: Long? = null,
+    val authorAvatarUrl: String? = null,
+    val authorId: String? = null,
+    val authorName: String? = null,
+    val body: String? = null,
+    val commentCount : Long? = null,
+    val complaintCount : Long? = null,
+    val date : Long? = null,
+    val imageUrl : String? = null,
+    val likeCount : Long? = null,
+    val originalPostId : String? = null,
+    val rePostCount : Long? = null
 )

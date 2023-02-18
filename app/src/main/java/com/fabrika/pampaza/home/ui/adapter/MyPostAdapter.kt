@@ -8,24 +8,28 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
+import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.home.model.PostEntity
 
-class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAdapter.FinanceListAdapterViewHolder>() {
+class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAdapter.MyPostAdapterViewHolder>() {
 
     var onComplaintButtonsClick: ((entity: String) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): FinanceListAdapterViewHolder {
-        val layoutId = when (viewType) {
-            TYPE_NEWS -> R.layout.item_post
-            else -> throw IllegalArgumentException("Invalid type")
-        }
+    ): MyPostAdapterViewHolder {
+//        val layoutId = when (viewType) {
+//            TYPE_NEWS -> R.layout.item_post
+//            else -> throw IllegalArgumentException("Invalid type")
+//        }
 
-        return FinanceListAdapterViewHolder(
+        val layoutId = R.layout.item_post
+
+        return MyPostAdapterViewHolder(
             parent.context,
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
@@ -56,7 +60,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    override fun onBindViewHolder(holder: FinanceListAdapterViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyPostAdapterViewHolder, position: Int) {
         holder.bind(differ.currentList[position])
     }
 
@@ -64,11 +68,18 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
         return differ.currentList.size
     }
 
-    inner class FinanceListAdapterViewHolder(private val context: Context, private val binding: ViewDataBinding) :
+    inner class MyPostAdapterViewHolder(private val context: Context, private val binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         private fun bindNewsBodyItem(item: PostEntity) {
-
+            if(binding is ItemPostBinding){
+                Glide.with(context).load(item.authorAvatarUrl).into(binding.iAvatar)
+                binding.tUsername.text = item.authorName
+                binding.tBody.text = item.body
+                binding.tCommentCount.text = item.commentCount.toString()
+                binding.tLikeCount.text = item.likeCount.toString()
+                binding.tRetweetCount.text = item.rePostCount.toString()
+            }
         }
 
         fun bind(model: PostEntity) {
