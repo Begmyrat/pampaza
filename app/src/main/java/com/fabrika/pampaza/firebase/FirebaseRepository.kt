@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
+import java.util.*
 
 class FirebaseRepository {
 
@@ -49,6 +50,41 @@ class FirebaseRepository {
             }
         }
         awaitClose{ listener.remove() }
+    }
+
+    fun post(
+        body: String,
+        imageUrl: String?,
+        originalPostId: String?
+    ): Flow<BaseResult.Success<Boolean>> = callbackFlow{
+        val milliseconds = Calendar.getInstance().timeInMillis
+        val ref = db.collection("Posts")
+            .document("Data")
+            .collection("List")
+            .add(
+                hashMapOf(
+                    "authorAvatarUrl" to "authorAvatarUrlValue",
+                    "authorId" to "authorIdValue",
+                    "authorName" to "authorNameValue",
+                    "body" to body,
+                    "commentCount" to 0,
+                    "complaintCount" to 0,
+                    "date" to milliseconds,
+                    "id" to milliseconds,
+                    "imageUrl" to imageUrl,
+                    "likeCount" to 0,
+                    "originalPostId" to originalPostId,
+                    "rePostCount" to 0
+                )
+            )
+
+            val listener = ref.addOnSuccessListener {
+                trySend(BaseResult.Success(true)).isSuccess
+            }.addOnFailureListener {
+                trySend(BaseResult.Success(false)).isSuccess
+            }
+
+        awaitClose { listener }
     }
 
 }

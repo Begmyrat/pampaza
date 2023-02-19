@@ -1,15 +1,18 @@
 package com.fabrika.pampaza
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.fabrika.pampaza.databinding.ActivityMainBinding
+import com.fabrika.pampaza.newpost.ui.NewPostActivity
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     lateinit var binding: ActivityMainBinding
     lateinit var viewmodel: MainViewModel
@@ -33,6 +36,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         binding.navView.setNavigationItemSelectedListener(this)
+
+        binding.toolbar.setOnMenuItemClickListener {
+            val intent = Intent(this, NewPostActivity::class.java)
+            startActivity(intent)
+            return@setOnMenuItemClickListener true
+        }
+
+        binding.iNewPost.setOnClickListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -43,5 +54,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.i_newPost -> {
+                val intent = Intent(this, NewPostActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }
