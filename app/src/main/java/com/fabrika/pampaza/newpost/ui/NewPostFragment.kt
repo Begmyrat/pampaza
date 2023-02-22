@@ -55,6 +55,7 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
         when(v?.id){
             R.id.b_cross -> {
                 requireActivity().finish()
+                requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
             }
             R.id.b_send -> {
                 viewmodel.post(binding.eBody.text.toString(), null, null)

@@ -11,4 +11,7 @@
     <color name="text_primary">#141619</color>
     <color name="text_light">#687684</color>
     <color name="blue">#4C9EEB</color>
+    <color name="red_violet">#FF1165</color>
+    <color name="green_success">#6ECCAF</color>
+    <color name="input_background">#757575</color>
 </resources>

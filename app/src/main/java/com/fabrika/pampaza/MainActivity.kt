@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.fabrika.pampaza.databinding.ActivityMainBinding
+import com.fabrika.pampaza.login.ui.LoginActivity
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
 import com.google.android.material.navigation.NavigationView
 
@@ -49,7 +50,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_profile -> {
-
+                startActivity(Intent(this, LoginActivity::class.java))
+                overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
             }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -61,6 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.i_newPost -> {
                 val intent = Intent(this, NewPostActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
             }
         }
     }

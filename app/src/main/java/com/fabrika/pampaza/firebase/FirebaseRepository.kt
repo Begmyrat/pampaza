@@ -2,7 +2,9 @@ package com.fabrika.pampaza.firebase
 
 import com.fabrika.pampaza.common.model.UserModel
 import com.fabrika.pampaza.common.utils.BaseResult
+import com.fabrika.pampaza.common.utils.DomainError
 import com.fabrika.pampaza.home.model.PostEntity
+import com.fabrika.pampaza.login.model.UserEntity
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -14,26 +16,10 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import java.util.*
 
-class FirebaseRepository {
+class FirebaseRepository: FirebaseRepositoryImpl {
 
     val db = Firebase.firestore
-
-    fun getUserData(id: String): Flow<BaseResult.Success<UserModel>> = callbackFlow {
-        val res = db.collection("Users")
-            .document(id)
-
-        val subscription = res.addSnapshotListener{ value, error ->
-
-            val userObj = value?.toObject(UserModel::class.java)
-
-//            BaseResult.Success(userObj)
-//                .let { trySend(it).isSuccess }
-        }
-
-        awaitClose { subscription.remove() }
-    }
-
-    fun getAllPosts(): Flow<BaseResult.Success<List<PostEntity?>>> = callbackFlow{
+    override fun getAllPosts(): Flow<BaseResult.Success<List<PostEntity?>>> = callbackFlow{
         val ref = db.collection("Posts")
             .document("Data")
             .collection("List")
@@ -52,7 +38,7 @@ class FirebaseRepository {
         awaitClose{ listener.remove() }
     }
 
-    fun post(
+    override fun post(
         body: String,
         imageUrl: String?,
         originalPostId: String?
@@ -87,4 +73,27 @@ class FirebaseRepository {
         awaitClose { listener }
     }
 
+    override fun getUser(username: String, password: String): Flow<BaseResult.Success<UserEntity>> = callbackFlow{
+        val ref = db.collection("Users")
+            .document("Data")
+            .collection("List")
+            .whereEqualTo("userId", username)
+
+        val listener = ref.addSnapshotListener { value, error ->
+            if(value?.documents?.isNotEmpty() == true){
+                val list = value.documents.map { docSnapshot ->
+                    docSnapshot.toObject(UserEntity::class.java)
+                }
+
+                list.firstOrNull().let {
+                    BaseResult.Success(it!!).let { result ->
+                        trySend(result).isSuccess
+                    }
+                }
+            } else{
+                trySend(BaseResult.Success(UserEntity())).isSuccess
+            }
+        }
+        awaitClose{ listener.remove() }
+    }
 }

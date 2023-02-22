@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="sloganTitle" translatable="false">Habarlary peçatla</string>
+    <string name="signUp_title">Biz hem size garaşýardyk!</string>
+    <string name="login_title">Galan ýerimizden dowam edýäris!</string>
+    <string name="login_subtitle">Hasap bilgileriňizi giriň</string>
+    <string name="signUp_subtitle">Täze hasap bilgileriňizi giriň</string>
+    <string name="enter_username">Ulanyjy adyňyz</string>
+    <string name="enter_password">Gizli söz</string>
+    <string name="enter_password_confirmation">Gizli sözi tassykla</string>
+    <string name="create_account">Hasap aç</string>
+    <string name="login">Gir</string>
+    <string name="signUp">Agza bol</string>
+    <string name="do_you_have_an_account">Hasabyňyz bardymy?</string>
+    <string name="dont_you_have_an_account">Hasabyňyz ýokdumy?</string>
+    <string name="login_error">Ulanyjy ady ýa-da gizli söz ýalňyş!</string>
+</resources>

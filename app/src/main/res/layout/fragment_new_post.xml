@@ -15,6 +15,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginHorizontal="20dp"
+            app:cardElevation="0dp"
             android:layout_marginTop="10dp">
 
             <ImageView
