@@ -14,6 +14,7 @@ import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
 import com.fabrika.pampaza.databinding.FragmentLoginBinding
+import com.fabrika.pampaza.login.model.LoginStatusType
 import com.fabrika.pampaza.login.viewmodel.LoginViewModel
 import com.fabrika.pampaza.newpost.viewmodel.NewPostViewModel
 
@@ -21,7 +22,6 @@ class LoginFragment : Fragment(), BaseFragment, View.OnClickListener {
 
     lateinit var binding: FragmentLoginBinding
     lateinit var viewmodel: LoginViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,9 +39,9 @@ class LoginFragment : Fragment(), BaseFragment, View.OnClickListener {
     }
 
     override fun addObservers() {
-        viewmodel.isError.observe(this, Observer {
-            if(it){
-                (requireActivity() as? LoginActivity)?.showSnackbar(binding.bLogin, getString(R.string.login_error), false)
+        viewmodel.status.observe(this, Observer {
+            if(it == LoginStatusType.FAIL){
+                (requireActivity() as? LoginActivity)?.showSnackbar(binding.root, getString(R.string.login_error), false)
             } else{
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

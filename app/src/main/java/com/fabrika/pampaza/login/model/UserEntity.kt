@@ -6,6 +6,7 @@ data class UserEntity(
     val followersCount: Long? = null,
     val followingCount: Long? = null,
     val fullname: String? = null,
+    val imageUrl: String? = null,
     val likedPosts: List<Long>? = null,
     val savedPosts: List<Long>? = null,
     val userId: String? = null,

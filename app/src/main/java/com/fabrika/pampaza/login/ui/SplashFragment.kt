@@ -1,0 +1,69 @@
+package com.fabrika.pampaza.login.ui
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.fabrika.pampaza.MainActivity
+import com.fabrika.pampaza.R
+import com.fabrika.pampaza.common.ui.BaseFragment
+import com.fabrika.pampaza.databinding.FragmentSignUpBinding
+import com.fabrika.pampaza.databinding.FragmentSplashBinding
+import com.fabrika.pampaza.login.model.LoginStatusType
+import com.fabrika.pampaza.login.viewmodel.LoginViewModel
+
+class SplashFragment : Fragment(), BaseFragment, View.OnClickListener {
+
+    lateinit var binding: FragmentSplashBinding
+    lateinit var viewmodel: LoginViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewmodel = ViewModelProvider(this)[LoginViewModel::class.java]
+        binding = FragmentSplashBinding.inflate(layoutInflater)
+        addListeners()
+        addObservers()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewmodel.splashDelay(1000)
+    }
+
+    override fun addObservers() {
+        viewmodel.status.observe(this) {
+            when(it){
+                LoginStatusType.SPLASH_SUCCESS -> {
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                    requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
+                }
+                else -> {
+
+                }
+            }
+        }
+    }
+
+    override fun addListeners() {
+
+    }
+
+    override fun onClick(p0: View?) {
+
+    }
+}

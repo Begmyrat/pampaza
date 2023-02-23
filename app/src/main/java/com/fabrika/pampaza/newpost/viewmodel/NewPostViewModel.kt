@@ -1,16 +1,15 @@
 package com.fabrika.pampaza.newpost.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.fabrika.pampaza.common.utils.BaseViewModel
-import com.fabrika.pampaza.firebase.FirebaseRepository
+import com.fabrika.pampaza.firebase.FirebaseRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NewPostViewModel(application: Application) : BaseViewModel(application){
-    private val repository = FirebaseRepository()
+    private val repository = FirebaseRepositoryImpl()
     var isLoading = MutableLiveData<Boolean>()
     var isError = MutableLiveData<Boolean>()
     var data = MutableLiveData<String>()
