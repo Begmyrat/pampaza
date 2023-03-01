@@ -2,7 +2,10 @@ package com.fabrika.pampaza.home.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -16,7 +19,10 @@ import com.fabrika.pampaza.home.model.PostEntity
 
 class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAdapter.MyPostAdapterViewHolder>() {
 
-    var onComplaintButtonsClick: ((entity: String) -> Unit)? = null
+    var onLikeButtonClick: ((entity: PostEntity) -> Unit)? = null
+    var onRePostButtonClick: ((entity: PostEntity) -> Unit)? = null
+    var onShareButtonClick: ((entity: PostEntity) -> Unit)? = null
+    var onCommentButtonClick: ((entity: PostEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -79,11 +85,35 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                 binding.tCommentCount.text = item.commentCount.toString()
                 binding.tLikeCount.text = item.likeCount.toString()
                 binding.tRetweetCount.text = item.rePostCount.toString()
+
+                item.id?.let { checkLikeStatus(it, binding.iLike) }
+
+                binding.iComment.setOnClickListener{
+                    onCommentButtonClick?.invoke(item)
+                }
+                binding.iRetweet.setOnClickListener{
+                    onRePostButtonClick?.invoke(item)
+                }
+                binding.iLike.setOnClickListener{
+                    item.id?.let { checkLikeStatus(it, binding.iLike) }
+                    onLikeButtonClick?.invoke(item)
+                }
+                binding.iShare.setOnClickListener{
+                    onShareButtonClick?.invoke(item)
+                }
             }
         }
 
         fun bind(model: PostEntity) {
             bindNewsBodyItem(model)
+        }
+
+        private fun checkLikeStatus(id: String, view: ImageView){
+            if(activity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
+                view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heard_filled))
+            } else {
+                view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))
+            }
         }
 
     }

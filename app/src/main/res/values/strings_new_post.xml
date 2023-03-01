@@ -2,4 +2,8 @@
 <resources>
     <string name="public_post">Public</string>
     <string name="whats_happening">Şu ýere ýazaly...</string>
+    <string name="publicity_all">Hemme kişi</string>
+    <string name="publicity_friends">Diňe çaýdaşlar</string>
+    <string name="publicity_own">Diňe özüm</string>
+    <string name="choose_audience">Kimler görsün?</string>
 </resources>

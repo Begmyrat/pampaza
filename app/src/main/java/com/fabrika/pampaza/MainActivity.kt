@@ -8,6 +8,11 @@ import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.fabrika.pampaza.databinding.ActivityMainBinding
 import com.fabrika.pampaza.login.ui.LoginActivity
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
@@ -17,19 +22,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var binding: ActivityMainBinding
     lateinit var viewmodel: MainViewModel
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewmodel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewmodel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        NavigationUI.setupWithNavController(binding.bottomNavBar, navController)
 
         addListeners()
         addObservers()
+
+        viewmodel.getUser("GmBegmyrat", "123123")
     }
 
     private fun addObservers() {
-
+//        viewmodel.userEntity.observe(this) {
+//            if(viewmodel.isSplash)
+//                navController.navigate(R.id.action_splashFragment_to_homeFragment2)
+//        }
     }
 
     private fun addListeners() {

@@ -9,9 +9,13 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="text_primary">#141619</color>
+    <color name="gray_dark">#2D343E</color>
     <color name="text_light">#687684</color>
     <color name="blue">#4C9EEB</color>
+    <color name="blue_dark">#459DEF</color>
     <color name="red_violet">#FF1165</color>
     <color name="green_success">#6ECCAF</color>
+    <color name="orange">#F63402</color>
     <color name="input_background">#757575</color>
+    <color name="background">#e5e5e5</color>
 </resources>

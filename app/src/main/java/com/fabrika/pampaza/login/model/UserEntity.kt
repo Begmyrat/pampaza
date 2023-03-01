@@ -1,14 +1,14 @@
 package com.fabrika.pampaza.login.model
 
 data class UserEntity(
-    val id: Long? = null,
-    val createdAt: Long? = null,
-    val followersCount: Long? = null,
-    val followingCount: Long? = null,
-    val fullname: String? = null,
-    val imageUrl: String? = null,
-    val likedPosts: List<Long>? = null,
-    val savedPosts: List<Long>? = null,
-    val userId: String? = null,
-    val password: String? = null
+    var id: String? = null,
+    var createdAt: Long? = null,
+    var followersCount: Long? = null,
+    var followingCount: Long? = null,
+    var fullname: String? = null,
+    var imageUrl: String? = null,
+    var likedPosts: MutableList<String>? = null,
+    var savedPosts: MutableList<Long>? = null,
+    var userId: String? = null,
+    var password: String? = null
 )

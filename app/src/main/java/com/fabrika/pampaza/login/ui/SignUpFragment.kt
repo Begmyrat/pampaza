@@ -39,7 +39,7 @@ class SignUpFragment : Fragment(), BaseFragment, View.OnClickListener {
     }
 
     override fun addObservers() {
-        viewmodel.status.observe(viewLifecycleOwner, Observer{
+        viewmodel.status.observe(this, Observer{
             when (it) {
                 LoginStatusType.SUCCESS -> {
                     val intent = Intent(requireContext(), MainActivity::class.java)

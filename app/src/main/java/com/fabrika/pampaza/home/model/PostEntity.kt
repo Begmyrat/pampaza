@@ -1,7 +1,7 @@
 package com.fabrika.pampaza.home.model
 
 data class PostEntity(
-    val id: Long? = null,
+    var id: String? = null,
     val authorAvatarUrl: String? = null,
     val authorId: String? = null,
     val authorName: String? = null,
@@ -12,5 +12,6 @@ data class PostEntity(
     val imageUrl : String? = null,
     val likeCount : Long? = null,
     val originalPostId : String? = null,
-    val rePostCount : Long? = null
+    val rePostCount : Long? = null,
+    val publicity: String? = null
 )

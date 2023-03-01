@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data></data>
+
+    <LinearLayout
+        android:id="@+id/box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="15dp"
+        android:orientation="vertical">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_stick"
+            android:layout_width="60dp"
+            android:layout_height="5dp"
+            app:cardElevation="0dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardBackgroundColor="@color/background"
+            app:cardCornerRadius="20dp"/>
+
+        <TextView
+            android:id="@+id/t_chooseAudience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/card_stick"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:text="@string/choose_audience"
+            android:fontFamily="@font/sfpro_bold"
+            android:textColor="@color/text_primary"
+            android:textSize="24sp"
+            android:gravity="center"/>
+
+        <View
+            android:id="@+id/v_divider1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/t_chooseAudience"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0.5"
+            android:background="@color/text_light"/>
+
+        <LinearLayout
+            android:id="@+id/l_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp"
+            android:gravity="center_vertical"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider1"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_all"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="15dp"
+                app:cardBackgroundColor="@color/blue_dark">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/earth"
+                    android:layout_gravity="center" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/t_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfpro_regular"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"
+                android:text="@string/publicity_all"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_divider2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:alpha="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/card_all"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/text_light"/>
+
+        <LinearLayout
+            android:id="@+id/l_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp"
+            android:gravity="center_vertical"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider1"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_friends"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="15dp"
+                app:cardBackgroundColor="@color/orange">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tea"
+                    android:layout_gravity="center" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/t_friends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfpro_regular"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"
+                android:text="@string/publicity_friends"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_divider3"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            app:layout_constraintTop_toBottomOf="@+id/card_friends"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0.5"
+            android:background="@color/text_light"/>
+
+        <LinearLayout
+            android:id="@+id/l_own"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp"
+            android:gravity="center_vertical"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider1"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_own"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="15dp"
+                app:cardBackgroundColor="@color/gray_dark">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_block"
+                    android:layout_gravity="center" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/t_own"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfpro_regular"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"
+                android:text="@string/publicity_own"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.fabrika.pampaza.MainActivity
+import com.fabrika.pampaza.MainViewModel
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
 import com.fabrika.pampaza.databinding.FragmentSignUpBinding
@@ -19,7 +20,7 @@ import com.fabrika.pampaza.login.viewmodel.LoginViewModel
 class SplashFragment : Fragment(), BaseFragment, View.OnClickListener {
 
     lateinit var binding: FragmentSplashBinding
-    lateinit var viewmodel: LoginViewModel
+//    lateinit var viewmodel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +32,7 @@ class SplashFragment : Fragment(), BaseFragment, View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewmodel = ViewModelProvider(this)[LoginViewModel::class.java]
+//        viewmodel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = FragmentSplashBinding.inflate(layoutInflater)
         addListeners()
         addObservers()
@@ -39,24 +40,26 @@ class SplashFragment : Fragment(), BaseFragment, View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewmodel.splashDelay(1000)
+//        viewmodel.splashDelay(1000)
+        (requireActivity() as? MainActivity)?.viewmodel?.isSplash = true
+        (requireActivity() as? MainActivity)?.viewmodel?.getUser("GmBegmyrat", "123123")
     }
 
     override fun addObservers() {
-        viewmodel.status.observe(this) {
-            when(it){
-                LoginStatusType.SPLASH_SUCCESS -> {
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    startActivity(intent)
-                    requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
-                }
-                else -> {
-
-                }
-            }
-        }
+//        viewmodel.status.observe(this) {
+//            when(it){
+//                LoginStatusType.SPLASH_SUCCESS -> {
+//                    val intent = Intent(requireContext(), MainActivity::class.java)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                    startActivity(intent)
+//                    requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
+//                }
+//                else -> {
+//
+//                }
+//            }
+//        }
     }
 
     override fun addListeners() {
