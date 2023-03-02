@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
 import com.fabrika.pampaza.databinding.FragmentNewPostBinding
@@ -56,8 +57,17 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
+        binding.cardRepost.visibility = View.GONE
+        originalAuthorId?.let{
+            binding.cardRepost.visibility = View.VISIBLE
+            Glide.with(requireContext())
+                .load(originalAuthorAvatarUrl.toString())
+                .circleCrop()
+                .into(binding.iRepostAvatar)
+            binding.tRepostUsername.text = originalAuthorName.toString()
+            binding.tRepostId.text = it
+            binding.tRepostBody.text = originalPostBody.toString()
+        }
     }
 
     override fun addObservers() {

@@ -85,6 +85,17 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                 binding.tCommentCount.text = item.commentCount.toString()
                 binding.tLikeCount.text = item.likeCount.toString()
                 binding.tRetweetCount.text = item.rePostCount.toString()
+                binding.cardRepost.visibility = View.GONE
+                item.originalPostId?.let {
+                    binding.cardRepost.visibility = View.VISIBLE
+                    Glide.with(context)
+                        .load(item.originalPostAuthorAvatarUrl.toString())
+                        .circleCrop()
+                        .into(binding.iRepostAvatar)
+                    binding.tRepostUsername.text = item.originalPostAuthorName.toString()
+                    binding.tRepostId.text = item.originalPostAuthorId.toString()
+                    binding.tRepostBody.text = item.originalPostBody.toString()
+                }
 
                 item.id?.let { checkLikeStatus(it, binding.iLike) }
 
