@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
+import com.fabrika.pampaza.common.utils.extensions.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.home.model.PostEntity
 
@@ -81,6 +83,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
             if(binding is ItemPostBinding){
                 Glide.with(context).load(item.authorAvatarUrl).into(binding.iAvatar)
                 binding.tUsername.text = item.authorName
+                binding.tDate.text = item.date.toDateString()
                 binding.tBody.text = item.body
                 binding.tCommentCount.text = item.commentCount.toString()
                 binding.tLikeCount.text = item.likeCount.toString()
@@ -93,7 +96,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                         .circleCrop()
                         .into(binding.iRepostAvatar)
                     binding.tRepostUsername.text = item.originalPostAuthorName.toString()
-                    binding.tRepostId.text = item.originalPostAuthorId.toString()
+                    binding.tRepostDate.text = item.originalPostDate.toDateString()
                     binding.tRepostBody.text = item.originalPostBody.toString()
                 }
 
@@ -106,6 +109,14 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                     onRePostButtonClick?.invoke(item)
                 }
                 binding.iLike.setOnClickListener{
+                    // update on like count
+//                    if(activity.viewmodel.userEntity.value?.likedPosts?.contains(item.id) == true){
+//                        val newLikeCount = binding.tLikeCount.text.toString().toInt() - 1
+//                        binding.tLikeCount.text = newLikeCount.toString()
+//                    } else{
+//                        val newLikeCount = binding.tLikeCount.text.toString().toInt() + 1
+//                        binding.tLikeCount.text = newLikeCount.toString()
+//                    }
                     item.id?.let { checkLikeStatus(it, binding.iLike) }
                     onLikeButtonClick?.invoke(item)
                 }

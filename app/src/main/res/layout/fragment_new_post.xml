@@ -86,7 +86,6 @@
                 android:fontFamily="@font/sfpro_regular"
                 android:gravity="top"
                 android:textSize="16sp"
-                android:minHeight="48dp"
                 android:textColorHint="@color/text_light"
                 android:textColor="@color/text_primary"
                 android:hint="@string/whats_happening"

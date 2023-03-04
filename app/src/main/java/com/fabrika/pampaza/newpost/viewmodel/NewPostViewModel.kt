@@ -34,16 +34,17 @@ class NewPostViewModel(application: Application) : BaseViewModel(application){
     }
 
     fun setPublicity(type: PublicityType){
-        publicity = when(type){
-            PublicityType.PUBLIC -> {
-                "public"
-            }
-            PublicityType.FRIENDS -> {
-                "friends"
-            }
-            PublicityType.OWN -> {
-                "own"
-            }
-        }
+        publicity = type.name
+//            when(type){
+//            PublicityType.PUBLIC -> {
+//                "public"
+//            }
+//            PublicityType.FRIENDS -> {
+//                "friends"
+//            }
+//            PublicityType.OWN -> {
+//                "own"
+//            }
+//        }
     }
 }

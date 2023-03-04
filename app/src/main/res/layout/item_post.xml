@@ -33,7 +33,7 @@
             android:id="@+id/t_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Martha Craig"
+            android:text=""
             app:layout_constraintTop_toTopOf="@+id/card_avatar"
             app:layout_constraintStart_toEndOf="@+id/card_avatar"
             android:layout_marginStart="10dp"
@@ -42,18 +42,18 @@
             android:textColor="@color/text_primary"/>
 
         <TextView
-            android:id="@+id/t_id"
+            android:id="@+id/t_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@+id/t_username"
             app:layout_constraintStart_toEndOf="@+id/t_username"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="\@craig_love"
+            android:text=""
             android:textColor="@color/text_light"
             android:fontFamily="@font/sfpro_regular"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:textSize="16sp"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/t_body"
@@ -61,10 +61,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/t_username"
             app:layout_constraintTop_toBottomOf="@+id/t_username"
-            app:layout_constraintEnd_toEndOf="@id/t_id"
+            app:layout_constraintEnd_toEndOf="@id/t_date"
             android:fontFamily="@font/sfpro_regular"
             android:textColor="@color/text_primary"
-            android:text="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring? #TellMeAboutYou"
+            android:text=""
             android:textSize="16sp"/>
 
         <com.google.android.material.card.MaterialCardView
@@ -106,13 +106,13 @@
                     android:textColor="@color/text_primary"/>
 
                 <TextView
-                    android:id="@+id/t_repostId"
+                    android:id="@+id/t_repostDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@+id/t_repostUsername"
                     app:layout_constraintStart_toEndOf="@+id/t_repostUsername"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="\@craig_love"
+                    android:text=""
                     android:textColor="@color/text_light"
                     android:fontFamily="@font/sfpro_regular"
                     android:layout_marginStart="10dp"
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="@+id/i_repostAvatar"
                     app:layout_constraintTop_toBottomOf="@+id/t_repostUsername"
-                    app:layout_constraintEnd_toEndOf="@id/t_repostId"
+                    app:layout_constraintEnd_toEndOf="@id/t_repostDate"
                     android:fontFamily="@font/sfpro_regular"
                     android:textColor="@color/text_primary"
                     android:text="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring? #TellMeAboutYou"
@@ -159,7 +159,7 @@
                 android:fontFamily="@font/sfpro_regular"
                 android:textColor="@color/text_light"
                 android:layout_marginStart="3dp"
-                android:text="26"
+                android:text=""
                 android:includeFontPadding="false"
                 android:textSize="12sp"/>
 
@@ -187,7 +187,7 @@
                 android:fontFamily="@font/sfpro_regular"
                 android:textColor="@color/text_light"
                 android:layout_marginStart="3dp"
-                android:text="6"
+                android:text=""
                 android:includeFontPadding="false"
                 android:textSize="12sp"/>
 
@@ -215,7 +215,7 @@
                 android:fontFamily="@font/sfpro_regular"
                 android:textColor="@color/text_light"
                 android:layout_marginStart="3dp"
-                android:text="21"
+                android:text=""
                 android:includeFontPadding="false"
                 android:textSize="12sp"/>
 
@@ -226,7 +226,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/l_like"
-            app:layout_constraintEnd_toEndOf="@+id/t_id"
+            app:layout_constraintEnd_toEndOf="@+id/t_date"
             app:layout_constraintStart_toEndOf="@+id/l_like"
             android:orientation="horizontal">
 
