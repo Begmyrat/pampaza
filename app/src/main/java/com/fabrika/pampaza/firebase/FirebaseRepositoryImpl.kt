@@ -42,6 +42,31 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         awaitClose { listener.remove() }
     }
 
+    override fun getComments(postId: String): Flow<BaseResult.Success<List<PostEntity?>>>  = callbackFlow {
+        val ref = db.collection("Comments")
+            .document("Data")
+            .collection("List")
+//            .whereEqualTo("postId", postId)
+//            .orderBy("date", Query.Direction.DESCENDING)
+
+        val listener = ref.addSnapshotListener { value, error ->
+            if (value?.documents?.isNotEmpty() == true) {
+                val list = value.documents.map { docSnapshot ->
+                    docSnapshot.toObject(PostEntity::class.java)
+                }
+
+                value.documents.mapIndexed { index, documentSnapshot ->
+                    list[index]?.id = documentSnapshot.id
+                }
+
+                BaseResult.Success(list).let {
+                    trySend(it).isSuccess
+                }
+            }
+        }
+        awaitClose { listener.remove() }
+    }
+
     override fun post(
         body: String,
         publicity: String,

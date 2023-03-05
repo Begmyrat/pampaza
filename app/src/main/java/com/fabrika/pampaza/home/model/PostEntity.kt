@@ -15,7 +15,10 @@ data class PostEntity(
     val publicity: String? = null,
     val originalPostId : String? = null,
     val originalPostBody: String? = null,
+    val originalPostRepostCount: Long? = null,
+    val originalPostLikeCount: Long? = null,
     val originalPostDate: Long? = null,
+    val originalPostImageUrl: String? = null,
     val originalPostAuthorAvatarUrl: String? = null,
     val originalPostAuthorId: String? = null,
     val originalPostAuthorName: String? = null

@@ -25,7 +25,8 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
     var onRePostButtonClick: ((entity: PostEntity) -> Unit)? = null
     var onShareButtonClick: ((entity: PostEntity) -> Unit)? = null
     var onCommentButtonClick: ((entity: PostEntity) -> Unit)? = null
-
+    var onPostItemClicked: ((entity: PostEntity) -> Unit)? = null
+    var onOriginalPostItemClicked: ((entity: PostEntity) -> Unit)? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -101,6 +102,13 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                 }
 
                 item.id?.let { checkLikeStatus(it, binding.iLike) }
+
+                binding.root.setOnClickListener {
+                    onPostItemClicked?.invoke(item)
+                }
+                binding.cardRepost.setOnClickListener{
+                    onOriginalPostItemClicked?.invoke(item)
+                }
 
                 binding.iComment.setOnClickListener{
                     onCommentButtonClick?.invoke(item)
