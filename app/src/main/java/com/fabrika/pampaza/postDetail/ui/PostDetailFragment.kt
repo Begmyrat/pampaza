@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
 import com.fabrika.pampaza.common.utils.extensions.toDateString
 import com.fabrika.pampaza.databinding.FragmentPostDetailBinding
@@ -86,7 +87,9 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
         viewmodel.allComments.observe(this) {
             Log.d("allComments for $postId:", it.toString())
             commentList = mutableListOf()
-            commentList.addAll(it)
+            repeat(20){x ->
+                commentList.addAll(it)
+            }
             adapterComments.differ.submitList(commentList)
         }
 
@@ -98,10 +101,15 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
     }
 
     override fun addListeners() {
-
+        binding.iBack.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
-
+        when(p0?.id){
+            R.id.i_back -> {
+                requireActivity().finish()
+                requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
+            }
+        }
     }
 }

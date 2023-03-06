@@ -74,6 +74,7 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
         viewmodel.isError.observe(this) { success ->
             Toast.makeText(requireContext(), if(success) "Success" else "Failure", Toast.LENGTH_SHORT).show()
             requireActivity().finish()
+            requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
         }
     }
 
