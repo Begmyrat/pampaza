@@ -6,4 +6,7 @@
     <string name="publicity_friends">Diňe çaýdaşlar</string>
     <string name="publicity_own">Diňe özüm</string>
     <string name="choose_audience">Kimler görsün?</string>
+    <string name="post_comment_success">Jogabyňyz ýazyldy</string>
+    <string name="post_comment_failure">Jogabyňyz ýazylmady. Täzeden barlap görüň!</string>
+    <string name="write_your_comment">Jogabyňyzy ýazyň...</string>
 </resources>

@@ -230,10 +230,57 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tl_comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cons_detail" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_arrow_up"
+            app:endIconTint="@color/blue"
+            app:hintEnabled="false"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/b_postComment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ti_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:maxHeight="100dp"
+                android:hint="@string/write_your_comment"
+                android:textColorHint="@color/text_light"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/sfpro_regular"
+                android:textColor="@color/text_primary" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b_postComment"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cornerRadius="10dp"
+            android:backgroundTint="@color/blue"
+            android:text="Jogapla"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/sfpro_heavy"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 

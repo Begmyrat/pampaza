@@ -17,6 +17,7 @@ class PostDetailViewModel(application: Application) : BaseViewModel(application)
     var data = MutableLiveData<String>()
     var allComments = MutableLiveData<List<PostEntity>>()
     var isLikeError = MutableLiveData<Boolean>()
+    var isPostCommentError = MutableLiveData<Boolean>()
 
     fun getComments(postId: String){
         launch {
@@ -25,6 +26,22 @@ class PostDetailViewModel(application: Application) : BaseViewModel(application)
                     .collect{ result ->
                         result.data.let {
                             allComments.postValue(it.filterNotNull())
+                        }
+                    }
+            }
+        }
+    }
+
+    fun postComment(postId: String, comment: String,){
+        if(comment.isEmpty()){
+            return
+        }
+        launch {
+            withContext(Dispatchers.IO){
+                repository.postComment(postId, comment)
+                    .collect{ result ->
+                        result.data.let {
+                            isPostCommentError.postValue(it)
                         }
                     }
             }

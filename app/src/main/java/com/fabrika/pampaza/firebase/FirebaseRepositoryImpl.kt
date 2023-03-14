@@ -46,8 +46,8 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         val ref = db.collection("Comments")
             .document("Data")
             .collection("List")
-//            .whereEqualTo("postId", postId)
-//            .orderBy("date", Query.Direction.DESCENDING)
+            .whereEqualTo("postId", postId)
+            .orderBy("date", Query.Direction.DESCENDING)
 
         val listener = ref.addSnapshotListener { value, error ->
             if (value?.documents?.isNotEmpty() == true) {
@@ -65,6 +65,37 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             }
         }
         awaitClose { listener.remove() }
+    }
+
+    override fun postComment(postId: String, comment: String): Flow<BaseResult.Success<Boolean>> = callbackFlow {
+        val milliseconds = Calendar.getInstance().timeInMillis
+        val ref = db.collection("Comments")
+            .document("Data")
+            .collection("List")
+            .add(
+                hashMapOf(
+                    "authorDeviceId" to "authorAvatarUrlValue",
+                    "authorId" to "authorIdValue",
+                    "authorName" to "Begmyrat",
+                    "body" to comment,
+                    "complaintCount" to 0,
+                    "date" to milliseconds,
+                    "mentionedUserDeviceId" to "mentionedUserDeviceId",
+                    "mentionedUserId" to "userId",
+                    "postAuthorDeviceId" to "postAuthorDeviceId",
+                    "postAuthorId" to "authorId",
+                    "postAuthorName" to "authorName",
+                    "postId" to postId
+                )
+            )
+
+        val listener = ref.addOnSuccessListener {
+            trySend(BaseResult.Success(true)).isSuccess
+        }.addOnFailureListener {
+            trySend(BaseResult.Success(false)).isSuccess
+        }
+
+        awaitClose { listener }
     }
 
     override fun post(

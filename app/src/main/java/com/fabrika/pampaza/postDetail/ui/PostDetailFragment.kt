@@ -96,10 +96,24 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
 //
 //            }
 //        }
+
+        viewmodel.isPostCommentError.observe(this){
+            if(it){
+                binding.tiComment.clearFocus()
+                postId?.let { it1 -> viewmodel.getComments(it1) }
+            }
+            (requireActivity() as? PostDetailActivity)?.showSnackbar(binding.iBack, if(it) getString(R.string.post_comment_success) else getString(R.string.post_comment_failure), it)
+        }
+
+        binding.tiComment.setOnFocusChangeListener { view, b ->
+            binding.bPostComment.visibility = if(b) View.VISIBLE else View.GONE
+            binding.tiComment.setText("")
+        }
     }
 
     override fun addListeners() {
         binding.iBack.setOnClickListener(this)
+        binding.bPostComment.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -107,6 +121,9 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
             R.id.i_back -> {
                 requireActivity().finish()
                 requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
+            }
+            R.id.b_postComment -> {
+                postId?.let { viewmodel.postComment(it, binding.tiComment.text.toString()) }
             }
         }
     }
