@@ -87,9 +87,7 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
         viewmodel.allComments.observe(this) {
             Log.d("allComments for $postId:", it.toString())
             commentList = mutableListOf()
-            repeat(20){x ->
-                commentList.addAll(it)
-            }
+            commentList.addAll(it)
             adapterComments.differ.submitList(commentList)
         }
 

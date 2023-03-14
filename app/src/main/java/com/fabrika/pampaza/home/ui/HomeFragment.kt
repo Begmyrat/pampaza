@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
@@ -20,6 +18,8 @@ import com.fabrika.pampaza.home.ui.adapter.MyPostAdapter
 import com.fabrika.pampaza.home.viewmodel.HomeViewModel
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
 import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
+import androidx.core.app.ActivityOptionsCompat
+
 
 class HomeFragment : Fragment(), BaseFragment {
 
@@ -112,6 +112,7 @@ class HomeFragment : Fragment(), BaseFragment {
         }
 
         adapterPost.onPostItemClicked = {
+
             val intent = Intent(requireContext(), PostDetailActivity::class.java)
             intent.putExtra(PostDetailActivity.POST_ID, it.id)
             intent.putExtra(PostDetailActivity.AUTHOR_NAME, it.authorName)
@@ -121,6 +122,7 @@ class HomeFragment : Fragment(), BaseFragment {
             intent.putExtra(PostDetailActivity.REPOST_COUNT, it.rePostCount)
             intent.putExtra(PostDetailActivity.LIKE_COUNT, it.likeCount)
             intent.putExtra(PostDetailActivity.AUTHOR_AVATAR_URL, it.authorAvatarUrl)
+
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
         }
