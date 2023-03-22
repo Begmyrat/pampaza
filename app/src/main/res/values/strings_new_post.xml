@@ -9,4 +9,7 @@
     <string name="post_comment_success">Jogabyňyz ýazyldy</string>
     <string name="post_comment_failure">Jogabyňyz ýazylmady. Täzeden barlap görüň!</string>
     <string name="write_your_comment">Jogabyňyzy ýazyň...</string>
+    <string name="send_comment">Jogapla</string>
+    <string name="new_post_validation_error">Ýazgyňyz iň az 10 harpdan ybarat bolmaly.</string>
+    <string name="new_post_failure">Bagyşlaň! Näsazlyk boldy, täzeden synanşyp görüň.</string>
 </resources>

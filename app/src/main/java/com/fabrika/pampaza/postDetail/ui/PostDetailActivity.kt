@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.MainViewModel
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.postDetail.viewmodel.PostDetailActivityViewModel
@@ -17,6 +18,7 @@ class PostDetailActivity : AppCompatActivity() {
 
     companion object{
         const val POST_ID = "postId"
+        const val AUTHOR_ID = "authorId"
         const val AUTHOR_NAME = "authorName"
         const val AUTHOR_AVATAR_URL = "authorAvatarUrl"
         const val POST_DATE = "postDate"
@@ -24,6 +26,7 @@ class PostDetailActivity : AppCompatActivity() {
         const val POST_IMAGE_URL = "postImageUrl"
         const val REPOST_COUNT = "repostCount"
         const val LIKE_COUNT = "likeCount"
+        const val IS_LIKED = "isLiked"
     }
 
     lateinit var viewmodel: PostDetailActivityViewModel
@@ -32,7 +35,6 @@ class PostDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
         viewmodel = ViewModelProvider(this)[PostDetailActivityViewModel::class.java]
-        viewmodel.getUser("GmBegmyrat", "123123")
     }
 
     override fun onBackPressed() {

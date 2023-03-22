@@ -88,7 +88,21 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header"
-            app:menu="@menu/nav_menu"/>
+            app:menu="@menu/nav_menu">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:fontFamily="@font/sfpro_semibold"
+                android:textSize="16sp"
+                android:layout_marginHorizontal="40dp"
+                android:textAllCaps="false"
+                android:textColor="@color/text_primary"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:text="@string/login"/>
+
+        </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

@@ -96,6 +96,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/tl_username"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginTop="10dp"
+                app:passwordToggleTint="@color/blue"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
                 android:hint="@string/enter_password">
 
                 <com.google.android.material.textfield.TextInputEditText

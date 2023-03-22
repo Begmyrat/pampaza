@@ -95,6 +95,7 @@
                 app:layout_constraintStart_toStartOf="@+id/tl_username"
                 app:layout_constraintEnd_toEndOf="@+id/tl_username"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
                 android:layout_marginTop="10dp"
                 android:hint="@string/enter_password">
 
@@ -117,6 +118,7 @@
                 app:layout_constraintStart_toStartOf="@+id/tl_password"
                 app:layout_constraintEnd_toEndOf="@+id/tl_password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
                 android:layout_marginTop="10dp"
                 android:hint="@string/enter_password_confirmation">
 

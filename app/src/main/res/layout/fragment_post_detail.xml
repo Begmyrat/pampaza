@@ -165,7 +165,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toStartOf="@+id/l_share"
+                app:layout_constraintEnd_toStartOf="@+id/l_dislike"
                 app:layout_constraintStart_toEndOf="@+id/l_retweet"
                 app:layout_constraintTop_toTopOf="@+id/l_retweet">
 
@@ -189,7 +189,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/l_share"
+                android:id="@+id/l_dislike"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -198,13 +198,13 @@
                 app:layout_constraintTop_toTopOf="@id/l_like">
 
                 <ImageView
-                    android:id="@+id/i_share"
+                    android:id="@+id/i_dislike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_share" />
 
                 <TextView
-                    android:id="@+id/t_shareCount"
+                    android:id="@+id/t_dislike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
@@ -242,11 +242,10 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_arrow_up"
             app:endIconTint="@color/blue"
             app:hintEnabled="false"
             android:layout_marginHorizontal="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/b_postComment"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -265,22 +264,21 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/b_postComment"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:cornerRadius="10dp"
-            android:backgroundTint="@color/blue"
-            android:text="Jogapla"
-            android:visibility="gone"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/sfpro_heavy"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="10dp" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/b_postComment"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:cornerRadius="10dp"-->
+<!--            android:backgroundTint="@color/blue"-->
+<!--            android:text="@string/send_comment"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:fontFamily="@font/sfpro_heavy"-->
+<!--            android:layout_marginHorizontal="10dp"-->
+<!--            android:layout_marginBottom="10dp" />-->
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 

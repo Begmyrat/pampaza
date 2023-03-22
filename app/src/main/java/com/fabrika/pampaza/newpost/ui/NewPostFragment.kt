@@ -72,9 +72,30 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
 
     override fun addObservers() {
         viewmodel.isError.observe(this) { success ->
-            Toast.makeText(requireContext(), if(success) "Success" else "Failure", Toast.LENGTH_SHORT).show()
-            requireActivity().finish()
-            requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
+            if (success){
+                requireActivity().finish()
+                requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
+            } else{
+                (requireActivity() as? NewPostActivity)?.showSnackbar(binding.eBody, getString(R.string.new_post_validation_error), false)
+            }
+        }
+
+        viewmodel.isValidationError.observe(this){
+            (requireActivity() as? NewPostActivity)?.showSnackbar(binding.eBody, getString(R.string.new_post_validation_error), false)
+        }
+
+        viewmodel.publicity.observe(this){
+            when(it){
+                "PUBLIC" -> {
+                    binding.bPublicity.text = getString(R.string.publicity_all)
+                }
+                "FRIENDS" -> {
+                    binding.bPublicity.text = getString(R.string.publicity_friends)
+                }
+                else -> {
+                    binding.bPublicity.text = getString(R.string.publicity_own)
+                }
+            }
         }
     }
 

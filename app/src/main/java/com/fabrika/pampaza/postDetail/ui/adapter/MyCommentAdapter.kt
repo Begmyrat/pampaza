@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.utils.extensions.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
@@ -130,7 +131,7 @@ class MyCommentAdapter(var activity: PostDetailActivity) : RecyclerView.Adapter<
         }
 
         private fun checkLikeStatus(id: String, view: ImageView){
-            if(activity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
+            if(MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heard_filled))
             } else {
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))

@@ -25,5 +25,4 @@ interface FirebaseRepository {
     fun signUp(username: String, password: String): Flow<BaseResult.Success<UserEntity>>
 
     fun likePost(activity: MainActivity, postId: String): Flow<BaseResult.Success<Boolean>>
-
 }

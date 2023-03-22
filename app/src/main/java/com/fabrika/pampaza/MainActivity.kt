@@ -20,8 +20,11 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+    companion object{
+        lateinit var viewmodel: MainViewModel
+    }
+
     lateinit var binding: ActivityMainBinding
-    lateinit var viewmodel: MainViewModel
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {

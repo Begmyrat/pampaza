@@ -49,5 +49,4 @@ class HomeViewModel(application: Application) : BaseViewModel(application){
             }
         }
     }
-
 }

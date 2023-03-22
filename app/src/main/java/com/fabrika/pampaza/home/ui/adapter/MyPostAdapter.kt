@@ -34,11 +34,6 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
         parent: ViewGroup,
         viewType: Int
     ): MyPostAdapterViewHolder {
-//        val layoutId = when (viewType) {
-//            TYPE_NEWS -> R.layout.item_post
-//            else -> throw IllegalArgumentException("Invalid type")
-//        }
-
         val layoutId = R.layout.item_post
 
         return MyPostAdapterViewHolder(
@@ -142,7 +137,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
         }
 
         private fun checkLikeStatus(id: String, view: ImageView){
-            if(activity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
+            if(MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heard_filled))
             } else {
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))

@@ -18,7 +18,8 @@ class PostDetailViewModel(application: Application) : BaseViewModel(application)
     var allComments = MutableLiveData<List<PostEntity>>()
     var isLikeError = MutableLiveData<Boolean>()
     var isPostCommentError = MutableLiveData<Boolean>()
-
+    var isLiked = MutableLiveData<Boolean>(false)
+    var likeCount = MutableLiveData<Long>(0)
     fun getComments(postId: String){
         launch {
             withContext(Dispatchers.IO){
@@ -44,21 +45,6 @@ class PostDetailViewModel(application: Application) : BaseViewModel(application)
                             isPostCommentError.postValue(it)
                         }
                     }
-            }
-        }
-    }
-
-    fun likePost(activity: MainActivity, entity: PostEntity){
-        launch {
-            withContext(Dispatchers.IO){
-                entity.id?.let {
-                    repository.likePost(activity, it)
-                        .collect{ result ->
-                            result.data.let { status ->
-                                isLikeError.postValue(status)
-                            }
-                        }
-                }
             }
         }
     }

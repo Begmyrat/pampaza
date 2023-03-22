@@ -14,37 +14,34 @@ class NewPostViewModel(application: Application) : BaseViewModel(application){
     var isLoading = MutableLiveData<Boolean>()
     var isError = MutableLiveData<Boolean>()
     var data = MutableLiveData<String>()
-    var publicity: String = "public"
+    var publicity = MutableLiveData<String>("PUBLIC")
+    var isValidationError = MutableLiveData<Boolean>()
 
     fun post(
         body: String,
         imageUrl: String?,
         originalPostId: String?
     ){
+        if(body.length < 10){
+            isValidationError.postValue(true)
+            return
+        }
+
         launch {
             withContext(Dispatchers.IO){
-                repository.post(body, publicity, imageUrl, originalPostId)
-                    .collect{ result ->
-                        result.data.let {
-                            isError.postValue(it)
+                publicity.value?.let {
+                    repository.post(body, it, imageUrl, originalPostId)
+                        .collect{ result ->
+                            result.data.let {
+                                isError.postValue(it)
+                            }
                         }
-                    }
+                }
             }
         }
     }
 
     fun setPublicity(type: PublicityType){
-        publicity = type.name
-//            when(type){
-//            PublicityType.PUBLIC -> {
-//                "public"
-//            }
-//            PublicityType.FRIENDS -> {
-//                "friends"
-//            }
-//            PublicityType.OWN -> {
-//                "own"
-//            }
-//        }
+        publicity.value = type.name
     }
 }

@@ -59,7 +59,7 @@
             app:layout_constraintStart_toEndOf="@+id/i_avatar"
             app:layout_constraintBottom_toBottomOf="@+id/i_avatar"
             app:cornerRadius="10dp"
-            android:text="@string/public_post"
+            android:text="@string/publicity_all"
             android:textAllCaps="false"
             android:drawableEnd="@drawable/arrow_down"
             android:drawableTint="@color/blue"
