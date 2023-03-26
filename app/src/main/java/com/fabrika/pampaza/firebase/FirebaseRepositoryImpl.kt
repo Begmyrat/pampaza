@@ -1,9 +1,11 @@
 package com.fabrika.pampaza.firebase
 
+import android.content.SharedPreferences
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.common.utils.BaseResult
 import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.login.model.UserEntity
+import com.fabrika.pampaza.utils.SharedPref
 import com.google.android.gms.tasks.Task
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FieldValue
@@ -110,9 +112,9 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             .collection("List")
             .add(
                 hashMapOf(
-                    "authorAvatarUrl" to "authorAvatarUrlValue",
-                    "authorId" to "authorIdValue",
-                    "authorName" to "authorNameValue",
+                    "authorAvatarUrl" to SharedPref.read(SharedPref.AVATAR_URL, ""),
+                    "authorId" to SharedPref.read(SharedPref.USER_ID, ""),
+                    "authorName" to SharedPref.read(SharedPref.USERNAME, ""),
                     "body" to body,
                     "publicity" to publicity,
                     "commentCount" to 0,
@@ -152,6 +154,13 @@ class FirebaseRepositoryImpl : FirebaseRepository {
 
                     list.firstOrNull().let {
                         BaseResult.Success(it!!).let { result ->
+
+                            SharedPref.write(SharedPref.USER_ID, result.data.userId)
+                            SharedPref.write(SharedPref.USERNAME, result.data.fullname)
+                            SharedPref.write(SharedPref.PASSWORD, result.data.password)
+                            SharedPref.write(SharedPref.AVATAR_URL, result.data.imageUrl)
+                            SharedPref.write(SharedPref.IS_LOGGED_IN, true)
+
                             trySend(result).isSuccess
                         }
                     }
@@ -166,8 +175,6 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         callbackFlow {
             val milliseconds = Calendar.getInstance().timeInMillis
             val ref = db.collection("Users")
-                .document("Data")
-                .collection("List")
                 .add(
                     hashMapOf(
                         "createdAt" to milliseconds,
@@ -175,11 +182,21 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                         "followingCount" to 0,
                         "id" to milliseconds,
                         "password" to password,
+                        "authorAvatarUrl" to "",
+                        "username" to username,
+                        "userId" to username,
                         "date" to milliseconds
                     )
                 )
 
             val listener = ref.addOnSuccessListener {
+
+                SharedPref.write(SharedPref.USER_ID, username)
+                SharedPref.write(SharedPref.USERNAME, username)
+                SharedPref.write(SharedPref.PASSWORD, password)
+                SharedPref.write(SharedPref.AVATAR_URL, "")
+                SharedPref.write(SharedPref.IS_LOGGED_IN, true)
+
                 trySend(
                     BaseResult.Success(
                         UserEntity(
@@ -187,7 +204,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                             createdAt = milliseconds,
                             followersCount = 0,
                             followingCount = 0,
-                            fullname = null,
+                            fullname = username,
                             imageUrl = null,
                             likedPosts = null,
                             savedPosts = null,

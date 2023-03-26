@@ -1,8 +1,10 @@
 package com.fabrika.pampaza
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -16,6 +18,7 @@ import androidx.navigation.ui.NavigationUI
 import com.fabrika.pampaza.databinding.ActivityMainBinding
 import com.fabrika.pampaza.login.ui.LoginActivity
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
+import com.fabrika.pampaza.utils.SharedPref
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -32,23 +35,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewmodel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        SharedPref.init(applicationContext)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavBar, navController)
 
         addListeners()
         addObservers()
+    }
 
-        viewmodel.getUser("GmBegmyrat", "123123")
+    override fun onResume() {
+        super.onResume()
+        setLoginTitle()
+    }
+
+    private fun setLoginTitle(){
+        binding.tLogin.text = if(SharedPref.read(SharedPref.IS_LOGGED_IN, false)) getString(R.string.logout) else getString(R.string.login)
     }
 
     private fun addObservers() {
-//        viewmodel.userEntity.observe(this) {
-//            if(viewmodel.isSplash)
-//                navController.navigate(R.id.action_splashFragment_to_homeFragment2)
-//        }
+
     }
 
     private fun addListeners() {
@@ -64,6 +70,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         binding.iNewPost.setOnClickListener(this)
+        binding.tLogin.setOnClickListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -83,6 +90,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, NewPostActivity::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
+            }
+            R.id.t_login -> {
+                if(!SharedPref.read(SharedPref.IS_LOGGED_IN, false)){
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    SharedPref.write(SharedPref.IS_LOGGED_IN, false)
+                    setLoginTitle()
+                }
             }
         }
     }

@@ -9,6 +9,8 @@ object SharedPref {
     private var mSharedPref: SharedPreferences? = null
     const val USERNAME = "pampaza_username"
     const val PASSWORD = "pampaza_password"
+    const val USER_ID = "pampaza_userId"
+    const val AVATAR_URL = "pampaza_avatarUrl"
     const val IS_LOGGED_IN = "pampaza_isLoggedIn"
 
     fun init(context: Context) {

@@ -32,8 +32,8 @@ class NewPostViewModel(application: Application) : BaseViewModel(application){
                 publicity.value?.let {
                     repository.post(body, it, imageUrl, originalPostId)
                         .collect{ result ->
-                            result.data.let {
-                                isError.postValue(it)
+                            result.data.let { status ->
+                                isError.postValue(status)
                             }
                         }
                 }

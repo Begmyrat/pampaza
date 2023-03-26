@@ -19,6 +19,8 @@ import com.fabrika.pampaza.home.viewmodel.HomeViewModel
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
 import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
 import androidx.core.app.ActivityOptionsCompat
+import com.fabrika.pampaza.common.ui.MyCustomDialog
+import com.fabrika.pampaza.common.ui.MyCustomDialogType
 
 
 class HomeFragment : Fragment(), BaseFragment {
@@ -103,12 +105,21 @@ class HomeFragment : Fragment(), BaseFragment {
 
         adapterPost.onLikeButtonClick = {
             Log.d(TAG, "likeClicked")
-
             viewmodel.likePost((requireActivity() as MainActivity), it)
         }
 
         adapterPost.onShareButtonClick = {
             Log.d(TAG, "shareClicked")
+            MyCustomDialog(
+                requireContext(),
+                MyCustomDialogType.WARNING,
+                "heheh fdsfds",
+                "asjdkf sdflskd fsdkfs df sd",
+                "ok",
+                "cancel"
+            ) {
+                Log.d(TAG, "hehehehe")
+            }.show()
         }
 
         adapterPost.onPostItemClicked = {

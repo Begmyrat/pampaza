@@ -3,4 +3,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pampazala">Pampazala</string>
+    <string name="ok">Bolýar</string>
+    <string name="cancel">Goýbolsun et</string>
 </resources>
