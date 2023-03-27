@@ -81,6 +81,10 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
         private fun bindNewsBodyItem(item: PostEntity) {
             if(binding is ItemPostBinding){
                 Glide.with(context).load(item.authorAvatarUrl).into(binding.iAvatar)
+                binding.iPostImage.visibility = if(item.imageUrl != null) View.VISIBLE else View.GONE
+                item.imageUrl.let {
+                    Glide.with(context).load(it).into(binding.iPostImage)
+                }
                 binding.tUsername.text = item.authorName
                 binding.tDate.text = item.date.toDateString()
                 binding.tBody.text = item.body

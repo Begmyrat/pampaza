@@ -1,13 +1,11 @@
 package com.fabrika.pampaza.firebase
 
-import android.content.SharedPreferences
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.common.utils.BaseResult
 import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.login.model.UserEntity
 import com.fabrika.pampaza.utils.SharedPref
 import com.google.android.gms.tasks.Task
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -104,7 +102,14 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         body: String,
         publicity: String,
         imageUrl: String?,
-        originalPostId: String?
+        originalPostId: String?,
+        originalPostAuthorName: String?,
+        originalPostBody: String?,
+        originalPostImageUrl: String?,
+        originalPostAuthorId: String?,
+        originalPostDate: Long?,
+        originalPostRepostCount: Long?,
+        originalPostLikeCount: Long?,
     ): Flow<BaseResult.Success<Boolean>> = callbackFlow {
         val milliseconds = Calendar.getInstance().timeInMillis
         val ref = db.collection("Posts")
@@ -123,8 +128,13 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                     "id" to "$milliseconds",
                     "imageUrl" to imageUrl,
                     "likeCount" to 0,
+                    "rePostCount" to 0,
                     "originalPostId" to originalPostId,
-                    "rePostCount" to 0
+                    "originalPostBody" to originalPostBody,
+                    "originalPostRepostCount" to originalPostRepostCount,
+                    "originalPostLikeCount" to originalPostLikeCount,
+                    "originalPostAuthorName" to originalPostAuthorName,
+                    "originalPostAuthorId" to originalPostAuthorId
                 )
             )
 
@@ -156,7 +166,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                         BaseResult.Success(it!!).let { result ->
 
                             SharedPref.write(SharedPref.USER_ID, result.data.userId)
-                            SharedPref.write(SharedPref.USERNAME, result.data.fullname)
+                            SharedPref.write(SharedPref.USERNAME, result.data.username)
                             SharedPref.write(SharedPref.PASSWORD, result.data.password)
                             SharedPref.write(SharedPref.AVATAR_URL, result.data.imageUrl)
                             SharedPref.write(SharedPref.IS_LOGGED_IN, true)
@@ -180,7 +190,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                         "createdAt" to milliseconds,
                         "followersCount" to 0,
                         "followingCount" to 0,
-                        "id" to milliseconds,
+                        "id" to "$milliseconds",
                         "password" to password,
                         "authorAvatarUrl" to "",
                         "username" to username,
@@ -204,7 +214,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                             createdAt = milliseconds,
                             followersCount = 0,
                             followingCount = 0,
-                            fullname = username,
+                            username = username,
                             imageUrl = null,
                             likedPosts = null,
                             savedPosts = null,

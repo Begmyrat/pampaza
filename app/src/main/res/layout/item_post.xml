@@ -80,10 +80,30 @@
                 android:textSize="16sp"/>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="250dp"
+                app:layout_constraintTop_toBottomOf="@+id/t_body"
+                app:layout_constraintStart_toStartOf="@id/t_body"
+                app:layout_constraintEnd_toEndOf="@id/t_body"
+                app:cardCornerRadius="7dp">
+
+                <ImageView
+                    android:id="@+id/i_postImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="250dp"
+                    android:scaleType="centerInside"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_repost"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/t_body"
+                app:layout_constraintTop_toBottomOf="@+id/card_image"
                 app:layout_constraintStart_toStartOf="@id/t_body"
                 app:layout_constraintEnd_toEndOf="@+id/t_body"
                 app:cardCornerRadius="10dp"

@@ -5,7 +5,7 @@ data class UserEntity(
     var createdAt: Long? = null,
     var followersCount: Long? = null,
     var followingCount: Long? = null,
-    var fullname: String? = null,
+    var username: String? = null,
     var imageUrl: String? = null,
     var likedPosts: MutableList<String>? = null,
     var savedPosts: MutableList<Long>? = null,

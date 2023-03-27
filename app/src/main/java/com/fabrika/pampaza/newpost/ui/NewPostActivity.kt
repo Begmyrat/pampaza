@@ -16,7 +16,10 @@ class NewPostActivity : AppCompatActivity() {
         const val ORIGINAL_AUTHOR_USER_NAME = "OriginalAuthorName"
         const val ORIGINAL_AUTHOR_AVATAR_URL = "OriginalAuthorAvatarUrl"
         const val ORIGINAL_POST_BODY = "OriginalPostBody"
+        const val ORIGINAL_POST_IMAGE_URL = "OriginalPostImageUrl"
         const val ORIGINAL_POST_DATE = "OriginalPostDate"
+        const val ORIGINAL_POST_REPOST_COUNT = "OriginalPostRepostCount"
+        const val ORIGINAL_POST_LIKE_COUNT = "OriginalPostLikeCount"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

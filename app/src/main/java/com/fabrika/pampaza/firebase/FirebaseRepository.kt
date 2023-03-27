@@ -17,7 +17,14 @@ interface FirebaseRepository {
         body: String,
         publicity: String,
         imageUrl: String?,
-        originalPostId: String?
+        originalPostId: String?,
+        originalPostAuthorName: String?,
+        originalPostBody: String?,
+        originalPostImageUrl: String?,
+        originalPostAuthorId: String?,
+        originalPostDate: Long?,
+        originalPostRepostCount: Long?,
+        originalPostLikeCount: Long?
     ): Flow<BaseResult.Success<Boolean>>
 
     fun getUser(username: String, password: String): Flow<BaseResult.Success<UserEntity>>

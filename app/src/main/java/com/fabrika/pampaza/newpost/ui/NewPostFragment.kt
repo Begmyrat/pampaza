@@ -28,6 +28,9 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
     private val originalPostBody: String? by lazy {
         (requireActivity()).intent.extras?.getString(NewPostActivity.ORIGINAL_POST_BODY)
     }
+    private val originalPostImageUrl: String? by lazy {
+        (requireActivity()).intent.extras?.getString(NewPostActivity.ORIGINAL_POST_IMAGE_URL)
+    }
     private val originalPostId: String? by lazy {
         (requireActivity()).intent.extras?.getString(NewPostActivity.ORIGINAL_POST_ID)
     }
@@ -37,11 +40,17 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
     private val originalAuthorAvatarUrl: String? by lazy {
         (requireActivity()).intent.extras?.getString(NewPostActivity.ORIGINAL_AUTHOR_AVATAR_URL)
     }
+    private val originalPostRepostCount: Long? by lazy {
+        (requireActivity()).intent.extras?.getLong(NewPostActivity.ORIGINAL_POST_REPOST_COUNT)
+    }
+    private val originalPostLikeCount: Long? by lazy {
+        (requireActivity()).intent.extras?.getLong(NewPostActivity.ORIGINAL_POST_LIKE_COUNT)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return binding.root
     }
@@ -112,7 +121,7 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
             }
             R.id.b_send -> {
-                viewmodel.post(binding.eBody.text.toString(), null, null)
+                viewmodel.post(binding.eBody.text.toString(), originalPostImageUrl, originalPostId, originalAuthorName, originalPostBody, originalPostImageUrl, originalAuthorId, originalPostDate, originalPostRepostCount, originalPostLikeCount)
             }
             R.id.b_publicity -> {
                 PublicityBottomSheetFragment(

@@ -14,8 +14,7 @@ object SharedPref {
     const val IS_LOGGED_IN = "pampaza_isLoggedIn"
 
     fun init(context: Context) {
-        if (mSharedPref == null) mSharedPref =
-            context.getSharedPreferences(context.packageName, Activity.MODE_PRIVATE)
+        if (mSharedPref == null) mSharedPref = context.getSharedPreferences(context.packageName, Activity.MODE_PRIVATE)
     }
 
     fun read(key: String?, defValue: String?): String? {

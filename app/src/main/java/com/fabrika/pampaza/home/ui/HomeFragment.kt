@@ -32,12 +32,12 @@ class HomeFragment : Fragment(), BaseFragment {
     lateinit var binding: FragmentHomeBinding
     lateinit var viewmodel: HomeViewModel
     private lateinit var adapterPost: MyPostAdapter
-    lateinit var postList: MutableList<PostEntity>
+    private lateinit var postList: MutableList<PostEntity>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return binding.root
     }
@@ -93,13 +93,16 @@ class HomeFragment : Fragment(), BaseFragment {
         }
 
         adapterPost.onRePostButtonClick = {
-            var intent = Intent(requireContext(), NewPostActivity::class.java)
+            val intent = Intent(requireContext(), NewPostActivity::class.java)
             intent.putExtra(NewPostActivity.ORIGINAL_AUTHOR_USER_NAME, it.authorName)
             intent.putExtra(NewPostActivity.ORIGINAL_AUTHOR_USER_ID, it.authorId)
             intent.putExtra(NewPostActivity.ORIGINAL_POST_BODY, it.body)
             intent.putExtra(NewPostActivity.ORIGINAL_POST_ID, it.id)
+            intent.putExtra(NewPostActivity.ORIGINAL_POST_IMAGE_URL, it.imageUrl)
             intent.putExtra(NewPostActivity.ORIGINAL_POST_DATE, it.date)
             intent.putExtra(NewPostActivity.ORIGINAL_AUTHOR_AVATAR_URL, it.authorAvatarUrl)
+            intent.putExtra(NewPostActivity.ORIGINAL_POST_REPOST_COUNT, it.rePostCount)
+            intent.putExtra(NewPostActivity.ORIGINAL_POST_LIKE_COUNT, it.likeCount)
             startActivity(intent)
         }
 
