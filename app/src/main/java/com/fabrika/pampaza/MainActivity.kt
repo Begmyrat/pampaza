@@ -23,12 +23,9 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    companion object{
-        lateinit var viewmodel: MainViewModel
-    }
-
     lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    lateinit var viewmodel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavBar, navController)
-
+        viewmodel.getUser(SharedPref.read(SharedPref.USERNAME, "") ?: "", SharedPref.read(SharedPref.PASSWORD, "") ?: "")
         addListeners()
         addObservers()
     }

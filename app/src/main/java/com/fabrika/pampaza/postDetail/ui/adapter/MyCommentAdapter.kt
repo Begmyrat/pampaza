@@ -131,11 +131,11 @@ class MyCommentAdapter(var activity: PostDetailActivity) : RecyclerView.Adapter<
         }
 
         private fun checkLikeStatus(id: String, view: ImageView){
-            if(MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
-                view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heard_filled))
-            } else {
-                view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))
-            }
+//            if(MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
+//                view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heard_filled))
+//            } else {
+//                view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))
+//            }
         }
 
     }

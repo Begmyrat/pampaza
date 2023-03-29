@@ -237,7 +237,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         callbackFlow {
             var listener: Task<Void>? = null
 
-            MainActivity.viewmodel.userEntity.value?.let { user ->
+            activity.viewmodel.userEntity.value?.let { user ->
                 val ref = user.userId.let {
                     db
                         .collection("Users")

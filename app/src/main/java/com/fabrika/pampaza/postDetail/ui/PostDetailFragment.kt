@@ -115,8 +115,8 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
             binding.tLikeCount.text = "$it"
         }
 
-        MainActivity.viewmodel.userEntity.observe(this) {
-            val status = MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(postId) == true
+        (requireActivity() as? MainActivity)?.viewmodel?.userEntity?.observe(this) {
+            val status = (requireActivity() as? MainActivity)?.viewmodel?.userEntity?.value?.likedPosts?.contains(postId) == true
             binding.iLike.setImageDrawable(ContextCompat.getDrawable(requireContext(), if(status) R.drawable.ic_heard_filled else R.drawable.ic_heart))
             if(viewmodel.isLiked.value == false && status){
                 viewmodel.likeCount.value = viewmodel.likeCount.value?.plus(1)
@@ -172,7 +172,7 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
             }
             R.id.l_like -> {
-                postId?.let { MainActivity.viewmodel.likePost(it) }
+                postId?.let { (requireActivity() as? MainActivity)?.viewmodel?.likePost(it) }
             }
         }
     }
