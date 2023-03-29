@@ -21,6 +21,11 @@ import com.fabrika.pampaza.common.utils.extensions.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
+import com.fabrika.pampaza.utils.DoubleClickListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAdapter.MyPostAdapterViewHolder>() {
 
@@ -133,6 +138,13 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                 binding.iShare.setOnClickListener{
                     onShareButtonClick?.invoke(item)
                 }
+
+//                binding.root.setOnClickListener(object : DoubleClickListener() {
+//                    override fun onDoubleClick(v: View) {
+//                        item.id?.let { checkLikeStatus(it, binding.iLike) }
+//                        onLikeButtonClick?.invoke(item)
+//                    }
+//                })
             }
         }
 
