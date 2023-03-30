@@ -103,6 +103,17 @@
                 app:layout_constraintStart_toStartOf="@+id/i_avatar"
                 app:layout_constraintTop_toBottomOf="@+id/i_avatar" />
 
+            <ImageView
+                android:id="@+id/i_body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="300dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toBottomOf="@+id/t_body"
+                app:layout_constraintStart_toStartOf="@id/t_body"
+                app:layout_constraintEnd_toEndOf="@+id/t_body"
+                android:scaleType="centerCrop"/>
+
             <LinearLayout
                 android:id="@+id/l_comment"
                 android:layout_width="0dp"
@@ -111,7 +122,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/l_retweet"
                 app:layout_constraintStart_toStartOf="@+id/t_body"
-                app:layout_constraintTop_toBottomOf="@+id/t_body">
+                app:layout_constraintTop_toBottomOf="@+id/i_body">
 
                 <ImageView
                     android:id="@+id/i_comment"

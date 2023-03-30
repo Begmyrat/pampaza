@@ -97,6 +97,7 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
         postId?.let {
             viewmodel.getComments(it)
             Glide.with(requireContext()).load(authorAvatarUrl).circleCrop().into(binding.iAvatar)
+            Glide.with(requireContext()).load(postImageUrl).into(binding.iBody)
             binding.tUsername.text = authorName.toString()
             binding.tDate.text = postDate.toDateString()
             binding.tBody.text = postBody.toString()
