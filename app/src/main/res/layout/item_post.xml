@@ -177,6 +177,7 @@
                 app:layout_constraintStart_toStartOf="@+id/t_username"
                 app:layout_constraintEnd_toStartOf="@+id/l_retweet"
                 android:layout_marginTop="10dp"
+                android:paddingVertical="7dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -187,7 +188,7 @@
 
                 <TextView
                     android:id="@+id/t_commentCount"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sfpro_regular"
                     android:textColor="@color/text_light"
@@ -205,6 +206,7 @@
                 app:layout_constraintTop_toTopOf="@+id/l_comment"
                 app:layout_constraintStart_toEndOf="@+id/l_comment"
                 app:layout_constraintEnd_toStartOf="@+id/l_like"
+                android:paddingVertical="7dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -215,7 +217,7 @@
 
                 <TextView
                     android:id="@+id/t_retweetCount"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sfpro_regular"
                     android:textColor="@color/text_light"
@@ -233,6 +235,7 @@
                 app:layout_constraintTop_toTopOf="@+id/l_retweet"
                 app:layout_constraintStart_toEndOf="@+id/l_retweet"
                 app:layout_constraintEnd_toStartOf="@+id/l_share"
+                android:paddingVertical="7dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -243,7 +246,7 @@
 
                 <TextView
                     android:id="@+id/t_likeCount"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sfpro_regular"
                     android:textColor="@color/text_light"
@@ -261,6 +264,7 @@
                 app:layout_constraintTop_toTopOf="@id/l_like"
                 app:layout_constraintEnd_toEndOf="@+id/t_date"
                 app:layout_constraintStart_toEndOf="@+id/l_like"
+                android:paddingVertical="7dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -271,7 +275,7 @@
 
                 <TextView
                     android:id="@+id/t_shareCount"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sfpro_regular"
                     android:textColor="@color/text_light"

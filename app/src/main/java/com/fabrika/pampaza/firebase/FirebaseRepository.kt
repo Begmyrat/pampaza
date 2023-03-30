@@ -11,7 +11,7 @@ interface FirebaseRepository {
 
     fun getComments(postId: String): Flow<BaseResult.Success<List<PostEntity?>>>
 
-    fun postComment(postId: String, comment: String): Flow<BaseResult.Success<Boolean>>
+    fun postComment(postId: String, comment: String, currentCommentCoung: Long): Flow<BaseResult.Success<Boolean>>
 
     fun post(
         body: String,

@@ -89,7 +89,20 @@ class HomeFragment : Fragment(), BaseFragment {
 
         adapterPost.onCommentButtonClick = {
             Log.d(TAG, "commentClicked")
-
+            val intent = Intent(requireContext(), PostDetailActivity::class.java)
+            intent.putExtra(PostDetailActivity.POST_ID, it.id)
+            intent.putExtra(PostDetailActivity.AUTHOR_ID, it.authorId)
+            intent.putExtra(PostDetailActivity.AUTHOR_NAME, it.authorName)
+            intent.putExtra(PostDetailActivity.POST_DATE, it.date)
+            intent.putExtra(PostDetailActivity.POST_BODY, it.body)
+            intent.putExtra(PostDetailActivity.POST_IMAGE_URL, it.imageUrl)
+            intent.putExtra(PostDetailActivity.REPOST_COUNT, it.rePostCount)
+            intent.putExtra(PostDetailActivity.LIKE_COUNT, it.likeCount)
+            intent.putExtra(PostDetailActivity.AUTHOR_AVATAR_URL, it.authorAvatarUrl)
+            intent.putExtra(PostDetailActivity.IS_LIKED, MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(it.id) == true)
+            intent.putExtra(PostDetailActivity.IS_COMMENT_BUTTON_CLICKED, true)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
         }
 
         adapterPost.onRePostButtonClick = {

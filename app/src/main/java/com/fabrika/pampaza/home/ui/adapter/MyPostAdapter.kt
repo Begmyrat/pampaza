@@ -93,7 +93,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                 binding.tUsername.text = item.authorName
                 binding.tDate.text = item.date.toDateString()
                 binding.tBody.text = item.body
-                binding.tCommentCount.text = item.commentCount.toString()
+                binding.tCommentCount.text = "${item.commentCount ?: 0}"
                 binding.tLikeCount.text = item.likeCount.toString()
                 binding.tRetweetCount.text = item.rePostCount.toString()
                 binding.cardRepost.visibility = View.GONE
@@ -117,25 +117,17 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                     onOriginalPostItemClicked?.invoke(item)
                 }
 
-                binding.iComment.setOnClickListener{
+                binding.lComment.setOnClickListener{
                     onCommentButtonClick?.invoke(item)
                 }
-                binding.iRetweet.setOnClickListener{
+                binding.lRetweet.setOnClickListener{
                     onRePostButtonClick?.invoke(item)
                 }
-                binding.iLike.setOnClickListener{
-                    // update on like count
-//                    if(activity.viewmodel.userEntity.value?.likedPosts?.contains(item.id) == true){
-//                        val newLikeCount = binding.tLikeCount.text.toString().toInt() - 1
-//                        binding.tLikeCount.text = newLikeCount.toString()
-//                    } else{
-//                        val newLikeCount = binding.tLikeCount.text.toString().toInt() + 1
-//                        binding.tLikeCount.text = newLikeCount.toString()
-//                    }
+                binding.lLike.setOnClickListener{
                     item.id?.let { checkLikeStatus(it, binding.iLike) }
                     onLikeButtonClick?.invoke(item)
                 }
-                binding.iShare.setOnClickListener{
+                binding.lShare.setOnClickListener{
                     onShareButtonClick?.invoke(item)
                 }
 

@@ -7,6 +7,7 @@ import com.fabrika.pampaza.common.utils.BaseViewModel
 import com.fabrika.pampaza.firebase.FirebaseRepository
 import com.fabrika.pampaza.firebase.FirebaseRepositoryImpl
 import com.fabrika.pampaza.home.model.PostEntity
+import com.google.type.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,13 +34,13 @@ class PostDetailViewModel(application: Application) : BaseViewModel(application)
         }
     }
 
-    fun postComment(postId: String, comment: String,){
+    fun postComment(postId: String, comment: String, currentCommentCount: Long){
         if(comment.isEmpty()){
             return
         }
         launch {
             withContext(Dispatchers.IO){
-                repository.postComment(postId, comment)
+                repository.postComment(postId, comment, currentCommentCount)
                     .collect{ result ->
                         result.data.let {
                             isPostCommentError.postValue(it)

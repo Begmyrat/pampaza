@@ -18,6 +18,7 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
 
     lateinit var binding: FragmentNewPostBinding
     private lateinit var viewmodel: NewPostViewModel
+    var image = ""
 
     private val originalAuthorName: String? by lazy {
         (requireActivity()).intent.extras?.getString(NewPostActivity.ORIGINAL_AUTHOR_USER_NAME)
@@ -121,7 +122,7 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
             }
             R.id.b_send -> {
-                viewmodel.post(binding.eBody.text.toString(), originalPostImageUrl, originalPostId, originalAuthorName, originalPostBody, originalPostImageUrl, originalAuthorId, originalPostDate, originalPostRepostCount, originalPostLikeCount)
+                viewmodel.post(binding.eBody.text.toString(), image, originalPostId, originalAuthorName, originalPostBody, originalPostImageUrl, originalAuthorId, originalPostDate, originalPostRepostCount, originalPostLikeCount)
             }
             R.id.b_publicity -> {
                 PublicityBottomSheetFragment(

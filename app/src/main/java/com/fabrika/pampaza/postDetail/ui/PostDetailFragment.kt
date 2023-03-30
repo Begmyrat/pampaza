@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
@@ -23,6 +24,8 @@ import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
 import com.fabrika.pampaza.postDetail.ui.adapter.MyCommentAdapter
 import com.fabrika.pampaza.postDetail.viewmodel.PostDetailViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
@@ -31,6 +34,7 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
     private lateinit var viewmodel: PostDetailViewModel
     private lateinit var adapterComments: MyCommentAdapter
     private lateinit var commentList: MutableList<PostEntity>
+    private val delayTimeToOpenKeyboard = 750L
 
     private val postId: String? by lazy {
         (requireActivity()).intent.extras?.getString(PostDetailActivity.POST_ID)
@@ -61,6 +65,9 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
     }
     private val isLiked: Boolean? by lazy {
         (requireActivity()).intent.extras?.getBoolean(PostDetailActivity.IS_LIKED)
+    }
+    private val isCommentButtonClicked: Boolean? by lazy {
+        (requireActivity()).intent.extras?.getBoolean(PostDetailActivity.IS_COMMENT_BUTTON_CLICKED, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,9 +101,20 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
             binding.tDate.text = postDate.toDateString()
             binding.tBody.text = postBody.toString()
             binding.tLikeCount.text = likeCount.toString()
+            binding.tCommentCount.text = "0"
             binding.tRetweetCount.text = repostCount.toString()
             viewmodel.isLiked.postValue(isLiked)
             viewmodel.likeCount.postValue(likeCount)
+        }
+
+        Glide.with(requireContext()).load(authorAvatarUrl).centerCrop().into(binding.iAvatar)
+
+        if(isCommentButtonClicked == true){
+            lifecycleScope.launch{
+                delay(delayTimeToOpenKeyboard)
+                binding.tiComment.requestFocus()
+                showKeyboard()
+            }
         }
     }
 
@@ -109,9 +127,6 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
             binding.tCommentCount.text = "${it.size}"
         }
 
-//        viewmodel.isLiked.observe(this){
-//            binding.iLike.setImageDrawable(ContextCompat.getDrawable(requireContext(), if(it) R.drawable.ic_heard_filled else R.drawable.ic_heart))
-//        }
         viewmodel.likeCount.observe(this){
             binding.tLikeCount.text = "$it"
         }
@@ -147,7 +162,7 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
         binding.lRetweet.setOnClickListener(this)
         binding.lLike.setOnClickListener(this)
         binding.tlComment.setEndIconOnClickListener {
-            postId?.let { viewmodel.postComment(it, binding.tiComment.text.toString()) }
+            postId?.let { viewmodel.postComment(it, binding.tiComment.text.toString(), commentList.size.toLong()) }
         }
     }
 

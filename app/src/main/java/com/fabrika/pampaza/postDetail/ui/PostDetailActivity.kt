@@ -27,6 +27,7 @@ class PostDetailActivity : AppCompatActivity() {
         const val REPOST_COUNT = "repostCount"
         const val LIKE_COUNT = "likeCount"
         const val IS_LIKED = "isLiked"
+        const val IS_COMMENT_BUTTON_CLICKED = "isCommentButtonClicked"
     }
 
     lateinit var viewmodel: PostDetailActivityViewModel

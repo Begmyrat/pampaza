@@ -67,7 +67,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         awaitClose { listener.remove() }
     }
 
-    override fun postComment(postId: String, comment: String): Flow<BaseResult.Success<Boolean>> = callbackFlow {
+    override fun postComment(postId: String, comment: String, currentCommentCount: Long): Flow<BaseResult.Success<Boolean>> = callbackFlow {
         val milliseconds = Calendar.getInstance().timeInMillis
         val ref = db.collection("Comments")
             .document("Data")
@@ -90,7 +90,17 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             )
 
         val listener = ref.addOnSuccessListener {
-            trySend(BaseResult.Success(true)).isSuccess
+            db.collection("Posts")
+                .document("Data")
+                .collection("List")
+                .document(postId)
+                .update("commentCount", FieldValue.increment(currentCommentCount + 1))
+                .addOnSuccessListener {
+                    trySend(BaseResult.Success(true)).isSuccess
+                }
+                .addOnFailureListener {
+                    trySend(BaseResult.Success(false)).isSuccess
+                }
         }.addOnFailureListener {
             trySend(BaseResult.Success(false)).isSuccess
         }
@@ -131,6 +141,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                     "rePostCount" to 0,
                     "originalPostId" to originalPostId,
                     "originalPostBody" to originalPostBody,
+                    "originalPostImageUrl" to originalPostImageUrl,
                     "originalPostRepostCount" to originalPostRepostCount,
                     "originalPostLikeCount" to originalPostLikeCount,
                     "originalPostAuthorName" to originalPostAuthorName,
