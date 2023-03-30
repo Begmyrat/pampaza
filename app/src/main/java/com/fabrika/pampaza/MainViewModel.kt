@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.fabrika.pampaza.common.utils.BaseViewModel
 import com.fabrika.pampaza.firebase.FirebaseRepository
 import com.fabrika.pampaza.firebase.FirebaseRepositoryImpl
+import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.login.model.LoginStatusType
 import com.fabrika.pampaza.login.model.UserEntity
 import kotlinx.coroutines.Dispatchers
@@ -20,12 +21,18 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     var userEntity = MutableLiveData<UserEntity>()
     var likePostIds = MutableLiveData<MutableList<String>>()
     var isSplash = false
+    var isLikeError = MutableLiveData<Boolean>()
 
-    fun likePost(id: String){
-        val temp = userEntity.value
-        temp?.likedPosts?.add(id)
-        temp.let {
-            userEntity.postValue(it)
+    fun likePost(postId: String){
+        launch {
+            withContext(Dispatchers.IO){
+                repository.likePost(postId)
+                    .collect{ result ->
+                        result.data.let { status ->
+                            isLikeError.postValue(status)
+                        }
+                    }
+            }
         }
     }
 

@@ -25,7 +25,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    lateinit var viewmodel: MainViewModel
+
+    companion object{
+        lateinit var viewmodel: MainViewModel
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

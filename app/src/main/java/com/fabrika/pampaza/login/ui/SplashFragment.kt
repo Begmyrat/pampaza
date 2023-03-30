@@ -41,8 +41,8 @@ class SplashFragment : Fragment(), BaseFragment, View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        viewmodel.splashDelay(1000)
-        (requireActivity() as? MainActivity)?.viewmodel?.isSplash = true
-        (requireActivity() as? MainActivity)?.viewmodel?.getUser("GmBegmyrat", "123123")
+        MainActivity.viewmodel.isSplash = true
+//        MainActivity.viewmodel.getUser("GmBegmyrat", "123123")
     }
 
     override fun addObservers() {

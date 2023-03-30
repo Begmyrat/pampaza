@@ -153,7 +153,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
         }
 
         private fun checkLikeStatus(id: String, view: ImageView){
-            if(activity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
+            if(MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heard_filled))
             } else {
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))

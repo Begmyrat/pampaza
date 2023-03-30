@@ -35,17 +35,15 @@ class HomeViewModel(application: Application) : BaseViewModel(application){
         }
     }
 
-    fun likePost(activity: MainActivity, entity: PostEntity){
+    fun likePost(activity: MainActivity, postId: String){
         launch {
             withContext(Dispatchers.IO){
-                entity.id?.let {
-                    repository.likePost(activity, it)
-                        .collect{ result ->
-                            result.data.let { status ->
-                                isLikeError.postValue(status)
-                            }
+                repository.likePost(postId)
+                    .collect{ result ->
+                        result.data.let { status ->
+                            isLikeError.postValue(status)
                         }
-                }
+                    }
             }
         }
     }

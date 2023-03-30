@@ -139,7 +139,22 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             )
 
         val listener = ref.addOnSuccessListener {
-            trySend(BaseResult.Success(true)).isSuccess
+            if(originalPostId != null) {
+                db.collection("Posts")
+                    .document("Data")
+                    .collection("List")
+                    .document(originalPostId)
+                    .update("rePostCount", FieldValue.increment((originalPostRepostCount ?: 0) + 1))
+                    .addOnSuccessListener {
+                        trySend(BaseResult.Success(true)).isSuccess
+                    }
+                    .addOnFailureListener {
+                        trySend(BaseResult.Success(false)).isSuccess
+                    }
+            } else {
+                trySend(BaseResult.Success(true)).isSuccess
+            }
+
         }.addOnFailureListener {
             trySend(BaseResult.Success(false)).isSuccess
         }
@@ -231,13 +246,12 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         }
 
     override fun likePost(
-        activity: MainActivity,
         postId: String
     ): Flow<BaseResult.Success<Boolean>>  =
         callbackFlow {
             var listener: Task<Void>? = null
 
-            activity.viewmodel.userEntity.value?.let { user ->
+            MainActivity.viewmodel.userEntity.value?.let { user ->
                 val ref = user.userId.let {
                     db
                         .collection("Users")
