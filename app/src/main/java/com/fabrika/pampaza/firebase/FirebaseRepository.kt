@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
 interface FirebaseRepository {
     fun getAllPosts(): Flow<BaseResult.Success<List<PostEntity?>>>
 
+    fun getPostsWithPagination(offset: Long, limit: Long): Flow<BaseResult.Success<List<PostEntity?>>>
+
     fun getComments(postId: String): Flow<BaseResult.Success<List<PostEntity?>>>
 
     fun postComment(postId: String, comment: String, currentCommentCoung: Long): Flow<BaseResult.Success<Boolean>>

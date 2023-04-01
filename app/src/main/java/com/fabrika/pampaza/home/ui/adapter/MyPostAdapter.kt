@@ -35,6 +35,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
     var onCommentButtonClick: ((entity: PostEntity) -> Unit)? = null
     var onPostItemClicked: ((entity: PostEntity) -> Unit)? = null
     var onOriginalPostItemClicked: ((entity: PostEntity) -> Unit)? = null
+    var onLastItemShown: ((entity: PostEntity) -> Unit)? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -137,6 +138,9 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
 //                        onLikeButtonClick?.invoke(item)
 //                    }
 //                })
+                if(adapterPosition == itemCount-1){
+                    onLastItemShown?.invoke(item)
+                }
             }
         }
 

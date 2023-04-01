@@ -27,6 +27,7 @@ class HomeFragment : Fragment(), BaseFragment {
 
     companion object{
         const val TAG = "HomeFragment"
+        const val LIMIT = 10L
     }
 
     lateinit var binding: FragmentHomeBinding
@@ -58,7 +59,12 @@ class HomeFragment : Fragment(), BaseFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewmodel.getAllPosts()
+//        viewmodel.getAllPosts()
+        getPostsWithPagination(0, LIMIT)
+    }
+
+    private fun getPostsWithPagination(offset: Long, limit: Long){
+        viewmodel.getPostsWithPagination(offset, limit)
     }
 
     override fun addObservers() {
@@ -84,7 +90,12 @@ class HomeFragment : Fragment(), BaseFragment {
     override fun addListeners() {
         binding.swipeRefresh.setOnRefreshListener {
             Log.d(TAG, "refresh")
-            viewmodel.getAllPosts()
+//            viewmodel.getAllPosts()
+            viewmodel.getPostsWithPagination(0, LIMIT)
+        }
+
+        adapterPost.onLastItemShown = {
+            it.date?.let { date -> getPostsWithPagination(date, LIMIT) }
         }
 
         adapterPost.onCommentButtonClick = {

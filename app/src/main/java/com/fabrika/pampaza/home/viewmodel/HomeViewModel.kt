@@ -35,6 +35,19 @@ class HomeViewModel(application: Application) : BaseViewModel(application){
         }
     }
 
+    fun getPostsWithPagination(offset: Long, limit: Long){
+        launch {
+            withContext(Dispatchers.IO){
+                repository.getPostsWithPagination(offset, limit)
+                    .collect{ result ->
+                        result.data.let {
+                            allPosts.postValue(it.filterNotNull())
+                        }
+                    }
+            }
+        }
+    }
+
     fun likePost(activity: MainActivity, postId: String){
         launch {
             withContext(Dispatchers.IO){

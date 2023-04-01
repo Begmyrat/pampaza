@@ -24,7 +24,33 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             .collection("List")
             .orderBy("id", Query.Direction.DESCENDING)
 
-        val listener = ref.addSnapshotListener { value, error ->
+        val listener = ref.addSnapshotListener { value, _ ->
+            if (value?.documents?.isNotEmpty() == true) {
+                val list = value.documents.map { docSnapshot ->
+                    docSnapshot.toObject(PostEntity::class.java)
+                }
+
+                value.documents.mapIndexed { index, documentSnapshot ->
+                    list[index]?.id = documentSnapshot.id
+                }
+
+                BaseResult.Success(list).let {
+                    trySend(it).isSuccess
+                }
+            }
+        }
+        awaitClose { listener.remove() }
+    }
+
+    override fun getPostsWithPagination(offset: Long, limit: Long): Flow<BaseResult.Success<List<PostEntity?>>> = callbackFlow {
+        val ref = db.collection("Posts")
+            .document("Data")
+            .collection("List")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .limitToLast(limit)
+            .startAt(offset)
+
+        val listener = ref.addSnapshotListener { value, _ ->
             if (value?.documents?.isNotEmpty() == true) {
                 val list = value.documents.map { docSnapshot ->
                     docSnapshot.toObject(PostEntity::class.java)
