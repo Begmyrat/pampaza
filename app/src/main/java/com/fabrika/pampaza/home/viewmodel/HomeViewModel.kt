@@ -21,6 +21,7 @@ class HomeViewModel(application: Application) : BaseViewModel(application){
     var data = MutableLiveData<String>()
     var allPosts = MutableLiveData<List<PostEntity>>()
     var isLikeError = MutableLiveData<Boolean>()
+    var lastClickedItemIndex: Int? = null
 
     fun getAllPosts(){
         launch {

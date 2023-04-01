@@ -20,13 +20,14 @@ import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.home.model.PostEntity
 
 
-class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAdapter.MyPostAdapterViewHolder>() {
+class MyPostAdapter(var activity: MainActivity) :
+    RecyclerView.Adapter<MyPostAdapter.MyPostAdapterViewHolder>() {
 
     var onLikeButtonClick: ((entity: PostEntity) -> Unit)? = null
     var onRePostButtonClick: ((entity: PostEntity) -> Unit)? = null
     var onShareButtonClick: ((entity: PostEntity) -> Unit)? = null
     var onCommentButtonClick: ((entity: PostEntity) -> Unit)? = null
-    var onPostItemClicked: ((entity: PostEntity) -> Unit)? = null
+    var onPostItemClicked: ((entity: PostEntity, index: Int) -> Unit)? = null
     var onOriginalPostItemClicked: ((entity: PostEntity) -> Unit)? = null
     var onLastItemShown: ((entity: PostEntity) -> Unit)? = null
     private lateinit var myOptions: RequestOptions
@@ -37,7 +38,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
         val layoutId = R.layout.item_post
         myOptions = RequestOptions()
             .fitCenter() // or centerCrop
-            .override(30, 30)
+            .override(480, 480)
 
         return MyPostAdapterViewHolder(
             parent.context,
@@ -78,15 +79,27 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
         return differ.currentList.size
     }
 
-    inner class MyPostAdapterViewHolder(private val context: Context, private val binding: ViewDataBinding) :
+    inner class MyPostAdapterViewHolder(
+        private val context: Context,
+        private val binding: ViewDataBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         private fun bindNewsBodyItem(item: PostEntity) {
-            if(binding is ItemPostBinding){
-                Glide.with(context).load(item.authorAvatarUrl).into(binding.iAvatar)
-                binding.iPostImage.visibility = if(item.imageUrl != null) View.VISIBLE else View.GONE
+            if (binding is ItemPostBinding) {
+                Glide
+                    .with(context)
+                    .load(item.authorAvatarUrl)
+                    .apply(myOptions)
+                    .error(R.drawable.logo)
+                    .into(binding.iAvatar)
+                binding.iPostImage.visibility =
+                    if (item.imageUrl != null) View.VISIBLE else View.GONE
                 item.imageUrl.let {
-                    Glide.with(context).load(it).into(binding.iPostImage)
+                    Glide
+                        .with(context)
+                        .load(it)
+                        .into(binding.iPostImage)
                 }
                 binding.tUsername.text = item.authorName
                 binding.tDate.text = item.date.toDateString()
@@ -98,9 +111,9 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                 item.originalPostId?.let {
                     binding.cardRepost.visibility = View.VISIBLE
                     Glide.with(context)
-                        .asBitmap()
-                        .apply(myOptions)
                         .load(item.originalPostAuthorAvatarUrl.toString())
+                        .apply(myOptions)
+                        .error(R.drawable.logo)
                         .circleCrop()
                         .into(binding.iRepostAvatar)
                     binding.tRepostUsername.text = item.originalPostAuthorName.toString()
@@ -111,23 +124,23 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                 item.id?.let { checkLikeStatus(it, binding.iLike) }
 
                 binding.root.setOnClickListener {
-                    onPostItemClicked?.invoke(item)
+                    onPostItemClicked?.invoke(item, adapterPosition)
                 }
-                binding.cardRepost.setOnClickListener{
+                binding.cardRepost.setOnClickListener {
                     onOriginalPostItemClicked?.invoke(item)
                 }
 
-                binding.lComment.setOnClickListener{
+                binding.lComment.setOnClickListener {
                     onCommentButtonClick?.invoke(item)
                 }
-                binding.lRetweet.setOnClickListener{
+                binding.lRetweet.setOnClickListener {
                     onRePostButtonClick?.invoke(item)
                 }
-                binding.lLike.setOnClickListener{
+                binding.lLike.setOnClickListener {
                     item.id?.let { checkLikeStatus(it, binding.iLike) }
                     onLikeButtonClick?.invoke(item)
                 }
-                binding.lShare.setOnClickListener{
+                binding.lShare.setOnClickListener {
                     onShareButtonClick?.invoke(item)
                 }
 
@@ -137,7 +150,7 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
 //                        onLikeButtonClick?.invoke(item)
 //                    }
 //                })
-                if(adapterPosition == itemCount-1){
+                if (adapterPosition == itemCount - 1) {
                     onLastItemShown?.invoke(item)
                 }
             }
@@ -147,9 +160,14 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
             bindNewsBodyItem(model)
         }
 
-        private fun checkLikeStatus(id: String, view: ImageView){
-            if(MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true){
-                view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heard_filled))
+        private fun checkLikeStatus(id: String, view: ImageView) {
+            if (MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true) {
+                view.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ic_heard_filled
+                    )
+                )
             } else {
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))
             }

@@ -1,5 +1,6 @@
 package com.fabrika.pampaza.home.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.fabrika.pampaza.MainActivity
@@ -25,7 +27,7 @@ import com.fabrika.pampaza.common.ui.MyCustomDialogType
 
 class HomeFragment : Fragment(), BaseFragment {
 
-    companion object{
+    companion object {
         const val TAG = "HomeFragment"
         const val LIMIT = 10L
         const val OFFSET = Long.MAX_VALUE
@@ -64,7 +66,7 @@ class HomeFragment : Fragment(), BaseFragment {
         getPostsWithPagination(OFFSET, LIMIT)
     }
 
-    private fun getPostsWithPagination(offset: Long, limit: Long){
+    private fun getPostsWithPagination(offset: Long, limit: Long) {
         viewmodel.getPostsWithPagination(offset, limit)
     }
 
@@ -72,7 +74,9 @@ class HomeFragment : Fragment(), BaseFragment {
         viewmodel.allPosts.observe(this, Observer {
             Log.d("allPosts:", it.toString())
             val list = mutableListOf<PostEntity>()
-            list.addAll(adapterPost.differ.currentList)
+            if (!binding.swipeRefresh.isRefreshing) {
+                list.addAll(adapterPost.differ.currentList)
+            }
             list.addAll(it)
             adapterPost.differ.submitList(list)
             binding.swipeRefresh.isRefreshing = false
@@ -112,7 +116,10 @@ class HomeFragment : Fragment(), BaseFragment {
             intent.putExtra(PostDetailActivity.REPOST_COUNT, it.rePostCount)
             intent.putExtra(PostDetailActivity.LIKE_COUNT, it.likeCount)
             intent.putExtra(PostDetailActivity.AUTHOR_AVATAR_URL, it.authorAvatarUrl)
-            intent.putExtra(PostDetailActivity.IS_LIKED, MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(it.id) == true)
+            intent.putExtra(
+                PostDetailActivity.IS_LIKED,
+                MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(it.id) == true
+            )
             intent.putExtra(PostDetailActivity.IS_COMMENT_BUTTON_CLICKED, true)
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
@@ -151,19 +158,23 @@ class HomeFragment : Fragment(), BaseFragment {
             }.show()
         }
 
-        adapterPost.onPostItemClicked = {
+        adapterPost.onPostItemClicked = { item, index ->
+            viewmodel.lastClickedItemIndex = index
             val intent = Intent(requireContext(), PostDetailActivity::class.java)
-            intent.putExtra(PostDetailActivity.POST_ID, it.id)
-            intent.putExtra(PostDetailActivity.AUTHOR_ID, it.authorId)
-            intent.putExtra(PostDetailActivity.AUTHOR_NAME, it.authorName)
-            intent.putExtra(PostDetailActivity.POST_DATE, it.date)
-            intent.putExtra(PostDetailActivity.POST_BODY, it.body)
-            intent.putExtra(PostDetailActivity.POST_IMAGE_URL, it.imageUrl)
-            intent.putExtra(PostDetailActivity.REPOST_COUNT, it.rePostCount)
-            intent.putExtra(PostDetailActivity.LIKE_COUNT, it.likeCount)
-            intent.putExtra(PostDetailActivity.AUTHOR_AVATAR_URL, it.authorAvatarUrl)
-            intent.putExtra(PostDetailActivity.IS_LIKED, MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(it.id) == true)
-            startActivity(intent)
+            intent.putExtra(PostDetailActivity.POST_ID, item.id)
+            intent.putExtra(PostDetailActivity.AUTHOR_ID, item.authorId)
+            intent.putExtra(PostDetailActivity.AUTHOR_NAME, item.authorName)
+            intent.putExtra(PostDetailActivity.POST_DATE, item.date)
+            intent.putExtra(PostDetailActivity.POST_BODY, item.body)
+            intent.putExtra(PostDetailActivity.POST_IMAGE_URL, item.imageUrl)
+            intent.putExtra(PostDetailActivity.REPOST_COUNT, item.rePostCount)
+            intent.putExtra(PostDetailActivity.LIKE_COUNT, item.likeCount)
+            intent.putExtra(PostDetailActivity.AUTHOR_AVATAR_URL, item.authorAvatarUrl)
+            intent.putExtra(
+                PostDetailActivity.IS_LIKED,
+                MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(item.id) == true
+            )
+            resultLauncher.launch(intent)
             requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
         }
 
@@ -181,4 +192,18 @@ class HomeFragment : Fragment(), BaseFragment {
             requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
         }
     }
+
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == PostDetailActivity.RESULT_CODE) {
+                // There are no request codes
+                val data: Intent? = result.data
+                viewmodel.lastClickedItemIndex?.let {
+                    val list = adapterPost.differ.currentList
+                    list[it].commentCount =
+                        data?.getLongExtra(PostDetailActivity.LIKE_COUNT, 0)
+                    adapterPost.differ.submitList(list)
+                }
+            }
+        }
 }

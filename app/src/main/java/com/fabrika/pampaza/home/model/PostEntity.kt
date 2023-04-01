@@ -6,7 +6,7 @@ data class PostEntity(
     val authorId: String? = null,
     val authorName: String? = null,
     val body: String? = null,
-    val commentCount : Long? = null,
+    var commentCount : Long? = null,
     val complaintCount : Long? = null,
     val date : Long? = null,
     val imageUrl : String? = null,

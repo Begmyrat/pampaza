@@ -11,5 +11,5 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class PostDetailActivityViewModel(application: Application) : BaseViewModel(application) {
-
+    var likeCount = MutableLiveData<Long>()
 }

@@ -1,5 +1,6 @@
 package com.fabrika.pampaza.postDetail.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -28,6 +29,7 @@ class PostDetailActivity : AppCompatActivity() {
         const val LIKE_COUNT = "likeCount"
         const val IS_LIKED = "isLiked"
         const val IS_COMMENT_BUTTON_CLICKED = "isCommentButtonClicked"
+        const val RESULT_CODE = 1324
     }
 
     lateinit var viewmodel: PostDetailActivityViewModel
@@ -39,6 +41,9 @@ class PostDetailActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        val data = Intent()
+        data.putExtra(LIKE_COUNT, viewmodel.likeCount.value)
+        super.setResult(RESULT_CODE, data)
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
     }

@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -96,7 +95,7 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
 
         postId?.let {
             viewmodel.getComments(it)
-            Glide.with(requireContext()).load(authorAvatarUrl).into(binding.iAvatar)
+            Glide.with(requireContext()).load(authorAvatarUrl).centerCrop().into(binding.iAvatar)
             Glide.with(requireContext()).load(postImageUrl).into(binding.iBody)
             binding.tUsername.text = authorName.toString()
             binding.tDate.text = postDate.toDateString()
@@ -107,8 +106,6 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
             viewmodel.isLiked.postValue(isLiked)
             viewmodel.likeCount.postValue(likeCount)
         }
-
-        Glide.with(requireContext()).load(authorAvatarUrl).centerCrop().into(binding.iAvatar)
 
         if(isCommentButtonClicked == true){
             lifecycleScope.launch{
@@ -126,6 +123,7 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
             commentList.addAll(it)
             adapterComments.differ.submitList(commentList)
             binding.tCommentCount.text = "${it.size}"
+            (requireActivity() as? PostDetailActivity)?.viewmodel?.likeCount?.value = it.size.toLong()
         }
 
         viewmodel.likeCount.observe(this){

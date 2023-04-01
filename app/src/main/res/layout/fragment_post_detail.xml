@@ -49,17 +49,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/i_back" />
 
-            <ImageView
-                android:id="@+id/i_avatar"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_avatar"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                android:scaleType="centerCrop"
-                android:transitionName="avatar"
-                android:src="@drawable/account"
+                app:cardCornerRadius="28dp"
+                android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+                app:layout_constraintTop_toBottomOf="@+id/divider_top">
+
+                <ImageView
+                    android:id="@+id/i_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:transitionName="avatar"
+                    android:src="@drawable/logo"/>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/t_username"
@@ -72,8 +80,8 @@
                 android:textSize="16sp"
                 android:transitionName="username"
                 app:layout_constraintBottom_toTopOf="@+id/t_date"
-                app:layout_constraintStart_toEndOf="@+id/i_avatar"
-                app:layout_constraintTop_toTopOf="@+id/i_avatar" />
+                app:layout_constraintStart_toEndOf="@+id/card_avatar"
+                app:layout_constraintTop_toTopOf="@+id/card_avatar" />
 
             <TextView
                 android:id="@+id/t_date"
@@ -85,7 +93,7 @@
                 android:transitionName="date"
                 android:textColor="@color/text_light"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/i_avatar"
+                app:layout_constraintBottom_toBottomOf="@+id/card_avatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/t_username"
                 app:layout_constraintTop_toBottomOf="@+id/t_username" />
@@ -101,8 +109,8 @@
                 android:textSize="16sp"
                 android:paddingBottom="10dp"
                 app:layout_constraintEnd_toEndOf="@id/t_date"
-                app:layout_constraintStart_toStartOf="@+id/i_avatar"
-                app:layout_constraintTop_toBottomOf="@+id/i_avatar" />
+                app:layout_constraintStart_toStartOf="@+id/card_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/card_avatar" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_imageBody"
