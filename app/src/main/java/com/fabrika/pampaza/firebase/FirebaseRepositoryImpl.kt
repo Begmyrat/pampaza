@@ -47,8 +47,8 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             .document("Data")
             .collection("List")
             .orderBy("date", Query.Direction.DESCENDING)
-            .limitToLast(limit)
-            .startAt(offset)
+            .limit(limit)
+            .startAfter(offset)
 
         val listener = ref.addSnapshotListener { value, _ ->
             if (value?.documents?.isNotEmpty() == true) {

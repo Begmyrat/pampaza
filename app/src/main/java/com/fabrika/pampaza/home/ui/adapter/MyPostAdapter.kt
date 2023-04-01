@@ -1,13 +1,10 @@
 package com.fabrika.pampaza.home.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -15,17 +12,13 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.utils.extensions.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.home.model.PostEntity
-import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
-import com.fabrika.pampaza.utils.DoubleClickListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAdapter.MyPostAdapterViewHolder>() {
 
@@ -36,11 +29,15 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
     var onPostItemClicked: ((entity: PostEntity) -> Unit)? = null
     var onOriginalPostItemClicked: ((entity: PostEntity) -> Unit)? = null
     var onLastItemShown: ((entity: PostEntity) -> Unit)? = null
+    private lateinit var myOptions: RequestOptions
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): MyPostAdapterViewHolder {
         val layoutId = R.layout.item_post
+        myOptions = RequestOptions()
+            .fitCenter() // or centerCrop
+            .override(30, 30)
 
         return MyPostAdapterViewHolder(
             parent.context,
@@ -101,6 +98,8 @@ class MyPostAdapter(var activity: MainActivity) : RecyclerView.Adapter<MyPostAda
                 item.originalPostId?.let {
                     binding.cardRepost.visibility = View.VISIBLE
                     Glide.with(context)
+                        .asBitmap()
+                        .apply(myOptions)
                         .load(item.originalPostAuthorAvatarUrl.toString())
                         .circleCrop()
                         .into(binding.iRepostAvatar)
