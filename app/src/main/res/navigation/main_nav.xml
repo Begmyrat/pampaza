@@ -15,13 +15,13 @@
         android:name="com.fabrika.pampaza.search.ui.FragmentSearch"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
-    <fragment
-        android:id="@+id/splashFragment2"
-        android:name="com.fabrika.pampaza.login.ui.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash">
-        <action
-            android:id="@+id/action_splashFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/splashFragment2"-->
+<!--        android:name="com.fabrika.pampaza.login.ui.SplashFragment"-->
+<!--        android:label="fragment_splash"-->
+<!--        tools:layout="@layout/fragment_splash">-->
+<!--        <action-->
+<!--            android:id="@+id/action_splashFragment_to_homeFragment2"-->
+<!--            app:destination="@id/homeFragment" />-->
+<!--    </fragment>-->
 </navigation>
