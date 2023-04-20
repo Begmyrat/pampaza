@@ -24,6 +24,7 @@ class NewPostViewModel(application: Application) : BaseViewModel(application) {
         originalPostBody: String?,
         originalPostImageUrl: String?,
         originalPostAuthorId: String?,
+        originalPostAuthorAvatarUrl: String?,
         originalPostDate: Long?,
         originalPostRepostCount: Long?,
         originalPostLikeCount: Long?
@@ -45,6 +46,7 @@ class NewPostViewModel(application: Application) : BaseViewModel(application) {
                         originalPostBody,
                         originalPostImageUrl,
                         originalPostAuthorId,
+                        originalPostAuthorAvatarUrl,
                         originalPostDate,
                         originalPostRepostCount,
                         originalPostLikeCount

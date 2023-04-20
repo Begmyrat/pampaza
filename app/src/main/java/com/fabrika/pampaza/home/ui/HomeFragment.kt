@@ -62,7 +62,6 @@ class HomeFragment : Fragment(), BaseFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        viewmodel.getAllPosts()
         getPostsWithPagination(OFFSET, LIMIT)
     }
 

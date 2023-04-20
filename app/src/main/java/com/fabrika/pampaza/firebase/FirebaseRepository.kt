@@ -24,6 +24,7 @@ interface FirebaseRepository {
         originalPostBody: String?,
         originalPostImageUrl: String?,
         originalPostAuthorId: String?,
+        originalPostAuthorAvatarUrl: String?,
         originalPostDate: Long?,
         originalPostRepostCount: Long?,
         originalPostLikeCount: Long?
@@ -34,4 +35,6 @@ interface FirebaseRepository {
     fun signUp(username: String, password: String): Flow<BaseResult.Success<UserEntity>>
 
     fun likePost(postId: String): Flow<BaseResult.Success<Boolean>>
+
+    fun search(text: String): Flow<BaseResult.Success<List<PostEntity?>>>
 }

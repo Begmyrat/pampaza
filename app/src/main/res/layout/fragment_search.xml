@@ -20,6 +20,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_close"
             android:layout_marginHorizontal="@dimen/edge_margin"
             android:layout_marginTop="@dimen/edge_margin"
             app:hintEnabled="false">
@@ -30,7 +32,10 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sfpro_regular"
                 android:textColor="@color/text_primary"
+                android:maxLines="1"
                 android:textSize="15sp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
                 android:hint="@string/search"/>
 
         </com.google.android.material.textfield.TextInputLayout>

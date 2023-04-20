@@ -17,7 +17,7 @@ import java.util.*
 
 class FirebaseRepositoryImpl : FirebaseRepository {
 
-    val db = Firebase.firestore
+    private val db = Firebase.firestore
     override fun getAllPosts(): Flow<BaseResult.Success<List<PostEntity?>>> = callbackFlow {
         val ref = db.collection("Posts")
             .document("Data")
@@ -143,6 +143,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         originalPostBody: String?,
         originalPostImageUrl: String?,
         originalPostAuthorId: String?,
+        originalPostAuthorAvatarUrl: String?,
         originalPostDate: Long?,
         originalPostRepostCount: Long?,
         originalPostLikeCount: Long?,
@@ -171,7 +172,8 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                     "originalPostRepostCount" to originalPostRepostCount,
                     "originalPostLikeCount" to originalPostLikeCount,
                     "originalPostAuthorName" to originalPostAuthorName,
-                    "originalPostAuthorId" to originalPostAuthorId
+                    "originalPostAuthorId" to originalPostAuthorId,
+                    "originalPostAuthorAvatarUrl" to originalPostAuthorAvatarUrl
                 )
             )
 
@@ -331,5 +333,32 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                     }
             }
             awaitClose { listener }
+    }
+
+    override fun search(text: String): Flow<BaseResult.Success<List<PostEntity?>>> = callbackFlow {
+        val ref = db.collection("Posts")
+            .document("Data")
+            .collection("List")
+            .orderBy("body")
+            .startAt(text)
+            .endAt(text + "\uf8ff")
+
+
+        val listener = ref.addSnapshotListener { value, _ ->
+            if (value?.documents?.isNotEmpty() == true) {
+                val list = value.documents.map { docSnapshot ->
+                    docSnapshot.toObject(PostEntity::class.java)
+                }
+
+                value.documents.mapIndexed { index, documentSnapshot ->
+                    list[index]?.id = documentSnapshot.id
+                }
+
+                BaseResult.Success(list).let {
+                    trySend(it).isSuccess
+                }
+            }
+        }
+        awaitClose { listener.remove() }
     }
 }

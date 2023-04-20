@@ -122,7 +122,7 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
             }
             R.id.b_send -> {
-                viewmodel.post(binding.eBody.text.toString(), image, originalPostId, originalAuthorName, originalPostBody, originalPostImageUrl, originalAuthorId, originalPostDate, originalPostRepostCount, originalPostLikeCount)
+                viewmodel.post(binding.eBody.text.toString(), image, originalPostId, originalAuthorName, originalPostBody, originalPostImageUrl, originalAuthorId, originalAuthorAvatarUrl, originalPostDate, originalPostRepostCount, originalPostLikeCount)
             }
             R.id.b_publicity -> {
                 PublicityBottomSheetFragment(
