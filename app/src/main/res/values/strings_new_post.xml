@@ -12,4 +12,5 @@
     <string name="send_comment">Jogapla</string>
     <string name="new_post_validation_error">Ýazgyňyz iň az 10 harpdan ybarat bolmaly.</string>
     <string name="new_post_failure">Bagyşlaň! Näsazlyk boldy, täzeden synanşyp görüň.</string>
+    <string name="create_new_post">Ýazalymy?</string>
 </resources>

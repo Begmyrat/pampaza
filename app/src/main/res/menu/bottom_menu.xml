@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_send"
         android:title="Home"/>
 
-    <item
-        android:id="@+id/search"
-        android:icon="@drawable/ic_search"
-        android:title="Search"/>
+<!--    <item-->
+<!--        android:id="@+id/search"-->
+<!--        android:icon="@drawable/ic_search"-->
+<!--        android:title="Search"/>-->
 
 </menu>

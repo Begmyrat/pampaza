@@ -93,9 +93,15 @@ class HomeFragment : Fragment(), BaseFragment {
     }
 
     override fun addListeners() {
+
+        binding.bCreateNewPost.setOnClickListener{
+            val intent = Intent(requireContext(), NewPostActivity::class.java)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
+        }
+
         binding.swipeRefresh.setOnRefreshListener {
             Log.d(TAG, "refresh")
-//            viewmodel.getAllPosts()
             viewmodel.getPostsWithPagination(OFFSET, LIMIT)
         }
 

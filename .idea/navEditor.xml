@@ -72,19 +72,19 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="fragmentSearch">
+                  <entry key="home">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="256" />
-                            <option name="y" value="12" />
+                            <option name="y" value="368" />
                           </Point>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="homeFragment">
+                  <entry key="search">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -96,18 +96,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="splashFragment2">
+                  <entry key="splashFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-260" />
-                            <option name="y" value="11" />
+                            <option name="x" value="12" />
+                            <option name="y" value="368" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_splashFragment_to_homeFragment2">
+                            <entry key="action_splashFragment_to_home">
                               <value>
                                 <LayoutPositions />
                               </value>

@@ -10,8 +10,7 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:drawableStart="@drawable/account">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -73,6 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu="@menu/bottom_menu"
+                android:visibility="gone"
                 app:itemIconSize="20dp"
                 app:labelVisibilityMode="unlabeled"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,18 +90,36 @@
             app:headerLayout="@layout/nav_header"
             app:menu="@menu/nav_menu">
 
-            <TextView
-                android:id="@+id/t_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start"
-                android:fontFamily="@font/sfpro_semibold"
-                android:textSize="16sp"
-                android:layout_marginHorizontal="40dp"
-                android:textAllCaps="false"
-                android:textColor="@color/text_primary"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:text="@string/login"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/t_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    app:layout_constraintBottom_toTopOf="@+id/t_login"
+                    app:layout_constraintStart_toStartOf="@+id/t_login"
+                    android:textAllCaps="false"
+                    android:text="@string/version"/>
+
+                <TextView
+                    android:id="@+id/t_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_gravity="bottom|start"
+                    android:fontFamily="@font/sfpro_semibold"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="40dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_primary"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:text="@string/login"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.navigation.NavigationView>
 

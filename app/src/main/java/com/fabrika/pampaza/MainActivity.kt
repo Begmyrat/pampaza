@@ -1,21 +1,19 @@
 package com.fabrika.pampaza
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.bumptech.glide.Glide
 import com.fabrika.pampaza.databinding.ActivityMainBinding
+import com.fabrika.pampaza.databinding.NavHeaderBinding
 import com.fabrika.pampaza.login.ui.LoginActivity
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
 import com.fabrika.pampaza.utils.SharedPref
@@ -25,6 +23,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var bindingNavView: NavHeaderBinding
 
     companion object{
         lateinit var viewmodel: MainViewModel
@@ -34,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         viewmodel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = ActivityMainBinding.inflate(layoutInflater)
+        bindingNavView = NavHeaderBinding.bind(binding.navView.getHeaderView(0))
         setContentView(binding.root)
         SharedPref.init(applicationContext)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewmodel.getUser(SharedPref.read(SharedPref.USERNAME, "") ?: "", SharedPref.read(SharedPref.PASSWORD, "") ?: "")
         addListeners()
         addObservers()
+
+        binding.tVersion.text = getString(R.string.version, "1.0.0")
     }
 
     override fun onResume() {
@@ -54,7 +56,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun addObservers() {
-
+        viewmodel.userEntity.observe(this){
+            Glide.with(this).load(it.imageUrl).into(bindingNavView.iAvatar)
+            bindingNavView.tFullname.text = it.username
+            bindingNavView.tUsername.text = "@${it.userId}"
+            bindingNavView.tFollowersCount.text = "${it.followersCount}"
+            bindingNavView.tFollowingCount.text = "${it.followingCount}"
+        }
     }
 
     private fun addListeners() {
