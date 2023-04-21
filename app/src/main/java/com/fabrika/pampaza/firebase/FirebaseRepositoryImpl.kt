@@ -4,6 +4,7 @@ import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.common.utils.BaseResult
 import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.login.model.UserEntity
+import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.utils.SharedPref
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FieldValue
@@ -54,6 +55,33 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             if (value?.documents?.isNotEmpty() == true) {
                 val list = value.documents.map { docSnapshot ->
                     docSnapshot.toObject(PostEntity::class.java)
+                }
+
+                value.documents.mapIndexed { index, documentSnapshot ->
+                    list[index]?.id = documentSnapshot.id
+                }
+
+                BaseResult.Success(list).let {
+                    trySend(it).isSuccess
+                }
+            }
+        }
+        awaitClose { listener.remove() }
+    }
+
+    override fun getOwnPostsWithPagination(offset: Long, limit: Long, userId: String): Flow<BaseResult.Success<List<ProfileObj.ProfilePostEntity?>>> = callbackFlow {
+        val ref = db.collection("Posts")
+            .document("Data")
+            .collection("List")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .whereEqualTo("authorId", userId)
+            .limit(limit)
+            .startAfter(offset)
+
+        val listener = ref.addSnapshotListener { value, _ ->
+            if (value?.documents?.isNotEmpty() == true) {
+                val list = value.documents.map { docSnapshot ->
+                    docSnapshot.toObject(ProfileObj.ProfilePostEntity::class.java)
                 }
 
                 value.documents.mapIndexed { index, documentSnapshot ->

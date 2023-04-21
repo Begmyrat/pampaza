@@ -4,12 +4,15 @@ import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.common.utils.BaseResult
 import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.login.model.UserEntity
+import com.fabrika.pampaza.profile.model.ProfileObj
 import kotlinx.coroutines.flow.Flow
 
 interface FirebaseRepository {
     fun getAllPosts(): Flow<BaseResult.Success<List<PostEntity?>>>
 
     fun getPostsWithPagination(offset: Long, limit: Long): Flow<BaseResult.Success<List<PostEntity?>>>
+
+    fun getOwnPostsWithPagination(offset: Long, limit: Long, userId: String): Flow<BaseResult.Success<List<ProfileObj.ProfilePostEntity?>>>
 
     fun getComments(postId: String): Flow<BaseResult.Success<List<PostEntity?>>>
 

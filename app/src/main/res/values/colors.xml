@@ -18,4 +18,5 @@
     <color name="orange">#F63402</color>
     <color name="input_background">#757575</color>
     <color name="background">#e5e5e5</color>
+    <color name="background_blue">#16202a</color>
 </resources>

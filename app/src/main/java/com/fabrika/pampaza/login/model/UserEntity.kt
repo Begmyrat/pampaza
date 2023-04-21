@@ -10,5 +10,6 @@ data class UserEntity(
     var likedPosts: MutableList<String>? = null,
     var savedPosts: MutableList<Long>? = null,
     var userId: String? = null,
-    var password: String? = null
+    var password: String? = null,
+    var status: String? = null,
 )
