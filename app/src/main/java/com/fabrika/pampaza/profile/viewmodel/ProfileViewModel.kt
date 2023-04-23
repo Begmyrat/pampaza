@@ -9,6 +9,7 @@ import com.fabrika.pampaza.common.utils.BaseViewModel
 import com.fabrika.pampaza.firebase.FirebaseRepositoryImpl
 import com.fabrika.pampaza.firebase.FirebaseRepository
 import com.fabrika.pampaza.home.model.PostEntity
+import com.fabrika.pampaza.login.model.UserEntity
 import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.utils.SharedPref
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +26,7 @@ class ProfileViewModel(application: Application) : BaseViewModel(application){
     var allPosts = MutableLiveData<List<ProfileObj.ProfilePostEntity>>()
     var isLikeError = MutableLiveData<Boolean>()
     var lastClickedItemIndex: Int? = null
+    var userEntity = MutableLiveData<UserEntity>()
 
     fun getOwnPostsWithPagination(offset: Long, limit: Long){
         launch {
@@ -33,6 +35,19 @@ class ProfileViewModel(application: Application) : BaseViewModel(application){
                     .collect{ result ->
                         result.data.let {
                             allPosts.postValue(it.filterNotNull())
+                        }
+                    }
+            }
+        }
+    }
+
+    fun getUser(userId: String, password: String){
+        launch {
+            withContext(Dispatchers.IO){
+                repository.getUser(userId, password)
+                    .collect{ result ->
+                        result.data.let {
+                            userEntity.postValue(it)
                         }
                     }
             }

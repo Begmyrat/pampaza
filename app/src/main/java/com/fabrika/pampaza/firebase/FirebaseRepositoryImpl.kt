@@ -1,5 +1,6 @@
 package com.fabrika.pampaza.firebase
 
+import androidx.core.net.toUri
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.common.utils.BaseResult
 import com.fabrika.pampaza.home.model.PostEntity
@@ -11,11 +12,13 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.io.File
 import java.util.*
-
+import kotlin.collections.HashMap
 class FirebaseRepositoryImpl : FirebaseRepository {
 
     private val db = Firebase.firestore
@@ -120,7 +123,6 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         }
         awaitClose { listener.remove() }
     }
-
     override fun postComment(postId: String, comment: String, currentCommentCount: Long): Flow<BaseResult.Success<Boolean>> = callbackFlow {
         val milliseconds = Calendar.getInstance().timeInMillis
         val ref = db.collection("Comments")
@@ -157,6 +159,63 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                 }
         }.addOnFailureListener {
             trySend(BaseResult.Success(false)).isSuccess
+        }
+
+        awaitClose { listener }
+    }
+
+    override fun putPersonalInformation(
+        username: String,
+        bio: String,
+        address: String,
+        birthday: Long?,
+        avatar: File?,
+        background: File?
+    ): Flow<BaseResult.Success<Boolean>> = callbackFlow {
+
+        val dataMap = HashMap<String, Any>()
+        dataMap["username"] = username
+        dataMap["biography"] = bio
+        dataMap["address"] = address
+        birthday?.let {
+            dataMap["birthday"] = it
+        }
+
+        var listener: Task<Void> ? = null
+
+        avatar?.let { file ->
+            val fileName = SharedPref.read(SharedPref.USER_ID, "") + "avatar"
+            val ref = Firebase.storage.getReference("profile/$fileName")
+            ref.putFile(file.toUri())
+            ref.downloadUrl.addOnSuccessListener {
+                dataMap["authorAvatarUrl"] = it
+                listener = db.collection("Users")
+                    .document(SharedPref.read(SharedPref.DOC_ID, "") ?: "")
+                    .update(dataMap)
+                    .addOnSuccessListener {
+                        trySend(BaseResult.Success(true)).isSuccess
+                    }
+                    .addOnFailureListener{
+                        trySend(BaseResult.Success(false)).isSuccess
+                    }
+            }
+        }
+        background?.let { file ->
+            val fileName = SharedPref.read(SharedPref.USER_ID, "") + "background"
+            val ref = Firebase.storage.getReference("profile/$fileName")
+            ref.putFile(file.toUri())
+            ref.downloadUrl.addOnSuccessListener {
+                dataMap["authorBackgroundUrl"] = it
+                listener = db.collection("Users")
+                    .document(SharedPref.read(SharedPref.DOC_ID, "") ?: "")
+                    .update(dataMap)
+                    .addOnSuccessListener {
+                        trySend(BaseResult.Success(true)).isSuccess
+                    }
+                    .addOnFailureListener{
+                        trySend(BaseResult.Success(false)).isSuccess
+                    }
+            }
         }
 
         awaitClose { listener }
@@ -252,6 +311,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                             SharedPref.write(SharedPref.PASSWORD, result.data.password)
                             SharedPref.write(SharedPref.AVATAR_URL, result.data.imageUrl)
                             SharedPref.write(SharedPref.IS_LOGGED_IN, true)
+                            SharedPref.write(SharedPref.DOC_ID, result.data.id)
 
                             trySend(result).isSuccess
                         }

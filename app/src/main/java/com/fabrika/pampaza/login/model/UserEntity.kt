@@ -12,4 +12,5 @@ data class UserEntity(
     var userId: String? = null,
     var password: String? = null,
     var status: String? = null,
+    var authorBackgroundUrl: String? = null
 )

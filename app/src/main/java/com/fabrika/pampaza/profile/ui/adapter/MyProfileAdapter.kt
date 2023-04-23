@@ -93,6 +93,10 @@ class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterVi
 
         private fun bindProfileInfoItem(item: ProfileObj) {
             if(binding is ItemProfileInfoBinding){
+
+                Glide.with(context).load("https://firebasestorage.googleapis.com/v0/b/pampaza-4100f.appspot.com/o/profile%2FkemalNurlybackground?alt=media&token=4cd5f2b3-4bfa-454d-a534-c66b7e79263b").into(binding.iBackground)
+                Glide.with(context).load("https://pbs.twimg.com/profile_images/1183809420070936579/NpgRmxOq_400x400.jpg").into(binding.iAvatar)
+
                 binding.bEditProfile.setOnClickListener {
                     onEditProfileCLicked?.invoke()
                 }

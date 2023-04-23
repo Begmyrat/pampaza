@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 
 object SharedPref {
     private var mSharedPref: SharedPreferences? = null
+    const val DOC_ID = "pampaza_docId"
     const val USERNAME = "pampaza_username"
     const val PASSWORD = "pampaza_password"
     const val USER_ID = "pampaza_userId"

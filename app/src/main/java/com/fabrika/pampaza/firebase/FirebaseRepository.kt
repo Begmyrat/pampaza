@@ -6,6 +6,7 @@ import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.login.model.UserEntity
 import com.fabrika.pampaza.profile.model.ProfileObj
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface FirebaseRepository {
     fun getAllPosts(): Flow<BaseResult.Success<List<PostEntity?>>>
@@ -17,6 +18,10 @@ interface FirebaseRepository {
     fun getComments(postId: String): Flow<BaseResult.Success<List<PostEntity?>>>
 
     fun postComment(postId: String, comment: String, currentCommentCoung: Long): Flow<BaseResult.Success<Boolean>>
+
+    fun putPersonalInformation(username: String, bio: String, address: String, birthday: Long?, avatar: File?, background: File?): Flow<BaseResult.Success<Boolean>>
+
+//    suspend fun getUrl(path: File, name: String): String
 
     fun post(
         body: String,

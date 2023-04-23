@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
@@ -22,6 +23,7 @@ import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
 import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.profile.ui.adapter.MyProfileAdapter
 import com.fabrika.pampaza.profile.viewmodel.ProfileViewModel
+import com.fabrika.pampaza.utils.SharedPref
 
 class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
 
@@ -38,10 +40,12 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
     private val adapterProfile: MyProfileAdapter by lazy {
         MyProfileAdapter()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentProfileBinding.inflate(layoutInflater)
         viewmodel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        viewmodel.getOwnPostsWithPagination(OFFSET, LIMIT)
         addListeners()
         addObservers()
     }
@@ -50,21 +54,21 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewmodel.getOwnPostsWithPagination(OFFSET, LIMIT)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        list.add(ProfileObj.ProfileUserEntity())
-        adapterProfile.differ.submitList(list)
         binding.recProfile.adapter = adapterProfile
     }
 
     override fun addObservers() {
-        viewmodel.allPosts.observe(this){
+        viewmodel.allPosts.observe(this) {
             val listClone = mutableListOf<ProfileObj>()
+            if (adapterProfile.differ.currentList.isEmpty()) {
+                listClone.add(ProfileObj.ProfileUserEntity())
+            }
             listClone.addAll(adapterProfile.differ.currentList)
             listClone.addAll(it)
             adapterProfile.differ.submitList(listClone)
@@ -114,10 +118,14 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
             requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
         }
 
-
+        binding.iBack.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
-
+        when (p0?.id) {
+            R.id.i_back -> {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 }
