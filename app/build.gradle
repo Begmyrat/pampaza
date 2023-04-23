@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.fabrika.pampaza'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.fabrika.pampaza"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -81,4 +81,7 @@ dependencies {
 
     // swipe refresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    // crop
+    implementation("com.vanniktech:android-image-cropper:4.5.0")
 }

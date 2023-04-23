@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="profile">Maglumatlar</string>
     <string name="edit_profile">Üýtget</string>
+    <string name="name">Ulanyjy ady</string>
+    <string name="name_cannot_be_blank">Ulanyjy ady boş bolmaly däl</string>
+    <string name="bio">Biografiýa</string>
+    <string name="address">Salgy</string>
+    <string name="birthday">Doglan gün</string>
+    <string name="birthday_hint">Doglan günüňizi giriň</string>
+    <string name="save">Tygşytlaň</string>
+    <string name="edit_photo">Suraty tygşytlaň</string>
+    <string name="send">Iber</string>
 </resources>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
@@ -22,7 +23,7 @@ import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.profile.ui.adapter.MyProfileAdapter
 import com.fabrika.pampaza.profile.viewmodel.ProfileViewModel
 
-class ProfileFragment : Fragment(), BaseFragment {
+class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
 
     companion object {
         const val TAG = "ProfileFragment"
@@ -75,6 +76,10 @@ class ProfileFragment : Fragment(), BaseFragment {
             it.date?.let { date -> viewmodel.getOwnPostsWithPagination(date, HomeFragment.LIMIT) }
         }
 
+        adapterProfile.onEditProfileCLicked = {
+            findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+        }
+
         adapterProfile.onPostItemClicked = { item, index ->
             viewmodel.lastClickedItemIndex = index
             val intent = Intent(requireContext(), PostDetailActivity::class.java)
@@ -108,5 +113,11 @@ class ProfileFragment : Fragment(), BaseFragment {
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
         }
+
+
+    }
+
+    override fun onClick(p0: View?) {
+
     }
 }

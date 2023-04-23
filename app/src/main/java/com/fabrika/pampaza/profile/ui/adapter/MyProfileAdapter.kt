@@ -26,6 +26,7 @@ class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterVi
     var onPostItemClicked: ((entity: ProfileObj.ProfilePostEntity, index: Int) -> Unit)? = null
     var onOriginalPostItemClicked: ((entity: ProfileObj.ProfilePostEntity) -> Unit)? = null
     var onLastItemShown: ((entity: ProfileObj.ProfilePostEntity) -> Unit)? = null
+    var onEditProfileCLicked: (() -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -67,14 +68,13 @@ class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterVi
         }
 
         override fun areContentsTheSame(oldItem: ProfileObj, newItem: ProfileObj): Boolean {
-            return false
-//            return if(oldItem is ProfileObj.ProfileUserEntity && newItem is ProfileObj.ProfileUserEntity){
-//                oldItem.id == newItem.id
-//            } else if (oldItem is ProfileObj.ProfilePostEntity && newItem is ProfileObj.ProfilePostEntity) {
-//                oldItem.id == newItem.id
-//            } else {
-//                return false
-//            }
+            return if(oldItem is ProfileObj.ProfileUserEntity && newItem is ProfileObj.ProfileUserEntity){
+                oldItem.id == newItem.id
+            } else if (oldItem is ProfileObj.ProfilePostEntity && newItem is ProfileObj.ProfilePostEntity) {
+                oldItem.id == newItem.id
+            } else {
+                return false
+            }
         }
     }
 
@@ -93,7 +93,9 @@ class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterVi
 
         private fun bindProfileInfoItem(item: ProfileObj) {
             if(binding is ItemProfileInfoBinding){
-
+                binding.bEditProfile.setOnClickListener {
+                    onEditProfileCLicked?.invoke()
+                }
             }
         }
 
