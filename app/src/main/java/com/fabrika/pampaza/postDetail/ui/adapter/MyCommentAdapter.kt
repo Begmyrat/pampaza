@@ -5,16 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
-import com.fabrika.pampaza.common.utils.extensions.toDateString
+import com.fabrika.pampaza.utils.extension.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.postDetail.ui.PostDetailActivity

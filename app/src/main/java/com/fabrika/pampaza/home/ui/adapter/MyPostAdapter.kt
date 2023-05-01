@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
-import com.fabrika.pampaza.common.utils.extensions.toDateString
+import com.fabrika.pampaza.utils.extension.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.home.model.PostEntity
 
@@ -61,11 +61,11 @@ class MyPostAdapter(var activity: MainActivity) :
 
     private val differCallback = object : DiffUtil.ItemCallback<PostEntity>() {
         override fun areItemsTheSame(oldItem: PostEntity, newItem: PostEntity): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: PostEntity, newItem: PostEntity): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.likeCount == newItem.likeCount
         }
     }
 

@@ -14,7 +14,6 @@ sealed class ProfileObj {
         var userId: String? = null,
         var password: String? = null,
         var status: String? = null,
-        var biography: String? = null,
         var address: String? = null,
         var birthday: Long? = null
     ): ProfileObj()

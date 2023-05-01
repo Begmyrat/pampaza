@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
+
 class FirebaseRepositoryImpl : FirebaseRepository {
 
     private val db = Firebase.firestore
@@ -46,7 +47,10 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         awaitClose { listener.remove() }
     }
 
-    override fun getPostsWithPagination(offset: Long, limit: Long): Flow<BaseResult.Success<List<PostEntity?>>> = callbackFlow {
+    override fun getPostsWithPagination(
+        offset: Long,
+        limit: Long
+    ): Flow<BaseResult.Success<List<PostEntity?>>> = callbackFlow {
         val ref = db.collection("Posts")
             .document("Data")
             .collection("List")
@@ -72,7 +76,11 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         awaitClose { listener.remove() }
     }
 
-    override fun getOwnPostsWithPagination(offset: Long, limit: Long, userId: String): Flow<BaseResult.Success<List<ProfileObj.ProfilePostEntity?>>> = callbackFlow {
+    override fun getOwnPostsWithPagination(
+        offset: Long,
+        limit: Long,
+        userId: String
+    ): Flow<BaseResult.Success<List<ProfileObj.ProfilePostEntity?>>> = callbackFlow {
         val ref = db.collection("Posts")
             .document("Data")
             .collection("List")
@@ -99,31 +107,37 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         awaitClose { listener.remove() }
     }
 
-    override fun getComments(postId: String): Flow<BaseResult.Success<List<PostEntity?>>>  = callbackFlow {
-        val ref = db.collection("Comments")
-            .document("Data")
-            .collection("List")
-            .whereEqualTo("postId", postId)
-            .orderBy("date", Query.Direction.DESCENDING)
+    override fun getComments(postId: String): Flow<BaseResult.Success<List<PostEntity?>>> =
+        callbackFlow {
+            val ref = db.collection("Comments")
+                .document("Data")
+                .collection("List")
+                .whereEqualTo("postId", postId)
+                .orderBy("date", Query.Direction.DESCENDING)
 
-        val listener = ref.addSnapshotListener { value, error ->
-            if (value?.documents?.isNotEmpty() == true) {
-                val list = value.documents.map { docSnapshot ->
-                    docSnapshot.toObject(PostEntity::class.java)
-                }
+            val listener = ref.addSnapshotListener { value, error ->
+                if (value?.documents?.isNotEmpty() == true) {
+                    val list = value.documents.map { docSnapshot ->
+                        docSnapshot.toObject(PostEntity::class.java)
+                    }
 
-                value.documents.mapIndexed { index, documentSnapshot ->
-                    list[index]?.id = documentSnapshot.id
-                }
+                    value.documents.mapIndexed { index, documentSnapshot ->
+                        list[index]?.id = documentSnapshot.id
+                    }
 
-                BaseResult.Success(list).let {
-                    trySend(it).isSuccess
+                    BaseResult.Success(list).let {
+                        trySend(it).isSuccess
+                    }
                 }
             }
+            awaitClose { listener.remove() }
         }
-        awaitClose { listener.remove() }
-    }
-    override fun postComment(postId: String, comment: String, currentCommentCount: Long): Flow<BaseResult.Success<Boolean>> = callbackFlow {
+
+    override fun postComment(
+        postId: String,
+        comment: String,
+        currentCommentCount: Long
+    ): Flow<BaseResult.Success<Boolean>> = callbackFlow {
         val milliseconds = Calendar.getInstance().timeInMillis
         val ref = db.collection("Comments")
             .document("Data")
@@ -177,7 +191,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
 
         val dataMap = HashMap<String, Any>()
         dataMap["username"] = username
-        dataMap["biography"] = bio
+        dataMap["status"] = bio
         dataMap["address"] = address
         dataMap["authorAvatarUrl"] = avatarUrl
         dataMap["authorBackgroundUrl"] = backgroundUrl
@@ -185,7 +199,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             dataMap["birthday"] = it
         }
 
-        var listener: Task<Void> ? = null
+        var listener: Task<Void>? = null
 
         avatar?.let { file ->
             val fileName = SharedPref.read(SharedPref.USER_ID, "") + "avatar"
@@ -199,7 +213,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                     .addOnSuccessListener {
                         trySend(BaseResult.Success(true)).isSuccess
                     }
-                    .addOnFailureListener{
+                    .addOnFailureListener {
                         trySend(BaseResult.Success(false)).isSuccess
                     }
             }
@@ -216,10 +230,22 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                     .addOnSuccessListener {
                         trySend(BaseResult.Success(true)).isSuccess
                     }
-                    .addOnFailureListener{
+                    .addOnFailureListener {
                         trySend(BaseResult.Success(false)).isSuccess
                     }
             }
+        }
+
+        if (background == null && avatar == null) {
+            listener = db.collection("Users")
+                .document(SharedPref.read(SharedPref.DOC_ID, "") ?: "")
+                .update(dataMap)
+                .addOnSuccessListener {
+                    trySend(BaseResult.Success(true)).isSuccess
+                }
+                .addOnFailureListener {
+                    trySend(BaseResult.Success(false)).isSuccess
+                }
         }
 
         awaitClose { listener }
@@ -269,7 +295,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             )
 
         val listener = ref.addOnSuccessListener {
-            if(originalPostId != null) {
+            if (originalPostId != null) {
                 db.collection("Posts")
                     .document("Data")
                     .collection("List")
@@ -291,6 +317,26 @@ class FirebaseRepositoryImpl : FirebaseRepository {
 
         awaitClose { listener }
     }
+
+    override fun deletePost(entity: ProfileObj.ProfilePostEntity): Flow<BaseResult.Success<Boolean>> =
+        callbackFlow {
+            entity.id?.let {
+                val ref = db.collection("Posts")
+                    .document("Data")
+                    .collection("List")
+                    .document(it)
+                    .delete()
+
+                val listener = ref.addOnSuccessListener {
+                    trySend(BaseResult.Success(true)).isSuccess
+                }.addOnFailureListener {
+                    trySend(BaseResult.Success(false)).isSuccess
+                }
+
+                awaitClose { listener }
+            }
+        }
+
 
     override fun getUser(username: String, password: String): Flow<BaseResult.Success<UserEntity>> =
         callbackFlow {
@@ -378,7 +424,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
 
     override fun likePost(
         postId: String
-    ): Flow<BaseResult.Success<Boolean>>  =
+    ): Flow<BaseResult.Success<Boolean>> =
         callbackFlow {
             var listener: Task<Void>? = null
 
@@ -389,7 +435,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                         .document("${user.id}")
                 }
 
-                if (user.likedPosts == null){
+                if (user.likedPosts == null) {
                     user.likedPosts = mutableListOf()
                 }
 
@@ -398,7 +444,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                 user.likedPosts.let {
                     if (it?.contains(postId) == true) {
                         it.remove(postId)
-                        likeCount --
+                        likeCount--
                     } else {
                         it?.add(postId)
                         likeCount++
@@ -425,7 +471,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                     }
             }
             awaitClose { listener }
-    }
+        }
 
     override fun search(text: String): Flow<BaseResult.Success<List<PostEntity?>>> = callbackFlow {
         val ref = db.collection("Posts")

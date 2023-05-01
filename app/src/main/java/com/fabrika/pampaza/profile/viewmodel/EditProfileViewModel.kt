@@ -15,6 +15,7 @@ import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.utils.SharedPref
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -46,6 +47,9 @@ class EditProfileViewModel(application: Application) : BaseViewModel(application
         launch {
             withContext(Dispatchers.IO){
                 repository.putPersonalInformation(username, bio, address, birthday, avatarImage.value, backgroundImage.value, avatarImageUrl, backgroundImageUrl)
+                    .catch {
+                        Log.d("UpdateProfileError: ", it.message.toString())
+                    }
                     .collect{ result ->
                         result.data.let {
                             isError.postValue(!it)

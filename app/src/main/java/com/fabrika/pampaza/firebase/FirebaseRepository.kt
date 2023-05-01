@@ -20,8 +20,6 @@ interface FirebaseRepository {
 
     fun putPersonalInformation(username: String, bio: String, address: String, birthday: Long?, avatar: File?, background: File?, avatarUrl: String, backgroundUrl: String): Flow<BaseResult.Success<Boolean>>
 
-//    suspend fun getUrl(path: File, name: String): String
-
     fun post(
         body: String,
         publicity: String,
@@ -36,6 +34,8 @@ interface FirebaseRepository {
         originalPostRepostCount: Long?,
         originalPostLikeCount: Long?
     ): Flow<BaseResult.Success<Boolean>>
+
+    fun deletePost(entity: ProfileObj.ProfilePostEntity): Flow<BaseResult.Success<Boolean>>
 
     fun getUser(username: String, password: String): Flow<BaseResult.Success<UserEntity>>
 

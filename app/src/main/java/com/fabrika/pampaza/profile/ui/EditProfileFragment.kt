@@ -1,6 +1,7 @@
 package com.fabrika.pampaza.profile.ui
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -21,12 +20,12 @@ import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.convertLongToDateString
 import com.fabrika.pampaza.common.ui.loadImageUrl
 import com.fabrika.pampaza.databinding.FragmentEditProfileBinding
-import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
 import com.fabrika.pampaza.profile.viewmodel.EditProfileViewModel
-import com.fabrika.pampaza.profile.viewmodel.ProfileViewModel
+import com.fabrika.pampaza.utils.extension.toDateString
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.util.*
 
 class EditProfileFragment : Fragment(), View.OnClickListener {
 
@@ -125,6 +124,9 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
 
         viewmodel.isError.observe(this){
             (requireActivity() as? ProfileActivity)?.showSnackbar(binding.bSave, if(it) "Failure" else "Success", !it)
+            if(!it){
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -133,6 +135,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         binding.iCamera.setOnClickListener(this)
         binding.iCameraAvatar.setOnClickListener(this)
         binding.iBack.setOnClickListener(this)
+        binding.eBirthday.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -155,9 +158,29 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                 findNavController().popBackStack()
             }
             R.id.e_birthday -> {
-
+                birthdayDatePicker.show()
             }
         }
+    }
+
+    private val birthdayCalendar by lazy {
+        Calendar.getInstance()
+    }
+
+    private val birthdayDatePicker by lazy {
+        DatePickerDialog(
+            requireContext(),
+            { _, year, monthOfYear, dayOfMonth ->
+                birthdayCalendar.set(Calendar.YEAR, year)
+                birthdayCalendar.set(Calendar.MONTH, monthOfYear)
+                birthdayCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                viewmodel.birthday = birthdayCalendar.time.time
+                binding.eBirthday.setText(birthdayCalendar.time.time.toDateString())
+            },
+            birthdayCalendar.get(Calendar.YEAR),
+            birthdayCalendar.get(Calendar.MONTH),
+            birthdayCalendar.get(Calendar.DAY_OF_MONTH)
+        )
     }
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->

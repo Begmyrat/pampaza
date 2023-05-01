@@ -6,6 +6,7 @@ import com.fabrika.pampaza.common.utils.BaseViewModel
 import com.fabrika.pampaza.firebase.FirebaseRepositoryImpl
 import com.fabrika.pampaza.firebase.FirebaseRepository
 import com.fabrika.pampaza.common.model.UserEntity
+import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.utils.SharedPref
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +22,10 @@ class ProfileViewModel(application: Application) : BaseViewModel(application){
     var data = MutableLiveData<String>()
     var allPosts = MutableLiveData<List<ProfileObj.ProfilePostEntity>>()
     var isLikeError = MutableLiveData<Boolean>()
+    var isDeleteSuccess = MutableLiveData<Boolean>()
     var lastClickedItemIndex: Int? = null
     var userEntity = MutableLiveData<UserEntity>()
+    lateinit var lastDeletedItem: ProfileObj.ProfilePostEntity
 
     fun getOwnPostsWithPagination(offset: Long, limit: Long){
         launch {
@@ -44,6 +47,20 @@ class ProfileViewModel(application: Application) : BaseViewModel(application){
                     .collect{ result ->
                         result.data.let {
                             userEntity.postValue(it)
+                        }
+                    }
+            }
+        }
+    }
+
+    fun deletePost(entity: ProfileObj.ProfilePostEntity){
+        lastDeletedItem = entity
+        launch {
+            withContext(Dispatchers.IO){
+                repository.deletePost(entity)
+                    .collect{ result ->
+                        result.data.let {
+                            isDeleteSuccess.postValue(it)
                         }
                     }
             }

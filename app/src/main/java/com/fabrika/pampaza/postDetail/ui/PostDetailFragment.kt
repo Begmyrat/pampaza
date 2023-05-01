@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
-import com.fabrika.pampaza.common.utils.extensions.toDateString
+import com.fabrika.pampaza.utils.extension.toDateString
 import com.fabrika.pampaza.databinding.FragmentPostDetailBinding
 import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.newpost.ui.NewPostActivity

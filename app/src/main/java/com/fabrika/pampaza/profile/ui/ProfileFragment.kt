@@ -2,6 +2,7 @@ package com.fabrika.pampaza.profile.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +63,19 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
     }
 
     override fun addObservers() {
+
+        viewmodel.isDeleteSuccess.observe(this){
+            if(it){
+                Log.d("DeleteSuccess", it.toString())
+                val listClone = mutableListOf<ProfileObj>()
+                listClone.addAll(adapterProfile.differ.currentList)
+                listClone.remove(viewmodel.lastDeletedItem)
+                adapterProfile.differ.submitList(listClone)
+            } else{
+                Log.d("DeleteFailure", it.toString())
+            }
+        }
+
         viewmodel.allPosts.observe(this) {
             val listClone = mutableListOf<ProfileObj>()
             if (adapterProfile.differ.currentList.isEmpty()) {
@@ -90,7 +104,6 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
                         userId = it.userId,
                         password = it.password,
                         status = it.status,
-                        biography = it.biography,
                         address = it.address,
                         birthday = it.birthday
                     )
@@ -109,7 +122,6 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
                     userId = it.userId,
                     password = it.password,
                     status = it.status,
-                    biography = it.biography,
                     address = it.address,
                     birthday = it.birthday
                 )
@@ -120,6 +132,11 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
     }
 
     override fun addListeners() {
+
+        adapterProfile.onRemoveItemClicked = {
+            viewmodel.deletePost(it)
+        }
+
         adapterProfile.onLastItemShown = {
             it.date?.let { date -> viewmodel.getOwnPostsWithPagination(date, HomeFragment.LIMIT) }
         }
@@ -131,7 +148,7 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
                     EditProfileFragment.AVATAR_URL to  viewmodel.userEntity.value?.authorAvatarUrl,
                     EditProfileFragment.BACKGROUND_URL to viewmodel.userEntity.value?.authorBackgroundUrl,
                     EditProfileFragment.USERNAME to viewmodel.userEntity.value?.username,
-                    EditProfileFragment.BIOGRAPHY to viewmodel.userEntity.value?.biography,
+                    EditProfileFragment.BIOGRAPHY to viewmodel.userEntity.value?.status,
                     EditProfileFragment.ADDRESS to viewmodel.userEntity.value?.address,
                     EditProfileFragment.BIRTHDAY to viewmodel.userEntity.value?.birthday
                 )

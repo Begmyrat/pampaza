@@ -4,24 +4,19 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
-import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.convertLongToDateString
 import com.fabrika.pampaza.common.ui.loadImageUrl
-import com.fabrika.pampaza.common.utils.extensions.toDateString
+import com.fabrika.pampaza.utils.extension.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.databinding.ItemProfileInfoBinding
-import com.fabrika.pampaza.home.model.PostEntity
-import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
 import com.fabrika.pampaza.profile.model.ProfileObj
 
 class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterViewHolder>() {
@@ -29,6 +24,7 @@ class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterVi
     var onPostItemClicked: ((entity: ProfileObj.ProfilePostEntity, index: Int) -> Unit)? = null
     var onOriginalPostItemClicked: ((entity: ProfileObj.ProfilePostEntity) -> Unit)? = null
     var onLastItemShown: ((entity: ProfileObj.ProfilePostEntity) -> Unit)? = null
+    var onRemoveItemClicked: ((entity: ProfileObj.ProfilePostEntity) -> Unit)? = null
     var onEditProfileCLicked: (() -> Unit)? = null
 
     override fun onCreateViewHolder(
@@ -100,6 +96,9 @@ class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterVi
                 binding.iAvatar.loadImageUrl(item.authorAvatarUrl)
                 binding.tUsername.text = item.username
                 binding.tUserId.text = "@${item.userId}"
+                binding.tBirthday.text = item.birthday.toDateString()
+                binding.tBirthday.visibility = if(item.birthday == null) View.GONE else View.VISIBLE
+                binding.iBirthday.visibility = if(item.birthday == null) View.GONE else View.VISIBLE
                 binding.tStatus.text = item.status
                 binding.tStatus.visibility = if(item.status.isNullOrEmpty()) View.GONE else View.VISIBLE
                 binding.tCalendar.convertLongToDateString(item.createdAt)
@@ -114,6 +113,12 @@ class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterVi
 
         private fun bindProfilePostItem(item: ProfileObj.ProfilePostEntity) {
             if (binding is ItemPostBinding) {
+                binding.iShare.setImageResource(R.drawable.ic_close)
+
+                binding.lShare.setOnClickListener{
+                    onRemoveItemClicked?.invoke(item)
+                }
+
                 Glide
                     .with(context)
                     .load(item.authorAvatarUrl)
