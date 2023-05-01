@@ -2,23 +2,18 @@ package com.fabrika.pampaza.profile.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.Profile
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
-import com.fabrika.pampaza.databinding.FragmentHomeBinding
 import com.fabrika.pampaza.databinding.FragmentProfileBinding
-import com.fabrika.pampaza.home.model.PostEntity
 import com.fabrika.pampaza.home.ui.HomeFragment
-import com.fabrika.pampaza.home.ui.adapter.MyPostAdapter
-import com.fabrika.pampaza.home.viewmodel.HomeViewModel
 import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
 import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.profile.ui.adapter.MyProfileAdapter
@@ -33,7 +28,6 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
         const val OFFSET = Long.MAX_VALUE
     }
 
-
     lateinit var binding: FragmentProfileBinding
     lateinit var viewmodel: ProfileViewModel
     var list = mutableListOf<ProfileObj>()
@@ -46,6 +40,10 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         viewmodel = ViewModelProvider(this)[ProfileViewModel::class.java]
         viewmodel.getOwnPostsWithPagination(OFFSET, LIMIT)
+        viewmodel.getUser(
+            SharedPref.read(SharedPref.USER_ID, "") ?: "",
+            SharedPref.read(SharedPref.PASSWORD, "") ?: ""
+        )
         addListeners()
         addObservers()
     }
@@ -73,6 +71,52 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
             listClone.addAll(it)
             adapterProfile.differ.submitList(listClone)
         }
+
+        viewmodel.userEntity.observe(this) {
+            val listClone = mutableListOf<ProfileObj>()
+            listClone.addAll(adapterProfile.differ.currentList)
+            if (listClone.isEmpty()) {
+                listClone.add(
+                    ProfileObj.ProfileUserEntity(
+                        id = it.id,
+                        createdAt = it.createdAt,
+                        followersCount = it.followersCount,
+                        followingCount = it.followingCount,
+                        username = it.username,
+                        authorAvatarUrl = it.authorAvatarUrl,
+                        authorBackgroundUrl = it.authorBackgroundUrl,
+                        likedPosts = it.likedPosts,
+                        savedPosts = it.savedPosts,
+                        userId = it.userId,
+                        password = it.password,
+                        status = it.status,
+                        biography = it.biography,
+                        address = it.address,
+                        birthday = it.birthday
+                    )
+                )
+            } else {
+                listClone[0] = ProfileObj.ProfileUserEntity(
+                    id = it.id,
+                    createdAt = it.createdAt,
+                    followersCount = it.followersCount,
+                    followingCount = it.followingCount,
+                    username = it.username,
+                    authorAvatarUrl = it.authorAvatarUrl,
+                    authorBackgroundUrl = it.authorBackgroundUrl,
+                    likedPosts = it.likedPosts,
+                    savedPosts = it.savedPosts,
+                    userId = it.userId,
+                    password = it.password,
+                    status = it.status,
+                    biography = it.biography,
+                    address = it.address,
+                    birthday = it.birthday
+                )
+            }
+
+            adapterProfile.differ.submitList(listClone)
+        }
     }
 
     override fun addListeners() {
@@ -81,7 +125,17 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
         }
 
         adapterProfile.onEditProfileCLicked = {
-            findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+            findNavController().navigate(
+                R.id.action_profileFragment_to_editProfileFragment,
+                bundleOf(
+                    EditProfileFragment.AVATAR_URL to  viewmodel.userEntity.value?.authorAvatarUrl,
+                    EditProfileFragment.BACKGROUND_URL to viewmodel.userEntity.value?.authorBackgroundUrl,
+                    EditProfileFragment.USERNAME to viewmodel.userEntity.value?.username,
+                    EditProfileFragment.BIOGRAPHY to viewmodel.userEntity.value?.biography,
+                    EditProfileFragment.ADDRESS to viewmodel.userEntity.value?.address,
+                    EditProfileFragment.BIRTHDAY to viewmodel.userEntity.value?.birthday
+                )
+            )
         }
 
         adapterProfile.onPostItemClicked = { item, index ->

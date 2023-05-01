@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.fabrika.pampaza.common.ui.loadImageUrl
 import com.fabrika.pampaza.databinding.ActivityMainBinding
 import com.fabrika.pampaza.databinding.NavHeaderBinding
 import com.fabrika.pampaza.login.ui.LoginActivity
@@ -40,11 +42,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavBar, navController)
-        viewmodel.getUser(SharedPref.read(SharedPref.USERNAME, "") ?: "", SharedPref.read(SharedPref.PASSWORD, "") ?: "")
         addListeners()
         addObservers()
 
         binding.tVersion.text = getString(R.string.version, "1.0.0")
+
+        viewmodel.getUser(SharedPref.read(SharedPref.USER_ID, "") ?: "", SharedPref.read(SharedPref.PASSWORD, "") ?: "")
     }
 
     override fun onResume() {
@@ -58,7 +61,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun addObservers() {
         viewmodel.userEntity.observe(this){
-            Glide.with(this).load(it.imageUrl).into(bindingNavView.iAvatar)
+            bindingNavView.iAvatar.loadImageUrl(it.authorAvatarUrl)
             bindingNavView.tFullname.text = it.username
             bindingNavView.tUsername.text = "@${it.userId}"
             bindingNavView.tFollowersCount.text = "${it.followersCount}"

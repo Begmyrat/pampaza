@@ -13,7 +13,7 @@ import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
 import com.fabrika.pampaza.databinding.FragmentSignUpBinding
-import com.fabrika.pampaza.login.model.LoginStatusType
+import com.fabrika.pampaza.common.model.LoginStatusType
 import com.fabrika.pampaza.login.viewmodel.LoginViewModel
 
 class SignUpFragment : Fragment(), BaseFragment, View.OnClickListener {

@@ -11,9 +11,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
+import com.fabrika.pampaza.common.ui.convertLongToDateString
+import com.fabrika.pampaza.common.ui.loadImageUrl
 import com.fabrika.pampaza.common.utils.extensions.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.databinding.ItemProfileInfoBinding
@@ -91,11 +94,17 @@ class MyProfileAdapter() : RecyclerView.Adapter<MyProfileAdapter.MyPostAdapterVi
     inner class MyPostAdapterViewHolder(private val context: Context, private val binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private fun bindProfileInfoItem(item: ProfileObj) {
+        private fun bindProfileInfoItem(item: ProfileObj.ProfileUserEntity) {
             if(binding is ItemProfileInfoBinding){
-
-                Glide.with(context).load("https://firebasestorage.googleapis.com/v0/b/pampaza-4100f.appspot.com/o/profile%2FkemalNurlybackground?alt=media&token=4cd5f2b3-4bfa-454d-a534-c66b7e79263b").into(binding.iBackground)
-                Glide.with(context).load("https://pbs.twimg.com/profile_images/1183809420070936579/NpgRmxOq_400x400.jpg").into(binding.iAvatar)
+                binding.iBackground.loadImageUrl(item.authorBackgroundUrl)
+                binding.iAvatar.loadImageUrl(item.authorAvatarUrl)
+                binding.tUsername.text = item.username
+                binding.tUserId.text = "@${item.userId}"
+                binding.tStatus.text = item.status
+                binding.tStatus.visibility = if(item.status.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.tCalendar.convertLongToDateString(item.createdAt)
+                binding.tFollowingCount.text = "${item.followingCount}"
+                binding.tFollowersCount.text = "${item.followersCount}"
 
                 binding.bEditProfile.setOnClickListener {
                     onEditProfileCLicked?.invoke()

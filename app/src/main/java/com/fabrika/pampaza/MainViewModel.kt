@@ -2,13 +2,10 @@ package com.fabrika.pampaza
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.fabrika.pampaza.common.utils.BaseViewModel
 import com.fabrika.pampaza.firebase.FirebaseRepository
 import com.fabrika.pampaza.firebase.FirebaseRepositoryImpl
-import com.fabrika.pampaza.home.model.PostEntity
-import com.fabrika.pampaza.login.model.LoginStatusType
-import com.fabrika.pampaza.login.model.UserEntity
+import com.fabrika.pampaza.common.model.UserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

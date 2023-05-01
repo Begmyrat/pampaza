@@ -7,12 +7,16 @@ sealed class ProfileObj {
         var followersCount: Long? = null,
         var followingCount: Long? = null,
         var username: String? = null,
-        var imageUrl: String? = null,
+        var authorAvatarUrl: String? = null,
+        var authorBackgroundUrl: String? = null,
         var likedPosts: MutableList<String>? = null,
         var savedPosts: MutableList<Long>? = null,
         var userId: String? = null,
         var password: String? = null,
-        var status: String? = null
+        var status: String? = null,
+        var biography: String? = null,
+        var address: String? = null,
+        var birthday: Long? = null
     ): ProfileObj()
 
     data class ProfilePostEntity(

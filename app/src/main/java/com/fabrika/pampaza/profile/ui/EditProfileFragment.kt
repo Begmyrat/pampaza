@@ -18,7 +18,10 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.fabrika.pampaza.R
+import com.fabrika.pampaza.common.ui.convertLongToDateString
+import com.fabrika.pampaza.common.ui.loadImageUrl
 import com.fabrika.pampaza.databinding.FragmentEditProfileBinding
+import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
 import com.fabrika.pampaza.profile.viewmodel.EditProfileViewModel
 import com.fabrika.pampaza.profile.viewmodel.ProfileViewModel
 import java.io.File
@@ -27,6 +30,33 @@ import java.io.InputStream
 
 class EditProfileFragment : Fragment(), View.OnClickListener {
 
+    companion object{
+        const val AVATAR_URL = "avatarUrl"
+        const val BACKGROUND_URL = "backgroundUrl"
+        const val USERNAME = "username"
+        const val BIOGRAPHY = "bio"
+        const val ADDRESS = "address"
+        const val BIRTHDAY = "birthday"
+    }
+
+    private val avatarUrl: String? by lazy {
+        arguments?.getString(AVATAR_URL)
+    }
+    private val backgroundUrl: String? by lazy {
+        arguments?.getString(BACKGROUND_URL)
+    }
+    private val username: String? by lazy {
+        arguments?.getString(USERNAME)
+    }
+    private val bio: String? by lazy {
+        arguments?.getString(BIOGRAPHY)
+    }
+    private val address: String? by lazy {
+        arguments?.getString(ADDRESS)
+    }
+    private val birthday: Long? by lazy {
+        arguments?.getLong(BIRTHDAY)
+    }
     lateinit var binding: FragmentEditProfileBinding
     lateinit var viewmodel: EditProfileViewModel
     var isAvatarClicked = false
@@ -59,6 +89,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = FragmentEditProfileBinding.inflate(layoutInflater)
         viewmodel = ViewModelProvider(this)[EditProfileViewModel::class.java]
+
         addListeners()
         addObservers()
     }
@@ -67,6 +98,18 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        avatarUrl?.let {
+            viewmodel.avatarImageUrl = it
+        }
+        backgroundUrl?.let {
+            viewmodel.backgroundImageUrl = it
+        }
+        binding.iBackground.loadImageUrl(backgroundUrl)
+        binding.iAvatar.loadImageUrl(avatarUrl)
+        binding.eUsername.setText(username)
+        binding.eBio.setText(bio)
+        binding.eLocation.setText(address)
+        binding.eBirthday.convertLongToDateString(birthday)
 
         return binding.root
     }
@@ -173,12 +216,12 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                     fixAspectRatio = true,
                     toolbarColor = ContextCompat.getColor(requireContext(), R.color.blue),
                     activityTitle = getString(R.string.edit_photo),
-                    activityBackgroundColor = ContextCompat.getColor(requireContext(), R.color.green_success),
-                    activityMenuIconColor = ContextCompat.getColor(requireContext(), R.color.red_violet),
-                    activityMenuTextColor = ContextCompat.getColor(requireContext(), R.color.green_success),
+                    activityBackgroundColor = ContextCompat.getColor(requireContext(), R.color.background),
+                    activityMenuIconColor = ContextCompat.getColor(requireContext(), R.color.background),
+                    activityMenuTextColor = ContextCompat.getColor(requireContext(), R.color.background),
                     cropperLabelText = getString(R.string.send),
-                    cropperLabelTextColor = ContextCompat.getColor(requireContext(), R.color.text_primary),
-                    toolbarBackButtonColor = ContextCompat.getColor(requireContext(), R.color.red_violet),
+                    cropperLabelTextColor = ContextCompat.getColor(requireContext(), R.color.background),
+                    toolbarBackButtonColor = ContextCompat.getColor(requireContext(), R.color.background),
                 ),
             ),
         )

@@ -1,21 +1,13 @@
 package com.fabrika.pampaza.login.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.fabrika.pampaza.MainActivity
-import com.fabrika.pampaza.MainViewModel
-import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
-import com.fabrika.pampaza.databinding.FragmentSignUpBinding
 import com.fabrika.pampaza.databinding.FragmentSplashBinding
-import com.fabrika.pampaza.login.model.LoginStatusType
-import com.fabrika.pampaza.login.viewmodel.LoginViewModel
 
 class SplashFragment : Fragment(), BaseFragment, View.OnClickListener {
 

@@ -1,15 +1,11 @@
 package com.fabrika.pampaza.profile.viewmodel
 
 import android.app.Application
-import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.common.utils.BaseViewModel
 import com.fabrika.pampaza.firebase.FirebaseRepositoryImpl
 import com.fabrika.pampaza.firebase.FirebaseRepository
-import com.fabrika.pampaza.home.model.PostEntity
-import com.fabrika.pampaza.login.model.UserEntity
+import com.fabrika.pampaza.common.model.UserEntity
 import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.utils.SharedPref
 import kotlinx.coroutines.Dispatchers

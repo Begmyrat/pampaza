@@ -30,6 +30,8 @@ class EditProfileViewModel(application: Application) : BaseViewModel(application
     var backgroundImage: MutableLiveData<File> = MutableLiveData()
     var avatarImage: MutableLiveData<File> = MutableLiveData()
     var birthday: Long? = null
+    var avatarImageUrl: String = ""
+    var backgroundImageUrl: String = ""
 
     fun addBackgroundImage(file: File){
         backgroundImage.postValue(file)
@@ -43,7 +45,7 @@ class EditProfileViewModel(application: Application) : BaseViewModel(application
         isLoading.postValue(true)
         launch {
             withContext(Dispatchers.IO){
-                repository.putPersonalInformation(username, bio, address, birthday, avatarImage.value, backgroundImage.value)
+                repository.putPersonalInformation(username, bio, address, birthday, avatarImage.value, backgroundImage.value, avatarImageUrl, backgroundImageUrl)
                     .collect{ result ->
                         result.data.let {
                             isError.postValue(!it)

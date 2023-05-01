@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,9 +13,8 @@ import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.common.ui.BaseFragment
 import com.fabrika.pampaza.databinding.FragmentLoginBinding
-import com.fabrika.pampaza.login.model.LoginStatusType
+import com.fabrika.pampaza.common.model.LoginStatusType
 import com.fabrika.pampaza.login.viewmodel.LoginViewModel
-import com.fabrika.pampaza.newpost.viewmodel.NewPostViewModel
 
 class LoginFragment : Fragment(), BaseFragment, View.OnClickListener {
 

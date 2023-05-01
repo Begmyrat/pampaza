@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.fabrika.pampaza.common.utils.BaseViewModel
 import com.fabrika.pampaza.firebase.FirebaseRepositoryImpl
 import com.fabrika.pampaza.firebase.FirebaseRepository
-import com.fabrika.pampaza.login.model.LoginStatusType
+import com.fabrika.pampaza.common.model.LoginStatusType
 import com.fabrika.pampaza.utils.SharedPref
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

@@ -11,4 +11,21 @@
     <string name="save">Tygşytlaň</string>
     <string name="edit_photo">Suraty tygşytlaň</string>
     <string name="send">Iber</string>
+    <string name="follower">Çaýa çagyran</string>
+    <string name="following">Çaýa çagyrylan</string>
+
+    <string-array name="array_months">
+        <item>Ýanwar</item>
+        <item>Fewral</item>
+        <item>Mart</item>
+        <item>Aprel</item>
+        <item>Maý</item>
+        <item>Iýun</item>
+        <item>Iýul</item>
+        <item>Awgust</item>
+        <item>Sentýabr</item>
+        <item>Oktýabr</item>
+        <item>Noýabrd</item>
+        <item>Dekabr</item>
+    </string-array>
 </resources>

@@ -4,7 +4,7 @@ import androidx.core.net.toUri
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.common.utils.BaseResult
 import com.fabrika.pampaza.home.model.PostEntity
-import com.fabrika.pampaza.login.model.UserEntity
+import com.fabrika.pampaza.common.model.UserEntity
 import com.fabrika.pampaza.profile.model.ProfileObj
 import com.fabrika.pampaza.utils.SharedPref
 import com.google.android.gms.tasks.Task
@@ -170,13 +170,17 @@ class FirebaseRepositoryImpl : FirebaseRepository {
         address: String,
         birthday: Long?,
         avatar: File?,
-        background: File?
+        background: File?,
+        avatarUrl: String,
+        backgroundUrl: String
     ): Flow<BaseResult.Success<Boolean>> = callbackFlow {
 
         val dataMap = HashMap<String, Any>()
         dataMap["username"] = username
         dataMap["biography"] = bio
         dataMap["address"] = address
+        dataMap["authorAvatarUrl"] = avatarUrl
+        dataMap["authorBackgroundUrl"] = backgroundUrl
         birthday?.let {
             dataMap["birthday"] = it
         }
@@ -309,7 +313,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                             SharedPref.write(SharedPref.USER_ID, result.data.userId)
                             SharedPref.write(SharedPref.USERNAME, result.data.username)
                             SharedPref.write(SharedPref.PASSWORD, result.data.password)
-                            SharedPref.write(SharedPref.AVATAR_URL, result.data.imageUrl)
+                            SharedPref.write(SharedPref.AVATAR_URL, result.data.authorAvatarUrl)
                             SharedPref.write(SharedPref.IS_LOGGED_IN, true)
                             SharedPref.write(SharedPref.DOC_ID, result.data.id)
 
@@ -357,7 +361,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
                             followersCount = 0,
                             followingCount = 0,
                             username = username,
-                            imageUrl = null,
+                            authorAvatarUrl = null,
                             likedPosts = null,
                             savedPosts = null,
                             userId = username,
