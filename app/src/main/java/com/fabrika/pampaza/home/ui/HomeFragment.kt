@@ -72,17 +72,17 @@ class HomeFragment : Fragment(), BaseFragment {
     override fun addObservers() {
         viewmodel.allPosts.observe(this, Observer {
             Log.d("allPosts:", it.toString())
-            val list = mutableListOf<PostEntity>()
+            postList = mutableListOf<PostEntity>()
             if (!binding.swipeRefresh.isRefreshing) {
-                list.addAll(adapterPost.differ.currentList)
+                postList.addAll(adapterPost.differ.currentList)
             }
-            list.addAll(it)
+            postList.addAll(it)
 
 //            if(binding.swipeRefresh.isRefreshing){
 //                postList.clear()
 //            }
 //            postList.addAll(it)
-            adapterPost.differ.submitList(list)
+            adapterPost.differ.submitList(postList)
             binding.swipeRefresh.isRefreshing = false
         })
 
