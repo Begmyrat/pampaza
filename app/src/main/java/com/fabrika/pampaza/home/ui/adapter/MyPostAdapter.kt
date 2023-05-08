@@ -61,11 +61,11 @@ class MyPostAdapter(var activity: MainActivity) :
 
     private val differCallback = object : DiffUtil.ItemCallback<PostEntity>() {
         override fun areItemsTheSame(oldItem: PostEntity, newItem: PostEntity): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: PostEntity, newItem: PostEntity): Boolean {
-            return oldItem.likeCount == newItem.likeCount
+            return oldItem.id == newItem.id
         }
     }
 

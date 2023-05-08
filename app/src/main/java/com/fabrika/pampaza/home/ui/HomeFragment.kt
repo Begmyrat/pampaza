@@ -29,7 +29,7 @@ class HomeFragment : Fragment(), BaseFragment {
 
     companion object {
         const val TAG = "HomeFragment"
-        const val LIMIT = 10L
+        const val LIMIT = 7L
         const val OFFSET = Long.MAX_VALUE
     }
 
@@ -54,7 +54,7 @@ class HomeFragment : Fragment(), BaseFragment {
         postList = mutableListOf()
         adapterPost = MyPostAdapter(requireActivity() as MainActivity)
         binding.recPosts.adapter = adapterPost
-        adapterPost.differ.submitList(postList)
+//        adapterPost.differ.submitList(postList)
         addListeners()
         addObservers()
     }
@@ -77,6 +77,11 @@ class HomeFragment : Fragment(), BaseFragment {
                 list.addAll(adapterPost.differ.currentList)
             }
             list.addAll(it)
+
+//            if(binding.swipeRefresh.isRefreshing){
+//                postList.clear()
+//            }
+//            postList.addAll(it)
             adapterPost.differ.submitList(list)
             binding.swipeRefresh.isRefreshing = false
         })
