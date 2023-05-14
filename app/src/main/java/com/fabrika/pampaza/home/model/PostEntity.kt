@@ -10,7 +10,7 @@ data class PostEntity(
     val complaintCount : Long? = null,
     val date : Long? = null,
     val imageUrl : String? = null,
-    val likeCount : Long? = null,
+    var likeCount : Long? = null,
     val rePostCount : Long? = null,
     val publicity: String? = null,
     val originalPostId : String? = null,

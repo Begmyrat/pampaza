@@ -1,6 +1,5 @@
 package com.fabrika.pampaza.home.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,13 +19,13 @@ import com.fabrika.pampaza.home.ui.adapter.MyPostAdapter
 import com.fabrika.pampaza.home.viewmodel.HomeViewModel
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
 import com.fabrika.pampaza.postDetail.ui.PostDetailActivity
-import androidx.core.app.ActivityOptionsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fabrika.pampaza.common.ui.MyCustomDialog
 import com.fabrika.pampaza.common.ui.MyCustomDialogType
 
 
 class HomeFragment : Fragment(), BaseFragment {
-
     companion object {
         const val TAG = "HomeFragment"
         const val LIMIT = 7L
@@ -54,7 +53,8 @@ class HomeFragment : Fragment(), BaseFragment {
         postList = mutableListOf()
         adapterPost = MyPostAdapter(requireActivity() as MainActivity)
         binding.recPosts.adapter = adapterPost
-//        adapterPost.differ.submitList(postList)
+
+
         addListeners()
         addObservers()
     }
@@ -72,18 +72,14 @@ class HomeFragment : Fragment(), BaseFragment {
     override fun addObservers() {
         viewmodel.allPosts.observe(this, Observer {
             Log.d("allPosts:", it.toString())
-            postList = mutableListOf<PostEntity>()
-            if (!binding.swipeRefresh.isRefreshing) {
-                postList.addAll(adapterPost.differ.currentList)
+            postList = mutableListOf()
+            if(!binding.swipeRefresh.isRefreshing){
+               postList.addAll(adapterPost.differ.currentList)
             }
             postList.addAll(it)
-
-//            if(binding.swipeRefresh.isRefreshing){
-//                postList.clear()
-//            }
-//            postList.addAll(it)
             adapterPost.differ.submitList(postList)
             binding.swipeRefresh.isRefreshing = false
+            viewmodel.OFFSET_OLD = viewmodel.OFFSET
         })
 
         viewmodel.isLikeError.observe(this) {
@@ -111,8 +107,13 @@ class HomeFragment : Fragment(), BaseFragment {
         }
 
         adapterPost.onLastItemShown = {
-            it.date?.let { date -> getPostsWithPagination(date, LIMIT) }
+            it.date?.let { date ->
+                viewmodel.OFFSET = date
+                getPostsWithPagination(date, LIMIT)
+            }
         }
+
+
 
         adapterPost.onCommentButtonClick = {
             Log.d(TAG, "commentClicked")
@@ -149,9 +150,17 @@ class HomeFragment : Fragment(), BaseFragment {
             startActivity(intent)
         }
 
-        adapterPost.onLikeButtonClick = {
+        adapterPost.onLikeButtonClick = { entity, likeStatus ->
             Log.d(TAG, "likeClicked")
-            viewmodel.likePost((requireActivity() as MainActivity), it.id ?: "")
+            val obj = postList.find { it.id == entity.id }
+            obj?.likeCount?.plus(1)
+            val index = postList.indexOf(obj)
+            obj?.let { postList.set(index, it) }
+//            postList.find { it.id == entity.id }?.likeCount?.plus(if(likeStatus) 1 else -1)
+            val copy = mutableListOf<PostEntity>()
+            copy.addAll(postList)
+            adapterPost.differ.submitList(copy)
+            viewmodel.likePost((requireActivity() as MainActivity), entity.id ?: "")
         }
 
         adapterPost.onShareButtonClick = {

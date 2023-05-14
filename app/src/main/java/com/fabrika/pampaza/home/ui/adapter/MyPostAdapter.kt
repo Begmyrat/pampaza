@@ -23,7 +23,7 @@ import com.fabrika.pampaza.home.model.PostEntity
 class MyPostAdapter(var activity: MainActivity) :
     RecyclerView.Adapter<MyPostAdapter.MyPostAdapterViewHolder>() {
 
-    var onLikeButtonClick: ((entity: PostEntity) -> Unit)? = null
+    var onLikeButtonClick: ((entity: PostEntity, likeStatus: Boolean) -> Unit)? = null
     var onRePostButtonClick: ((entity: PostEntity) -> Unit)? = null
     var onShareButtonClick: ((entity: PostEntity) -> Unit)? = null
     var onCommentButtonClick: ((entity: PostEntity) -> Unit)? = null
@@ -61,11 +61,11 @@ class MyPostAdapter(var activity: MainActivity) :
 
     private val differCallback = object : DiffUtil.ItemCallback<PostEntity>() {
         override fun areItemsTheSame(oldItem: PostEntity, newItem: PostEntity): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: PostEntity, newItem: PostEntity): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.likeCount == newItem.likeCount
         }
     }
 
@@ -137,19 +137,12 @@ class MyPostAdapter(var activity: MainActivity) :
                     onRePostButtonClick?.invoke(item)
                 }
                 binding.lLike.setOnClickListener {
-                    item.id?.let { checkLikeStatus(it, binding.iLike) }
-                    onLikeButtonClick?.invoke(item)
+                    val likeStatus = item.id?.let { checkLikeStatus(it, binding.iLike) }
+                    onLikeButtonClick?.invoke(item, likeStatus == true)
                 }
                 binding.lShare.setOnClickListener {
                     onShareButtonClick?.invoke(item)
                 }
-
-//                binding.root.setOnClickListener(object : DoubleClickListener() {
-//                    override fun onDoubleClick(v: View) {
-//                        item.id?.let { checkLikeStatus(it, binding.iLike) }
-//                        onLikeButtonClick?.invoke(item)
-//                    }
-//                })
                 if (adapterPosition == itemCount - 1) {
                     onLastItemShown?.invoke(item)
                 }
@@ -160,16 +153,18 @@ class MyPostAdapter(var activity: MainActivity) :
             bindNewsBodyItem(model)
         }
 
-        private fun checkLikeStatus(id: String, view: ImageView) {
-            if (MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true) {
+        private fun checkLikeStatus(id: String, view: ImageView): Boolean {
+            return if (MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(id) == true) {
                 view.setImageDrawable(
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ic_heard_filled
                     )
                 )
+                true
             } else {
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))
+                false
             }
         }
 
