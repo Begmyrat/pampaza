@@ -123,19 +123,20 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
             commentList.addAll(it)
             adapterComments.differ.submitList(commentList)
             binding.tCommentCount.text = "${it.size}"
-            (requireActivity() as? PostDetailActivity)?.viewmodel?.likeCount?.value = it.size.toLong()
+            (requireActivity() as? PostDetailActivity)?.viewmodel?.commentCount?.value = it.size.toLong()
         }
 
         viewmodel.likeCount.observe(this){
             binding.tLikeCount.text = "$it"
+            (requireActivity() as? PostDetailActivity)?.viewmodel?.likeCount?.value = it
         }
 
         MainActivity.viewmodel.userEntity.observe(this) {
             val status = MainActivity.viewmodel.userEntity.value?.likedPosts?.contains(postId) == true
             binding.iLike.setImageDrawable(ContextCompat.getDrawable(requireContext(), if(status) R.drawable.ic_heard_filled else R.drawable.ic_heart))
-            if(viewmodel.isLiked.value == false && status){
+            if(status){
                 viewmodel.likeCount.value = viewmodel.likeCount.value?.plus(1)
-            } else if(viewmodel.isLiked.value == true && status){
+            } else{
                 viewmodel.likeCount.value = viewmodel.likeCount.value?.minus(1)
             }
         }

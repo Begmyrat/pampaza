@@ -153,13 +153,10 @@ class HomeFragment : Fragment(), BaseFragment {
         adapterPost.onLikeButtonClick = { entity, likeStatus ->
             Log.d(TAG, "likeClicked")
             val obj = postList.find { it.id == entity.id }
-            obj?.likeCount?.plus(1)
+            obj?.likeCount = (obj?.likeCount ?: 0) + if(likeStatus) 1 else -1
             val index = postList.indexOf(obj)
             obj?.let { postList.set(index, it) }
-//            postList.find { it.id == entity.id }?.likeCount?.plus(if(likeStatus) 1 else -1)
-            val copy = mutableListOf<PostEntity>()
-            copy.addAll(postList)
-            adapterPost.differ.submitList(copy)
+            adapterPost.differ.submitList(postList)
             viewmodel.likePost((requireActivity() as MainActivity), entity.id ?: "")
         }
 
@@ -218,8 +215,11 @@ class HomeFragment : Fragment(), BaseFragment {
                 // There are no request codes
                 val data: Intent? = result.data
                 viewmodel.lastClickedItemIndex?.let {
-                    val list = adapterPost.differ.currentList
+                    val list = mutableListOf<PostEntity>()
+                    list.addAll(adapterPost.differ.currentList)
                     list[it].commentCount =
+                        data?.getLongExtra(PostDetailActivity.COMMENT_COUNT, 0)
+                    list[it].likeCount =
                         data?.getLongExtra(PostDetailActivity.LIKE_COUNT, 0)
                     adapterPost.differ.submitList(list)
                 }

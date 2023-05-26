@@ -65,7 +65,7 @@ class MyPostAdapter(var activity: MainActivity) :
         }
 
         override fun areContentsTheSame(oldItem: PostEntity, newItem: PostEntity): Boolean {
-            return oldItem.likeCount == newItem.likeCount
+            return oldItem.likeCount == newItem.likeCount && oldItem.commentCount == newItem.commentCount
         }
     }
 
@@ -161,10 +161,10 @@ class MyPostAdapter(var activity: MainActivity) :
                         R.drawable.ic_heard_filled
                     )
                 )
-                true
+                false
             } else {
                 view.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart))
-                false
+                true
             }
         }
 

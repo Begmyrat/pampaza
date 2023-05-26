@@ -27,6 +27,7 @@ class PostDetailActivity : AppCompatActivity() {
         const val POST_IMAGE_URL = "postImageUrl"
         const val REPOST_COUNT = "repostCount"
         const val LIKE_COUNT = "likeCount"
+        const val COMMENT_COUNT = "commentCount"
         const val IS_LIKED = "isLiked"
         const val IS_COMMENT_BUTTON_CLICKED = "isCommentButtonClicked"
         const val RESULT_CODE = 1324
@@ -43,6 +44,7 @@ class PostDetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val data = Intent()
         data.putExtra(LIKE_COUNT, viewmodel.likeCount.value)
+        data.putExtra(COMMENT_COUNT, viewmodel.commentCount.value)
         super.setResult(RESULT_CODE, data)
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_from_left, R.anim.anim_to_right)
