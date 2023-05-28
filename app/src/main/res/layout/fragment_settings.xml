@@ -71,6 +71,140 @@
             app:layout_constraintEnd_toEndOf="@+id/switch_darkMode"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+        <TextView
+            android:id="@+id/t_imageDownload"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/imageDownload"
+            android:layout_marginStart="@dimen/edge_margin"
+            app:layout_constraintTop_toTopOf="@+id/switch_imageDownload"
+            app:layout_constraintBottom_toBottomOf="@+id/switch_imageDownload"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/switch_imageDownload"
+            android:layout_marginEnd="@dimen/edge_half_margin"
+            android:fontFamily="@font/sfpro_medium"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/switch_imageDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/edge_half_margin"
+            app:layout_constraintTop_toBottomOf="@+id/switch_notification"
+            app:layout_constraintEnd_toEndOf="@+id/switch_darkMode"
+            tools:ignore="UseSwitchCompatOrMaterialXml"/>
+
+        <TextView
+            android:id="@+id/t_titlePrivacy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacy"
+            android:fontFamily="@font/sfpro_bold"
+            android:textSize="20sp"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toBottomOf="@+id/switch_imageDownload"
+            app:layout_constraintStart_toStartOf="@id/t_title"
+            app:layout_constraintEnd_toEndOf="@id/t_title"
+            android:layout_marginTop="@dimen/edge_margin"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/l_privacyButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            app:layout_constraintTop_toBottomOf="@+id/t_titlePrivacy"
+            app:layout_constraintStart_toStartOf="@+id/t_titlePrivacy"
+            app:layout_constraintEnd_toEndOf="@+id/t_titlePrivacy"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/t_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/card_privacyArrow"
+                android:text="@string/privacy_policy"
+                android:layout_marginStart="@dimen/edge_margin"
+                android:layout_marginEnd="@dimen/edge_half_margin"
+                android:fontFamily="@font/sfpro_medium"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_privacyArrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="5dp"
+                app:cardBackgroundColor="@color/background"
+                app:cardCornerRadius="10dp"
+                >
+
+                <ImageView
+                    android:id="@+id/i_arrowPrivacy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_keyboard_arrow"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/l_useTermButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            app:layout_constraintTop_toBottomOf="@+id/l_privacyButton"
+            app:layout_constraintStart_toStartOf="@+id/t_titlePrivacy"
+            app:layout_constraintEnd_toEndOf="@+id/t_titlePrivacy"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/t_useTerm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/card_useTermArrow"
+                android:text="@string/terms_of_use"
+                android:layout_marginStart="@dimen/edge_margin"
+                android:layout_marginEnd="@dimen/edge_half_margin"
+                android:fontFamily="@font/sfpro_medium"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_useTermArrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="5dp"
+                app:cardBackgroundColor="@color/background"
+                app:cardCornerRadius="10dp"
+                >
+
+                <ImageView
+                    android:id="@+id/i_arrowUseTerm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_keyboard_arrow"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

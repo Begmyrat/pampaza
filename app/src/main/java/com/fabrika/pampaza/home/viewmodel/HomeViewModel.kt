@@ -45,6 +45,7 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
 
     private val db = Firebase.firestore
     fun getPostsWithPagination(offset: Long, limit: Long) {
+        isLoading.postValue(true)
         OFFSET = offset
         launch {
             withContext(Dispatchers.IO) {
@@ -71,7 +72,17 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
                                 list[index]?.id = documentSnapshot.id
                             }
                             allPosts.postValue(list.filterNotNull())
+                            isLoading.postValue(false)
                         }
+                    }
+                    .addOnFailureListener {
+                        isLoading.postValue(false)
+                    }
+                    .addOnCanceledListener {
+                        isLoading.postValue(false)
+                    }
+                    .addOnCompleteListener {
+                        isLoading.postValue(false)
                     }
             }
         }

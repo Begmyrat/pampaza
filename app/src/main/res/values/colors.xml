@@ -19,4 +19,5 @@
     <color name="input_background">#757575</color>
     <color name="background">#e5e5e5</color>
     <color name="background_blue">#16202a</color>
+    <color name="loading_background">#80F7F7F7</color>
 </resources>

@@ -2,4 +2,8 @@
     <string name="settings">Sazlamalar</string>
     <string name="dark_mode">Garaňky tema</string>
     <string name="disable_notification">Bildiriş gelmesin</string>
+    <string name="imageDownload">Makalalarda suratları görkezme</string>
+    <string name="privacy">Gizlinlik</string>
+    <string name="privacy_policy">Gizlinlik sözleşmesi</string>
+    <string name="terms_of_use">Ulanyjy sözleşmesi</string>
 </resources>

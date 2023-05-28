@@ -44,6 +44,14 @@ class SettingsFragment : Fragment(), BaseFragment, View.OnClickListener {
             AppCompatDelegate.setDefaultNightMode(if(isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
             SharedPref.write(SharedPref.IS_DARK_MODE, isChecked)
         }
+
+        binding.switchNotification.setOnCheckedChangeListener { _, isChecked ->
+            SharedPref.write(SharedPref.IS_NOTIFICATION_DISABLED, isChecked)
+        }
+
+        binding.switchImageDownload.setOnCheckedChangeListener { _, isChecked ->
+            SharedPref.write(SharedPref.IS_IMAGE_DOWNLOAD_DISABLED, isChecked)
+        }
     }
 
     override fun onClick(p0: View?) {

@@ -1,6 +1,7 @@
 package com.fabrika.pampaza.home.ui.adapter
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.fabrika.pampaza.R
 import com.fabrika.pampaza.utils.extension.toDateString
 import com.fabrika.pampaza.databinding.ItemPostBinding
 import com.fabrika.pampaza.home.model.PostEntity
+import com.fabrika.pampaza.utils.SharedPref
 
 
 class MyPostAdapter(var activity: MainActivity) :
@@ -31,6 +33,7 @@ class MyPostAdapter(var activity: MainActivity) :
     var onOriginalPostItemClicked: ((entity: PostEntity) -> Unit)? = null
     var onLastItemShown: ((entity: PostEntity) -> Unit)? = null
     private lateinit var myOptions: RequestOptions
+    private var isImageDownloadEnabled = SharedPref.read(SharedPref.IS_IMAGE_DOWNLOAD_DISABLED, false)
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -86,20 +89,26 @@ class MyPostAdapter(var activity: MainActivity) :
 
         private fun bindNewsBodyItem(item: PostEntity) {
             if (binding is ItemPostBinding) {
-                Glide
-                    .with(context)
-                    .load(item.authorAvatarUrl)
-                    .apply(myOptions)
-                    .error(R.drawable.logo)
-                    .into(binding.iAvatar)
-                binding.iPostImage.visibility =
-                    if (item.imageUrl != null) View.VISIBLE else View.GONE
-                item.imageUrl.let {
+
+                if(isImageDownloadEnabled){
                     Glide
                         .with(context)
-                        .load(it)
-                        .into(binding.iPostImage)
+                        .load(item.authorAvatarUrl)
+                        .apply(myOptions)
+                        .error(R.drawable.logo)
+                        .into(binding.iAvatar)
+
+                    item.imageUrl.let {
+                        Glide
+                            .with(context)
+                            .load(it)
+                            .into(binding.iPostImage)
+                    }
                 }
+
+                binding.iPostImage.visibility =
+                    if (item.imageUrl != null && isImageDownloadEnabled) View.VISIBLE else View.GONE
+
                 binding.tUsername.text = item.authorName
                 binding.tDate.text = item.date.toDateString()
                 binding.tBody.text = item.body
@@ -109,12 +118,15 @@ class MyPostAdapter(var activity: MainActivity) :
                 binding.cardRepost.visibility = View.GONE
                 item.originalPostId?.let {
                     binding.cardRepost.visibility = View.VISIBLE
-                    Glide.with(context)
-                        .load(item.originalPostAuthorAvatarUrl.toString())
-                        .apply(myOptions)
-                        .error(R.drawable.logo)
-                        .circleCrop()
-                        .into(binding.iRepostAvatar)
+                    binding.iRepostAvatar.visibility = if(isImageDownloadEnabled) View.VISIBLE else View.GONE
+                    if(isImageDownloadEnabled){
+                        Glide.with(context)
+                            .load(item.originalPostAuthorAvatarUrl.toString())
+                            .apply(myOptions)
+                            .error(R.drawable.logo)
+                            .circleCrop()
+                            .into(binding.iRepostAvatar)
+                    }
                     binding.tRepostUsername.text = item.originalPostAuthorName.toString()
                     binding.tRepostDate.text = item.originalPostDate.toDateString()
                     binding.tRepostBody.text = item.originalPostBody.toString()

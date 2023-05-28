@@ -91,6 +91,10 @@ class HomeFragment : Fragment(), BaseFragment {
                 adapterPost.notifyDataSetChanged()
             }
         }
+
+        viewmodel.isLoading.observe(this){
+            (requireActivity() as? MainActivity)?.showLoading(it)
+        }
     }
 
     override fun addListeners() {

@@ -14,6 +14,8 @@ object SharedPref {
     const val AVATAR_URL = "pampaza_avatarUrl"
     const val IS_LOGGED_IN = "pampaza_isLoggedIn"
     const val IS_DARK_MODE = "pampaza_isDarkMode"
+    const val IS_NOTIFICATION_DISABLED = "pampaza_isNotificationDisabled"
+    const val IS_IMAGE_DOWNLOAD_DISABLED = "pampaza_isImageDownloadDisabled"
 
     fun init(context: Context) {
         if (mSharedPref == null) mSharedPref = context.getSharedPreferences(context.packageName, Activity.MODE_PRIVATE)
