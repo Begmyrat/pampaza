@@ -9,24 +9,67 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/t_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:fontFamily="@font/sfpro_bold"
+            android:textSize="20sp"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="@dimen/edge_margin"
+            android:layout_marginTop="@dimen/edge_margin"/>
+
+        <TextView
             android:id="@+id/t_darkMode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Dark Mode"
+            android:text="@string/dark_mode"
             android:layout_marginStart="@dimen/edge_margin"
             app:layout_constraintTop_toTopOf="@+id/switch_darkMode"
             app:layout_constraintBottom_toBottomOf="@+id/switch_darkMode"
-            android:layout_marginEnd="@dimen/edge_half_margin"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/switch_darkMode"/>
+            app:layout_constraintEnd_toStartOf="@+id/switch_darkMode"
+            android:layout_marginEnd="@dimen/edge_half_margin"
+            android:fontFamily="@font/sfpro_medium"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <Switch
             android:id="@+id/switch_darkMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/t_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/edge_margin"/>
+            android:layout_marginEnd="@dimen/edge_margin"
+            android:layout_marginTop="@dimen/edge_margin"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:id="@+id/t_notification"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/disable_notification"
+            android:layout_marginStart="@dimen/edge_margin"
+            app:layout_constraintTop_toTopOf="@+id/switch_notification"
+            app:layout_constraintBottom_toBottomOf="@+id/switch_notification"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/switch_notification"
+            android:layout_marginEnd="@dimen/edge_half_margin"
+            android:fontFamily="@font/sfpro_medium"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/switch_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/edge_half_margin"
+            app:layout_constraintTop_toBottomOf="@+id/switch_darkMode"
+            app:layout_constraintEnd_toEndOf="@+id/switch_darkMode"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

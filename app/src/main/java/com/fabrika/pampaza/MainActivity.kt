@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -35,11 +36,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewmodel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = ActivityMainBinding.inflate(layoutInflater)
         bindingNavView = NavHeaderBinding.bind(binding.navView.getHeaderView(0))
         setContentView(binding.root)
         SharedPref.init(applicationContext)
+        checkTheme()
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavBar, navController)
@@ -49,6 +52,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.tVersion.text = getString(R.string.version, "1.0.0")
 
         viewmodel.getUser(SharedPref.read(SharedPref.USER_ID, "") ?: "", SharedPref.read(SharedPref.PASSWORD, "") ?: "")
+    }
+
+    private fun checkTheme() {
+        AppCompatDelegate.setDefaultNightMode(if(SharedPref.read(SharedPref.IS_DARK_MODE, false)) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     override fun onResume() {

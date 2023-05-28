@@ -13,6 +13,7 @@ object SharedPref {
     const val USER_ID = "pampaza_userId"
     const val AVATAR_URL = "pampaza_avatarUrl"
     const val IS_LOGGED_IN = "pampaza_isLoggedIn"
+    const val IS_DARK_MODE = "pampaza_isDarkMode"
 
     fun init(context: Context) {
         if (mSharedPref == null) mSharedPref = context.getSharedPreferences(context.packageName, Activity.MODE_PRIVATE)

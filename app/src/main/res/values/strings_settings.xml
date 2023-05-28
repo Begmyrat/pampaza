@@ -1,0 +1,5 @@
+<resources>
+    <string name="settings">Sazlamalar</string>
+    <string name="dark_mode">Garaňky tema</string>
+    <string name="disable_notification">Bildiriş gelmesin</string>
+</resources>
