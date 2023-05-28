@@ -82,8 +82,7 @@ class MyPostAdapter(var activity: MainActivity) :
     inner class MyPostAdapterViewHolder(
         private val context: Context,
         private val binding: ViewDataBinding
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private fun bindNewsBodyItem(item: PostEntity) {
             if (binding is ItemPostBinding) {

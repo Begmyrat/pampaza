@@ -19,6 +19,7 @@ import com.fabrika.pampaza.databinding.NavHeaderBinding
 import com.fabrika.pampaza.login.ui.LoginActivity
 import com.fabrika.pampaza.newpost.ui.NewPostActivity
 import com.fabrika.pampaza.profile.ui.ProfileActivity
+import com.fabrika.pampaza.settings.ui.SettingsActivity
 import com.fabrika.pampaza.utils.SharedPref
 import com.google.android.material.navigation.NavigationView
 
@@ -89,6 +90,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_profile -> {
                 startActivity(Intent(this, ProfileActivity::class.java))
+                overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
+            }
+            R.id.nav_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
                 overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
             }
         }
