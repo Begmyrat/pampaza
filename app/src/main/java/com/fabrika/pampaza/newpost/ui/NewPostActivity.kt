@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.fabrika.pampaza.R
+import com.fabrika.pampaza.databinding.ActivityNewPostBinding
 import com.fabrika.pampaza.utils.extension.toDP
 import com.google.android.material.snackbar.Snackbar
 
 class NewPostActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityNewPostBinding
     companion object {
         const val ORIGINAL_POST_ID = "OriginalPostId"
         const val ORIGINAL_AUTHOR_USER_ID = "OriginalAuthorId"
@@ -23,7 +27,8 @@ class NewPostActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_post)
+        binding = ActivityNewPostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
     override fun onBackPressed() {
         super.onBackPressed()
@@ -46,4 +51,9 @@ class NewPostActivity : AppCompatActivity() {
         snackbar.setBackgroundTint(ContextCompat.getColor(this, if(status) R.color.green_success else R.color.red_violet))
         snackbar.show()
     }
+
+    fun showLoading(status: Boolean){
+        binding.frameLoading.isVisible = status
+    }
+
 }

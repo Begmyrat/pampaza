@@ -62,6 +62,10 @@ class SignUpFragment : Fragment(), BaseFragment, View.OnClickListener {
                 }
             }
         })
+
+        viewmodel.isLoading.observe(this){
+            (requireActivity() as? LoginActivity)?.showLoading(it)
+        }
     }
 
     override fun addListeners() {

@@ -20,12 +20,14 @@ class LoginViewModel(application: Application) : BaseViewModel(application){
     var data = MutableLiveData<String>()
 
     fun getUser(userId: String, password: String){
+        isLoading.postValue(true)
         launch {
             withContext(Dispatchers.IO){
                 repository.getUser(userId, password)
                     .collect{ result ->
                         result.data.let {
                             status.postValue(if(it.password != password) LoginStatusType.FAIL else LoginStatusType.SUCCESS )
+                            isLoading.postValue(false)
                         }
                     }
             }
@@ -33,6 +35,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application){
     }
 
     fun signUp(username: String, password: String, passwordConfirmation: String){
+        isLoading.postValue(true)
         if(username.isEmpty() || password.isEmpty() || passwordConfirmation.isEmpty()){
             status.postValue(LoginStatusType.ERROR_FILL_THE_BLANKS)
             return
@@ -50,6 +53,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application){
                                 saveData(username)
                             }
                             status.postValue(if(it.id != null) LoginStatusType.SUCCESS else LoginStatusType.FAIL)
+                            isLoading.postValue(false)
                         }
                     }
             }

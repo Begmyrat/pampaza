@@ -12,6 +12,7 @@ import kotlinx.coroutines.withContext
 class NewPostViewModel(application: Application) : BaseViewModel(application) {
     private val repository = FirebaseRepositoryImpl()
     var isError = MutableLiveData<Boolean>()
+    var isLoading = MutableLiveData<Boolean>()
     var data = MutableLiveData<String>()
     var publicity = MutableLiveData("PUBLIC")
     var isValidationError = MutableLiveData<Boolean>()
@@ -33,7 +34,7 @@ class NewPostViewModel(application: Application) : BaseViewModel(application) {
             isValidationError.postValue(true)
             return
         }
-
+        isLoading.postValue(true)
         launch {
             withContext(Dispatchers.IO) {
                 publicity.value?.let {
@@ -54,6 +55,7 @@ class NewPostViewModel(application: Application) : BaseViewModel(application) {
                         .collect { result ->
                             result.data.let { status ->
                                 isError.postValue(status)
+                                isLoading.postValue(false)
                             }
                         }
                 }

@@ -48,6 +48,10 @@ class LoginFragment : Fragment(), BaseFragment, View.OnClickListener {
                 requireActivity().overridePendingTransition(R.anim.anim_from_right, R.anim.anim_to_left)
             }
         })
+
+        viewmodel.isLoading.observe(this){
+            (requireActivity() as? LoginActivity)?.showLoading(it)
+        }
     }
 
     override fun addListeners() {

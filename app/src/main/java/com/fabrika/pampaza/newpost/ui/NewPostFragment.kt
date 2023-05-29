@@ -107,6 +107,10 @@ class NewPostFragment : Fragment(), BaseFragment, View.OnClickListener {
                 }
             }
         }
+
+        viewmodel.isLoading.observe(this){
+            (requireActivity() as? NewPostActivity)?.showLoading(it)
+        }
     }
 
     override fun addListeners() {
