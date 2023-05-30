@@ -55,8 +55,8 @@ class NewPostViewModel(application: Application) : BaseViewModel(application) {
                         .collect { result ->
                             result.data.let { status ->
                                 isError.postValue(status)
-                                isLoading.postValue(false)
                             }
+                            isLoading.postValue(false)
                         }
                 }
             }

@@ -26,7 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:background="@color/loading_background">
+            android:visibility="invisible"
+            android:background="@color/loading_background"
+            android:focusable="true">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/LoadingIcon"

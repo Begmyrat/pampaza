@@ -97,6 +97,12 @@ class HomeFragment : Fragment(), BaseFragment {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+//        getPostsWithPagination(OFFSET, LIMIT)
+    }
+
     override fun addListeners() {
 
         binding.bCreateNewPost.setOnClickListener{
@@ -116,8 +122,6 @@ class HomeFragment : Fragment(), BaseFragment {
                 getPostsWithPagination(date, LIMIT)
             }
         }
-
-
 
         adapterPost.onCommentButtonClick = {
             Log.d(TAG, "commentClicked")
