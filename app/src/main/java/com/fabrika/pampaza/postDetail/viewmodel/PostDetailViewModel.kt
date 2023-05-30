@@ -22,12 +22,14 @@ class PostDetailViewModel(application: Application) : BaseViewModel(application)
     var isLiked = MutableLiveData<Boolean>(false)
     var likeCount = MutableLiveData<Long>(0)
     fun getComments(postId: String){
+        isLoading.postValue(true)
         launch {
             withContext(Dispatchers.IO){
                 repository.getComments(postId)
                     .collect{ result ->
                         result.data.let {
                             allComments.postValue(it.filterNotNull())
+                            isLoading.postValue(false)
                         }
                     }
             }
@@ -38,12 +40,14 @@ class PostDetailViewModel(application: Application) : BaseViewModel(application)
         if(comment.isEmpty()){
             return
         }
+        isLoading.postValue(true)
         launch {
             withContext(Dispatchers.IO){
                 repository.postComment(postId, comment, currentCommentCount)
                     .collect{ result ->
                         result.data.let {
                             isPostCommentError.postValue(it)
+                            isLoading.postValue(false)
                         }
                     }
             }

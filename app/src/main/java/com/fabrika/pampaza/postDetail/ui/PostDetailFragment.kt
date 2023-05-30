@@ -126,6 +126,10 @@ class PostDetailFragment : Fragment(), BaseFragment, View.OnClickListener {
             (requireActivity() as? PostDetailActivity)?.viewmodel?.commentCount?.value = it.size.toLong()
         }
 
+        viewmodel.isLoading.observe(this){
+            (requireActivity() as? PostDetailActivity)?.showLoading(it)
+        }
+
         viewmodel.likeCount.observe(this){
             binding.tLikeCount.text = "$it"
             (requireActivity() as? PostDetailActivity)?.viewmodel?.likeCount?.value = it

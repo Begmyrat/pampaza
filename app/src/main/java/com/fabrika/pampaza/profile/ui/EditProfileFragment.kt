@@ -128,6 +128,10 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                 findNavController().popBackStack()
             }
         }
+
+        viewmodel.isLoading.observe(this){
+            (requireActivity() as? ProfileActivity)?.showLoading(it)
+        }
     }
 
     private fun addListeners() {

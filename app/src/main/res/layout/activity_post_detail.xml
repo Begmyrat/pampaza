@@ -21,6 +21,24 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:navGraph="@navigation/post_detail_nav"/>
 
+        <FrameLayout
+            android:id="@+id/frame_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:background="@color/loading_background">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/LoadingIcon"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading_imece" />
+
+        </FrameLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

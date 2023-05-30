@@ -28,12 +28,14 @@ class ProfileViewModel(application: Application) : BaseViewModel(application){
     lateinit var lastDeletedItem: ProfileObj.ProfilePostEntity
 
     fun getOwnPostsWithPagination(offset: Long, limit: Long){
+        isLoading.postValue(true)
         launch {
             withContext(Dispatchers.IO){
                 repository.getOwnPostsWithPagination(offset, limit, SharedPref.read(SharedPref.USER_ID, "") ?: "")
                     .collect{ result ->
                         result.data.let {
                             allPosts.postValue(it.filterNotNull())
+                            isLoading.postValue(false)
                         }
                     }
             }
@@ -41,12 +43,14 @@ class ProfileViewModel(application: Application) : BaseViewModel(application){
     }
 
     fun getUser(userId: String, password: String){
+        isLoading.postValue(true)
         launch {
             withContext(Dispatchers.IO){
                 repository.getUser(userId, password)
                     .collect{ result ->
                         result.data.let {
                             userEntity.postValue(it)
+                            isLoading.postValue(false)
                         }
                     }
             }
@@ -54,6 +58,7 @@ class ProfileViewModel(application: Application) : BaseViewModel(application){
     }
 
     fun deletePost(entity: ProfileObj.ProfilePostEntity){
+        isLoading.postValue(true)
         lastDeletedItem = entity
         launch {
             withContext(Dispatchers.IO){
@@ -61,6 +66,7 @@ class ProfileViewModel(application: Application) : BaseViewModel(application){
                     .collect{ result ->
                         result.data.let {
                             isDeleteSuccess.postValue(it)
+                            isLoading.postValue(false)
                         }
                     }
             }

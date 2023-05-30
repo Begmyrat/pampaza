@@ -61,6 +61,7 @@ class EditProfileViewModel(application: Application) : BaseViewModel(application
     }
 
     fun saveBitmapToFile(context: Context, file: File, isAvatar: Boolean): File? {
+        isLoading.postValue(true)
         return try {
 
             // BitmapFactory options to downsize the image
@@ -93,8 +94,10 @@ class EditProfileViewModel(application: Application) : BaseViewModel(application
 
             val outputStream = FileOutputStream(newFile)
             selectedBitmap?.compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+            isLoading.postValue(false)
             newFile
         } catch (e: java.lang.Exception) {
+            isLoading.postValue(false)
             null
         }
     }

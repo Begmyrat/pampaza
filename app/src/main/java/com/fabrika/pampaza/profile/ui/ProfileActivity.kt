@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.fabrika.pampaza.R
 import com.fabrika.pampaza.databinding.ActivityMainBinding
 import com.fabrika.pampaza.databinding.ActivityProfileBinding
@@ -35,5 +36,9 @@ class ProfileActivity : AppCompatActivity() {
         snackbar.view.layoutParams = params
         snackbar.setBackgroundTint(ContextCompat.getColor(this, if(status) R.color.green_success else R.color.red_violet))
         snackbar.show()
+    }
+
+    fun showLoading(status: Boolean){
+        binding.frameLoading.isVisible = status
     }
 }

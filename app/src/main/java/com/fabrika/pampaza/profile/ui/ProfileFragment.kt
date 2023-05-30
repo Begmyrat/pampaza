@@ -64,6 +64,10 @@ class ProfileFragment : Fragment(), BaseFragment, View.OnClickListener {
 
     override fun addObservers() {
 
+        viewmodel.isLoading.observe(this){
+            (requireActivity() as? ProfileActivity)?.showLoading(it)
+        }
+
         viewmodel.isDeleteSuccess.observe(this){
             if(it){
                 Log.d("DeleteSuccess", it.toString())

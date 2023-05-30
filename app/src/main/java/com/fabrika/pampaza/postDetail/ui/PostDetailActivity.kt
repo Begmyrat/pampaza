@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.fabrika.pampaza.MainActivity
 import com.fabrika.pampaza.MainViewModel
 import com.fabrika.pampaza.R
+import com.fabrika.pampaza.databinding.ActivityPostDetailBinding
 import com.fabrika.pampaza.postDetail.viewmodel.PostDetailActivityViewModel
 import com.fabrika.pampaza.postDetail.viewmodel.PostDetailViewModel
 import com.fabrika.pampaza.utils.extension.toDP
@@ -34,10 +36,12 @@ class PostDetailActivity : AppCompatActivity() {
     }
 
     lateinit var viewmodel: PostDetailActivityViewModel
+    lateinit var binding: ActivityPostDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post_detail)
+        binding = ActivityPostDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         viewmodel = ViewModelProvider(this)[PostDetailActivityViewModel::class.java]
     }
 
@@ -65,5 +69,9 @@ class PostDetailActivity : AppCompatActivity() {
         snackbar.view.layoutParams = params
         snackbar.setBackgroundTint(ContextCompat.getColor(this, if(status) R.color.green_success else R.color.red_violet))
         snackbar.show()
+    }
+
+    fun showLoading(status: Boolean){
+        binding.frameLoading.isVisible = status
     }
 }
