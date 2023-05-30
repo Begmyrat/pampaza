@@ -1,5 +1,7 @@
 package com.fabrika.pampaza.home.model
 
+import com.fabrika.pampaza.room.model.PostModel
+
 data class PostEntity(
     var id: String? = null,
     val authorAvatarUrl: String? = null,
@@ -22,4 +24,28 @@ data class PostEntity(
     val originalPostAuthorAvatarUrl: String? = null,
     val originalPostAuthorId: String? = null,
     val originalPostAuthorName: String? = null
-)
+) {
+    fun toPostModel() = PostModel(
+        id = id,
+        authorAvatarUrl = authorAvatarUrl,
+        authorId = authorId,
+        authorName = authorName,
+        body = body,
+        commentCount = commentCount,
+        complaintCount = complaintCount,
+        date = date,
+        imageUrl = imageUrl,
+        likeCount = likeCount,
+        rePostCount = rePostCount,
+        publicity = publicity,
+        originalPostId = originalPostId,
+        originalPostBody = originalPostBody,
+        originalPostRepostCount = originalPostRepostCount,
+        originalPostLikeCount = originalPostLikeCount,
+        originalPostDate = originalPostDate,
+        originalPostImageUrl = originalPostImageUrl,
+        originalPostAuthorAvatarUrl = originalPostAuthorAvatarUrl,
+        originalPostAuthorId = originalPostAuthorId,
+        originalPostAuthorName = originalPostAuthorName
+    )
+}

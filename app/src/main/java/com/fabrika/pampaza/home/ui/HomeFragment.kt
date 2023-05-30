@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fabrika.pampaza.common.ui.MyCustomDialog
 import com.fabrika.pampaza.common.ui.MyCustomDialogType
+import com.fabrika.pampaza.room.model.PostModel
+import com.fabrika.pampaza.room.viewmodel.RoomViewModel
 
 
 class HomeFragment : Fragment(), BaseFragment {
@@ -36,6 +38,7 @@ class HomeFragment : Fragment(), BaseFragment {
     lateinit var viewmodel: HomeViewModel
     private lateinit var adapterPost: MyPostAdapter
     private lateinit var postList: MutableList<PostEntity>
+    private lateinit var roomViewModel: RoomViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +52,7 @@ class HomeFragment : Fragment(), BaseFragment {
         super.onCreate(savedInstanceState)
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewmodel = ViewModelProvider(this)[HomeViewModel::class.java]
+        roomViewModel = ViewModelProvider(this)[RoomViewModel::class.java]
         MainActivity.viewmodel.isSplash = false
         postList = mutableListOf()
         adapterPost = MyPostAdapter(requireActivity() as MainActivity)
@@ -71,6 +75,10 @@ class HomeFragment : Fragment(), BaseFragment {
 
     override fun addObservers() {
         viewmodel.allPosts.observe(this, Observer {
+            it.forEach { entity ->
+                roomViewModel.addPost(entity.toPostModel())
+            }
+
             Log.d("allPosts:", it.toString())
             postList = mutableListOf()
             if(!binding.swipeRefresh.isRefreshing){
