@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class RoomViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository: PostRoomRepository
-    private var readAll: LiveData<List<PostModel>>
+    var readAll: LiveData<List<PostModel>>
     init {
         val postDB = RoomDataBase.getDatabase(application).postDAO()
         repository = PostRoomRepository(postDB)
@@ -25,5 +25,4 @@ class RoomViewModel(application: Application): AndroidViewModel(application) {
             repository.insertPost(postModel)
         }
     }
-
 }

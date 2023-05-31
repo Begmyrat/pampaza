@@ -26,7 +26,8 @@ data class PostEntity(
     val originalPostAuthorName: String? = null
 ) {
     fun toPostModel() = PostModel(
-        id = id,
+        id = null,
+        postId = id,
         authorAvatarUrl = authorAvatarUrl,
         authorId = authorId,
         authorName = authorName,

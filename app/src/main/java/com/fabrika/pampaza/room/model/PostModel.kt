@@ -4,10 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "pampaza_post_table")
+@Entity(tableName = "pampaza_posts_table")
 data class PostModel(
-    @PrimaryKey(autoGenerate = false)
-    val id: String?,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
+    @ColumnInfo(name = "postId")
+    val postId: String?,
     @ColumnInfo(name = "authorAvatarUrl")
     val authorAvatarUrl: String?,
     @ColumnInfo(name = "authorId")

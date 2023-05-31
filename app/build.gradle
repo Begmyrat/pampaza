@@ -87,6 +87,9 @@ dependencies {
     // crop
     implementation("com.vanniktech:android-image-cropper:4.5.0")
 
+    //Annotation processor
+    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0"
+
     //Room
     implementation "androidx.room:room-runtime:2.5.1"
     kapt "androidx.room:room-compiler:2.5.1"

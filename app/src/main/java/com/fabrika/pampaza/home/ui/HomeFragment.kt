@@ -75,9 +75,13 @@ class HomeFragment : Fragment(), BaseFragment {
 
     override fun addObservers() {
         viewmodel.allPosts.observe(this, Observer {
-//            it.forEach { entity ->
-//                roomViewModel.addPost(entity.toPostModel())
-//            }
+            it.forEach { entity ->
+                roomViewModel.addPost(entity.toPostModel())
+            }
+
+            roomViewModel.readAll.observe(this){ myList ->
+                Log.d("roomDatam: ", myList.toString())
+            }
 
             Log.d("allPosts:", it.toString())
             postList = mutableListOf()

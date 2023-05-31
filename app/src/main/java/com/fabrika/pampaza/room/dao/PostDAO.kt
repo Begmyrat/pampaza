@@ -17,7 +17,7 @@ interface PostDAO {
     @Update
     suspend fun updatePost(postModel: PostModel)
 
-    @Query("SELECT * FROM pampaza_post_table")
+    @Query("SELECT * FROM pampaza_posts_table")
     fun getAllPosts(): LiveData<List<PostModel>>
 
     @Delete
