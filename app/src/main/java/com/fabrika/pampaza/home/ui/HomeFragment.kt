@@ -53,6 +53,7 @@ class HomeFragment : Fragment(), BaseFragment {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewmodel = ViewModelProvider(this)[HomeViewModel::class.java]
         roomViewModel = ViewModelProvider(this)[RoomViewModel::class.java]
+        roomViewModel.deleteAllPost()
         MainActivity.viewmodel.isSplash = false
         postList = mutableListOf()
         adapterPost = MyPostAdapter(requireActivity() as MainActivity)
@@ -75,14 +76,7 @@ class HomeFragment : Fragment(), BaseFragment {
 
     override fun addObservers() {
         viewmodel.allPosts.observe(this, Observer {
-            it.forEach { entity ->
-                roomViewModel.addPost(entity.toPostModel())
-            }
-
-            roomViewModel.readAll.observe(this){ myList ->
-                Log.d("roomDatam: ", myList.toString())
-            }
-
+            roomViewModel.addAllPost(it.map { entity -> entity.toPostModel() })
             Log.d("allPosts:", it.toString())
             postList = mutableListOf()
             if(!binding.swipeRefresh.isRefreshing){
@@ -107,12 +101,6 @@ class HomeFragment : Fragment(), BaseFragment {
         viewmodel.isLoading.observe(this){
             (requireActivity() as? MainActivity)?.showLoading(it)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-//        getPostsWithPagination(OFFSET, LIMIT)
     }
 
     override fun addListeners() {

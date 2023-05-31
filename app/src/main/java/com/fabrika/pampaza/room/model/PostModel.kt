@@ -2,9 +2,10 @@ package com.fabrika.pampaza.room.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "pampaza_posts_table")
+@Entity(tableName = "pampaza_posts_table", indices = [Index(value = ["postId"], unique = true)])
 data class PostModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,

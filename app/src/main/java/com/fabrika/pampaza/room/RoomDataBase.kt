@@ -9,7 +9,7 @@ import com.fabrika.pampaza.room.model.PostModel
 
 @Database(
     entities = [PostModel::class],
-    version = 2
+    version = 3
 )
 abstract class RoomDataBase : RoomDatabase() {
 

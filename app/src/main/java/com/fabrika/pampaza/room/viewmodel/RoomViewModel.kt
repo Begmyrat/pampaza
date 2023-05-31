@@ -25,4 +25,16 @@ class RoomViewModel(application: Application): AndroidViewModel(application) {
             repository.insertPost(postModel)
         }
     }
+
+    fun addAllPost(values: List<PostModel>){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertAll(values)
+        }
+    }
+
+    fun deleteAllPost(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAll()
+        }
+    }
 }
